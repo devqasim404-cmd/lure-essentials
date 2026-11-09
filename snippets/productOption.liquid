@@ -1,0 +1,353 @@
+<!-- productOption.liquid -->
+
+{%- if product_selector == 'radio' -%}
+  {%- liquid
+    assign isColor = false
+    assign optionName = option.name | handleize
+    assign option_index = loop
+  -%}
+  {%- if optionName contains 'colo' -%}
+    {%- assign isColor = true -%}
+  {%- endif -%}
+  <fieldset
+    class="single-option-radio {% if isColor %} single-color {{ size_color }} {% if color_circle %}round-color {% else %} square-color {% endif %} {% endif %} "
+    name="{{ option.name | handleize }}"
+    id="ProductSelect-option-{{ optionName }}-{{ forloop.index0 }}"
+  >
+    {%- for value in option.values -%}
+      {%- liquid
+        assign variant_label_state = true
+        if product.options.size == 1
+          unless product.variants[forloop.index0].available
+            assign variant_label_state = false
+          endunless
+        endif
+        for variant in product.variants
+          assign vOption = 'option' | append: option_index
+          if value == variant[vOption]
+            assign currenVariant = variant
+            break
+          endif
+        endfor
+        assign hasImage = false
+        if isColor and currenVariant.image
+          assign hasImage = true
+        endif
+      -%}
+      <div class="varient_div">
+        {% assign gift_names = '' %}
+        {% assign testimonialsteps = currenVariant.metafields.custom.select_gift.value %}
+        {% for step in testimonialsteps %}
+          {% assign gift_names = gift_names | append: step.gift_name %}
+          {% unless forloop.index == default_option_value %}
+            {% assign gift_names = gift_names | append: ', ' %}
+          {% endunless %}
+        {% endfor %}
+
+        {% assign default_option_value = product.metafields.custom.default_option | plus: 0 %}
+        <input
+          type="radio"
+          {% if forloop.index == default_option_value -%}
+            checked="checked"
+          {%- endif %}
+          {% unless variant_label_state -%}
+            disabled="disabled"
+          {%- endunless %}
+          value="{{ value | escape }}"
+          data-index="option{{ option_index }}"
+          data-varient="option{{ currenVariant.id }}"
+          data-varient-price="{{ currenVariant.price | money_without_currency}}"
+          data-varient-name="{{ value | remove: ' + free gifts on 1st order' |  escape }}"
+          data-strenth="{{ currenVariant.metafields.custom.supply_duration }}"
+          data-image="{{ currenVariant.metafields.custom.variant_swatch_image | img_url: 'master' }}"
+          data-varient-gift="{{ gift_names }}"
+          name="{{ option.name | handleize }}"
+          class="single-option-selector-{{ section.id }} single-option-selector__radio{% unless variant_label_state %} disabled{% endunless %}"
+          id="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+        >
+        <label
+          {% if hasImage %}
+            title="{{ value | escape }}"
+            {%- if sw_color_product -%}
+              class="st-color-{{ value | escape | handle }}"
+              style="background-color:{{ value | escape | handle }};"
+            {% else %}
+              style="background-image:url({{ currenVariant.image.src | image_url: width: 100 }})"
+            {% endif -%}
+          {% endif %}
+          for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+          {% unless variant_label_state %}
+            class="disabled"
+          {% endunless %}
+        >
+          {% if value == '2 Pack - 30 Eye Masks + free gifts on 1st order' or value == '2 Pack - 40 Foot Pads' %}
+            <span class="label-tag">Best Seller</span>
+          {% endif %}
+          {% if value == '3 Pack - 45 Eye Masks + free gifts on 1st order' or value == '3 Pack - 60 Foot Pads' %}
+            <span class="label-tag tag2">Best Value</span>
+          {% endif %}
+          <div class="variant-image-wrapper">
+            {% if currenVariant.metafields.custom.variant_swatch_image != blank %}
+              <img
+                src="{{ currenVariant.metafields.custom.variant_swatch_image | img_url: 'master' }}"
+                class="varient_image"
+              >
+            {% endif %}
+          </div>
+          <div class="varient_content">
+          <span class="variation-name">{%- unless hasImage -%}{{ value | remove: ' + free gifts on 1st order' | escape }}{%- endunless -%}</span>
+          <span class="varient_metafield">{{ currenVariant.metafields.custom.supply_duration }}</span>
+
+          {% comment %}
+          <span class="variant-price">
+            {{ currenVariant.price | money_without_trailing_zeros}}
+          </span>
+          {% endcomment %}
+
+
+          <span class="variant-prices">
+            <span class="current-price">
+              {{ currenVariant.price | money }}
+            </span>
+
+            {% if currenVariant.compare_at_price > currenVariant.price %}
+              <span class="compare-price" style="text-decoration: line-through; margin-left: 8px;">
+                {{ currenVariant.compare_at_price | money }}
+              </span>
+            {% endif %}
+          </span>
+
+          {% if currenVariant.compare_at_price > currenVariant.price %}
+            {% assign discount_amount = currenVariant.compare_at_price | minus: currenVariant.price %}
+            {% assign discount_percent = discount_amount | times: 100 | divided_by: currenVariant.compare_at_price %}
+
+            <div class="you-save">
+              You Save {{ discount_percent }}% ({{ discount_amount | money }})
+            </div>
+          {% endif %}
+
+
+
+        </div>
+      </label>
+    </div>
+  {%- endfor -%}
+</fieldset>
+{%- else -%}
+  <select
+    class="single-option-selector single-option-selector-{{ section.id }} product-form__input"
+    id="SingleOptionSelector-{{ forloop.index0 }}"
+    data-name="{{ option.name }}"
+    data-index="option{{ loop }}"
+  >
+    {%- for value in option.values -%}
+      <option
+        value="{{ value | escape }}"
+        {% if option.selected_value == value %}
+          selected="selected"
+        {% endif %}
+      >
+        {{ value }}
+      </option>
+    {%- endfor -%}
+  </select>
+{%- endif -%}
+<style>
+  .template-custom-products-2 .single-option-radio
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+          flex-wrap: wrap;
+  }
+img.varient_image {
+      padding: 0 20px;
+      border-radius: 6px;
+      background: #fff;
+      width: 100%;
+      flex-shrink: 0;
+      object-fit: contain;
+      /* border: 2px solid #999; */
+        height: 160px;
+  }
+      .template-custom-products-2  .varient_div {
+    width: 100%;
+    margin-bottom:20px;d
+  }
+  .template-custom-products-2 .variant-image-wrapper{
+    border: 0px solid #999 !important;
+        width: 32% !important;
+}
+.template-custom-products-2 .single-option-radio label {
+    border: 2px solid #999;
+         flex-direction: row !important;
+         flex-wrap: nowrap;
+             border-radius: 10px;
+}
+.template-custom-products-2  input[type=radio]:checked+label .variant-image-wrapper img {
+    background: transparent;
+}
+.template-custom-products-2  input[type=radio]:checked+label  {
+     border: 2px solid #000;
+     background: #ebf3f9;
+}
+.template-custom-products-2 .varient_content {
+    width: 68%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+@media (max-width:768px) {
+  .template-custom-products-2 .varient_content {
+    gap: 2px;
+}
+.template-custom-products-2 .varient_div .variation-name {
+    font-size: 16px;
+}
+.template-custom-products-2 .varient_div .variant-prices {
+    font-size: 17px;
+}
+.template-custom-products-2 .varient_div .you-save {
+    font-size: 11px;
+}
+}
+
+
+
+
+
+
+  .template-custom-food-pad .single-option-radio,.template-custom-deep-cleansing .single-option-radio,.template-custom-serenity-neuro .single-option-radio,.template-custom-sole-serenity .single-option-radio {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+  }
+  .template-custom-products-2 .variant-image-wrapper,.template-custom-food-pad .variant-image-wrapper,.template-custom-deep-cleansing .variant-image-wrapper,.template-custom-serenity-neuro .variant-image-wrapper,.template-custom-sole-serenity .variant-image-wrapper {
+      /* padding: 0 20px; */
+      border-radius: 10px;
+      background: #fff;
+      width: 100%;
+      flex-shrink: 0;
+      object-fit: cover;
+      border: 2px solid #999;
+      margin-bottom: 0px;
+  }
+  .template-custom-products-2 .single-option-radio input[type=radio]:checked+label .variant-image-wrapper,.template-custom-food-pad .single-option-radio input[type=radio]:checked+label .variant-image-wrapper,.template-custom-deep-cleansing .single-option-radio input[type=radio]:checked+label .variant-image-wrapper,.template-custom-serenity-neuro .single-option-radio input[type=radio]:checked+label .variant-image-wrapper,.template-custom-sole-serenity .single-option-radio input[type=radio]:checked+label .variant-image-wrapper {
+      border: 3px solid #000;
+      /* box-shadow: 0px 2.293px 20px 0px rgb(0 0 0 / 13%);
+      background: #1C1663; */
+  }
+
+  .template-custom-products-2 .single-option-radio input[type=radio]:checked+label:after,.template-custom-food-pad .single-option-radio input[type=radio]:checked+label:after,.template-custom-deep-cleansing .single-option-radio input[type=radio]:checked+label:after,.template-custom-serenity-neuro .single-option-radio input[type=radio]:checked+label:after,.template-custom-sole-serenity .single-option-radio input[type=radio]:checked+label:after {
+      border-color: var(--g-color-heading);
+      opacity: 1;
+      transform: scale(1);
+      box-shadow: inset 0 0 0 2px rgba(var(--g-color-heading-rgb), 1);
+      display:none;
+  }
+  .template-custom-products-2 .single-option-radio label,.template-custom-food-pad  .single-option-radio label,.template-custom-deep-cleansing .single-option-radio label,.template-custom-serenity-neuro .single-option-radio label,.template-custom-sole-serenity .single-option-radio label {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      color: #000;
+      text-align: center;
+      font-size: 16px;
+      font-style: normal;
+      letter-spacing: -1px;
+      font-weight: 700;
+      line-height: normal;
+      gap: 5px;
+      justify-content: flex-start;
+  }
+  .template-custom-products-2 .single-option-radio label:after,.template-custom-food-pad .single-option-radio label:after,.template-custom-deep-cleansing .single-option-radio label:after,.template-custom-serenity-neuro .single-option-radio label:after,.template-custom-sole-serenity .single-option-radio label:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      bottom: -1px;
+      left: -1px;
+      transition: all .2s ease;
+      box-shadow: inset 0 0 0 1px rgba(var(--g-color-heading-rgb), .1);
+      display: none;
+  }
+  img.varient_image {
+      padding: 0 20px;
+      border-radius: 6px;
+      background: #fff;
+      width: 100%;
+      flex-shrink: 0;
+      object-fit: contain;
+      /* border: 2px solid #999; */
+        height: 160px;
+  }
+  input[type=radio]:checked+label .variant-image-wrapper img {
+    background: {{ block.settings.active-varient-tab-bg }};
+}
+  span.varient_metafield {
+      color: {{ block.settings.text-color }};
+      text-align: center;
+      -webkit-text-stroke-width: 0.3px;
+      -webkit-text-stroke-color: {{ block.settings.text-color }};
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 134%;
+  }
+  .template-custom-products-2 .product-button-variant.product-block,.template-custom-food-pad .product-button-variant.product-block,.template-custom-deep-cleansing .product-button-variant.product-block,.template-custom-serenity-neuro .product-button-variant.product-block,.template-custom-sole-serenity .product-button-variant.product-block {
+      padding: 50px 50px 0;
+      border-radius: 10px 10px 10px 10px;
+      border: 2px solid #27272494 !important;
+      background: #fff;
+      border-bottom: 0;
+      margin-block-end: 0 !important;
+  }
+  .option.subscribe-option:before {
+      content: "save 20% on first order";
+      text-transform: uppercase;
+      color: #fff;
+      background: {{ block.settings.strenth-bg }};
+      padding: 4px 25px;
+      font-size: 14px;
+      text-align: center;
+      margin: 0 auto;
+      width: max-content;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      margin-bottom: 6px;
+  }
+  .varient_div {
+    position: relative;
+    width: 33.33%;
+  }
+  .varient_div .label-tag.tag2 {
+      background: {{ block.settings.tag2-bg  }};
+  }
+  .varient_div .label-tag {
+      text-transform: capitalize;
+      background: {{ block.settings.tag1-bg  }};
+      font-size: 13px;
+      font-weight: 400;
+      color: #fff;
+      padding: 6px 15px;
+      border-radius: 8px;
+      font-family: 'HarmoniaSansW01';
+      width: max-content;
+      margin: 0 auto;
+        position: absolute;
+      top: -8px;
+  }
+  @media (max-width: 768px) {
+  img.varient_image {
+        height: 100px;
+        {% comment %} border: 1px solid #999; {% endcomment %}
+        padding: 10px;
+  }
+    .template-custom-products-2 .single-option-radio,.template-custom-food-pad .single-option-radio,.template-custom-deep-cleansing .single-option-radio,.template-custom-serenity-neuro .single-option-radio,.template-custom-sole-serenity .single-option-radio {
+      gap: 5px;
+  }
+  }
+</style>

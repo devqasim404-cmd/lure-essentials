@@ -1,0 +1,318 @@
+{% if section.settings.top_image %}
+  <div class="comparison-top-image">
+    <img src="{{ section.settings.top_image | image_url }}" alt="Top Image">
+  </div>
+{% endif %}
+<section class="us-vs-them-section">
+  <div class="comparison-wrapper">
+    <div class="comparison-heading">{{ section.settings.heading }}</div>
+    <div class="comparison-table-container">
+      <div class="center-bg-box"></div>
+      <div class="comparison-scroll-wrapper">
+        <div class="comparison-table">
+          <div class="table-header">
+            <div class="column us">{{ section.settings.left_text }}</div>
+            <div class="column image-col">
+              <img src="{{ section.settings.image | image_url }}" alt="" class="image">
+            </div>
+            <div class="column them">{{ section.settings.right_text }}</div>
+          </div>
+
+          {% for block in section.blocks %}
+            <div class="table-row">
+              <div class="column us">{{ block.settings.us_text }}</div>
+              <div class="column category">{{ block.settings.label }}</div>
+              <div class="column them">{{ block.settings.them_text }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% if section.settings.bottom_image %}
+  <div class="comparison-bottom-image">
+    <img src="{{ section.settings.bottom_image | image_url }}" alt="Bottom Image">
+  </div>
+{% endif %}
+
+<style>
+          .us-vs-them-section {
+            background: {{ section.settings.bg-color}};
+            /* color: #000; */
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+                margin-top: -44px;
+
+          }
+          .us-vs-them-section .comparison-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+                padding: 50px 0;
+          }
+          .us-vs-them-section .comparison-top-image img,
+          .us-vs-them-section .comparison-bottom-image img {
+            max-width: 250px;
+            margin: 20px auto;
+          }
+
+          .us-vs-them-section .comparison-table-container {
+            position: relative;
+            padding: 0 80px;
+          }
+          .us-vs-them-section .center-bg-box {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 42%;
+            transform: translateX(-50%);
+            width: 30.3333%;
+              background:{{ section.settings.box-bg }};
+              box-shadow: 21px 15px 0px {{ section.settings.box-shadow }};
+            border: 2px solid {{ section.settings.box-shadow }};
+            border-radius: 20px;
+            z-index: 0;
+          }
+          .us-vs-them-section .comparison-table {
+            position: relative;
+            z-index: 1;
+            margin-top: 40px;
+          }
+          .us-vs-them-section .table-header, .us-vs-them-section .table-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #000;
+            padding: 20px 0;
+            align-items: center;
+          }
+          .us-vs-them-section .column {
+            width: 36%;
+            text-align: left;
+            z-index: 2;
+            color: {{ section.settings.column-color }};
+          /* font-family: "Publico Text Web Regular"; */
+          font-size: 24px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+          letter-spacing: 1%;
+          display: flex;
+          align-items: center;
+          }
+    .table-row .column.us {
+      font-weight: 700;
+  }
+
+          .us-vs-them-section .column.image-col img {
+            max-width: 280px;
+            margin: 0 auto;
+          }
+          .us-vs-them-section .column.category {
+          color: {{ section.settings.box-color }};
+          text-align: left;
+          font-size: 24px;
+          line-height: 120%;
+          display: flex;
+          justify-content: left;
+          }
+            .us-vs-them-section .column.us
+           {
+              width: 20%;
+           }
+          .us-vs-them-section .table-header .column {
+              font-size: 42px;
+              font-weight: bold;
+              /* font-family: 'JeanLuc-bold'; */
+              letter-spacing: 1%;
+          }
+            .comparison-table .table-row:last-child {
+            border-bottom: none;
+            padding-bottom: 60px;
+          }
+          .comparison-table .table-row .column.category {
+            padding: 0 40px;
+          }
+          #shopify-section-{{ section.id }} .comparison-bottom-image
+           {
+              position: relative;
+              z-index: 2;
+              top: -2px;
+          }
+          #shopify-section-{{ section.id }} .comparison-heading
+         {
+            color: #000;
+            text-align: center;
+            font-size: 59px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 40px;
+            margin-bottom: 8rem;
+        }
+       #shopify-section-{{ section.id }} .table-header .column
+     {
+        color: #000;
+    }
+           @media screen and (max-width: 768px) {
+        #shopify-section-{{ section.id }} .comparison-heading
+         {
+            font-size: 24px;
+           margin-bottom: 0px;
+         }
+             .column.them
+           {
+              padding-left: 20px;
+          }
+             .us-vs-them-section .table-header .column {
+              font-size: 19px;
+             }
+             .us-vs-them-section .column {
+               width: 48%;
+              font-size: 10px;
+              letter-spacing: 0.3px;
+           }
+             .us-vs-them-section .column.category {
+              font-size: 10px;
+             }
+             .us-vs-them-section .column.image-col img
+           {
+              max-width: 100px;
+              margin: 0 auto;
+          }
+             .comparison-table .table-row:not(:last-child) .column.category {
+              padding: 0px;
+          }
+             .us-vs-them-section .center-bg-box
+           {
+              width: 52.3333%;
+              box-shadow: 10px 10px 0px {{ section.settings.box-shadow }};
+           }
+             .us-vs-them-section .center-bg-box {
+               left: 82px;
+             }
+             .column.us {
+                  display: none;
+              }
+             .us-vs-them-section {
+              margin-top: -13px;
+               padding: 0px 20px;
+          }
+             #shopify-section-{{ section.id }} .comparison-bottom-image {
+              position: relative;
+              z-index: 2;
+              top: -31px;
+          }
+             .us-vs-them-section .comparison-wrapper
+           {
+              padding: 0px 0 40px 0;
+          }
+             .us-vs-them-section .comparison-table-container
+           {
+              padding: 0px;
+          }
+          }
+</style>
+
+{% schema %}
+{
+  "name": "Comparison",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "top_image",
+      "label": "Top Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_image",
+      "label": "Bottom Image"
+    },
+    {
+      "type": "color",
+      "id": "bg-color",
+      "label": "background color"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "US VS THEM"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "color",
+      "id": "box-bg",
+      "label": "Box Background",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "box-shadow",
+      "label": "Box shadow background",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "column-color",
+      "label": "Column color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "box-color",
+      "label": "Box color",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "left_text",
+      "label": "Left text",
+      "default": "US VS THEM"
+    },
+    {
+      "type": "text",
+      "id": "right_text",
+      "label": "Right text",
+      "default": "THEM"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Comparison Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Category Label",
+          "default": "Flavor"
+        },
+        {
+          "type": "text",
+          "id": "us_text",
+          "label": "US Side Text",
+          "default": "Real Coconut & Mango Flavor"
+        },
+        {
+          "type": "text",
+          "id": "them_text",
+          "label": "Them Side Text",
+          "default": "Artificially Flavored (Chalky Or Overly Sweet)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Comparison",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

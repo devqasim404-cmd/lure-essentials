@@ -1,0 +1,930 @@
+<div id="innersection-{{ section.id }}">
+  <div class="full-width-background">
+    {% if section.settings['top-svg'] != blank %}
+      <img src="{{ section.settings.top-svg | img_url: 'master' }}" class="c-v-t__top-svg">
+    {%- endif %}
+    <div class="section section--tight  section-blends container">
+      <div class="center-section">
+        <div class="left-section desktop-tablet-only">
+          <h1>{{ section.settings.heading }}</h1>
+          <p>{{ section.settings.text }}</p>
+          {% if section.settings.button != blank %}
+            <a
+              href="{{ section.settings.url }}"
+              class="hdt-btn cta-button"
+              style="background:{{ section.settings.btn_bg_color }};color:{{ section.settings.btn_txt_color }};"
+            >
+              {{- section.settings.button -}}
+            </a>
+          {% endif %}
+          {% if section.settings.button2 != blank %}
+            <a href="{{ section.settings.url1 }}" class="secondbutton" style="margin-top:1rem; margin-bottom:1rem;">
+              {{- section.settings.button2 -}}
+            </a>
+          {%- endif %}
+          <!--
+            <div class="rating-section">
+              <span>
+                <svg width="114" height="21" viewBox="0 0 114 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5.09863 18.035L6.4528 12.1808L1.91113 8.24333L7.91113 7.72249L10.2445 2.20166L12.5778 7.72249L18.5778 8.24333L14.0361 12.1808L15.3903 18.035L10.2445 14.9308L5.09863 18.035Z" fill="#DF243F"/><path d="M28.4316 18.035L29.7858 12.1808L25.2441 8.24333L31.2441 7.72249L33.5775 2.20166L35.9108 7.72249L41.9108 8.24333L37.3691 12.1808L38.7233 18.035L33.5775 14.9308L28.4316 18.035Z" fill="#DF243F"/><path d="M51.7651 18.035L53.1193 12.1808L48.5776 8.24333L54.5776 7.72249L56.911 2.20166L59.2443 7.72249L65.2443 8.24333L60.7026 12.1808L62.0568 18.035L56.911 14.9308L51.7651 18.035Z" fill="#DF243F"/><path d="M75.0986 18.035L76.4528 12.1808L71.9111 8.24333L77.9111 7.72249L80.2445 2.20166L82.5778 7.72249L88.5778 8.24333L84.0361 12.1808L85.3903 18.035L80.2445 14.9308L75.0986 18.035Z" fill="#DF243F"/><path d="M98.4316 18.035L99.7858 12.1808L95.2441 8.24333L101.244 7.72249L103.577 2.20166L105.911 7.72249L111.911 8.24333L107.369 12.1808L108.723 18.035L103.577 14.9308L98.4316 18.035Z" fill="#DF243F"/>
+                </svg>
+              </span>
+              <p>{{ section.settings.rating }}</p>
+            </div>
+          -->
+          <div class="key-benefits__container">
+            {% if section.settings.heading != blank %}
+              <h2 class="key-benefits__heading">{{ section.settings.heading1 }}</h2>
+            {% endif %}
+            <div class="key-benefits__grid">
+              {% for block in section.blocks %}
+                <div class="key-benefit">
+                  <div class="key-benefit__icon">
+                    {{ block.settings.icon | raw }}
+                  </div>
+                  <div class="key-benefit__text">{{ block.settings.text }}</div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="right-section mobile-only">
+          <!-- Slider for mobile only -->
+          <div class="video-thumbnails-slider video-slider-mobile">
+            <div class="swiper video-swiper video-swiper-centered">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <div class="video-thumbnail">
+                    <div class="play-iconn" data-video="video1">
+                      <img
+                        src="https://cdn.shopify.com/s/files/1/1652/5029/files/Group_39.png?v=1749643418"
+                        alt="Play Icon"
+                      >
+                    </div>
+                    {{
+                      section.settings.video
+                      | video_tag:
+                        image_size: '1100x',
+                        autoplay: false,
+                        loop: true,
+                        playsinline: true,
+                        controls: true,
+                        muted: false,
+                        id: 'video1',
+                        class: 'lazy only-tablete'
+                    }}
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="video-thumbnail">
+                    <div class="play-iconn" data-video="video2">
+                      <img
+                        src="https://cdn.shopify.com/s/files/1/1652/5029/files/Group_39.png?v=1749643418"
+                        alt="Play Icon"
+                      >
+                    </div>
+                    {{
+                      section.settings.video1
+                      | video_tag:
+                        image_size: '1100x',
+                        autoplay: false,
+                        loop: true,
+                        playsinline: true,
+                        controls: true,
+                        muted: false,
+                        id: 'video2',
+                        class: 'lazy only-tablete'
+                    }}
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="video-thumbnail">
+                    <div class="play-iconn" data-video="video3">
+                      <img
+                        src="https://cdn.shopify.com/s/files/1/1652/5029/files/Group_39.png?v=1749643418"
+                        alt="Play Icon"
+                      >
+                    </div>
+                    {{
+                      section.settings.video2
+                      | video_tag:
+                        image_size: '1100x',
+                        autoplay: false,
+                        loop: true,
+                        playsinline: true,
+                        controls: true,
+                        muted: false,
+                        id: 'video3',
+                        class: 'lazy only-tablete'
+                    }}
+                  </div>
+                </div>
+              </div>
+              <!-- Custom arrows -->
+              <div class="swiper-button-prev custom-arrow"></div>
+              <div class="swiper-button-next custom-arrow"></div>
+            </div>
+          </div>
+          <div class="Mobile_headeing ">
+            <h1>{{ section.settings.heading }}</h1>
+            <p>{{ section.settings.text }}</p>
+          </div>
+          <div class="key-benefits__container">
+            {% if section.settings.heading != blank %}
+              <h2 class="key-benefits__heading">{{ section.settings.heading1 }}</h2>
+            {% endif %}
+            <div class="key-benefits__grid">
+              {% for block in section.blocks %}
+                <div class="key-benefit">
+                  <div class="key-benefit__icon">
+                    {{ block.settings.icon | raw }}
+                  </div>
+                  <div class="key-benefit__text">{{ block.settings.text }}</div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="right-section desktop-tablet-only">
+          <div class="video-thumbnail video-thumbnaill">
+            <div class="play-iconn" data-video="video11">
+              <img
+                src="https://cdn.shopify.com/s/files/1/0579/9464/1517/files/Group_39_1.png?v=1727269919"
+                alt="Play Icon"
+              >
+            </div>
+            {{
+              section.settings.video
+              | video_tag:
+                image_size: '1100x',
+                autoplay: false,
+                loop: true,
+                playsinline: true,
+                controls: true,
+                muted: false,
+                id: 'video11',
+                class: 'lazy only-tablete'
+            }}
+          </div>
+          <div class="video-thumbnail">
+            <div class="play-iconn" data-video="video22">
+              <img
+                src="https://cdn.shopify.com/s/files/1/0579/9464/1517/files/Group_39_1.png?v=1727269919"
+                alt="Play Icon"
+              >
+            </div>
+            {{
+              section.settings.video1
+              | video_tag:
+                image_size: '1100x',
+                autoplay: false,
+                loop: true,
+                playsinline: true,
+                controls: true,
+                muted: false,
+                id: 'video22',
+                class: 'lazy only-tablete'
+            }}
+          </div>
+          <div class="video-thumbnail video-thumbnaill">
+            <div class="play-iconn" data-video="video33">
+              <img
+                src="https://cdn.shopify.com/s/files/1/0579/9464/1517/files/Group_39_1.png?v=1727269919"
+                alt="Play Icon"
+              >
+            </div>
+            {{
+              section.settings.video2
+              | video_tag:
+                image_size: '1100x',
+                autoplay: false,
+                loop: true,
+                playsinline: true,
+                controls: true,
+                muted: false,
+                id: 'video33',
+                class: 'lazy only-tablete'
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.backgorundimage != blank -%}
+    <img class="sec-bottom-img" src="{{ section.settings.backgorundimage | img_url: 'master'  }}">
+  {%- endif %}
+  {% if section.settings.bottomimage != blank -%}
+    <img class="sec-bottom-img" src="{{ section.settings.bottomimage | img_url: 'master'  }}">
+  {%- endif %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.body.addEventListener('click', function(e) {
+    const playIcon = e.target.closest('.play-iconn');
+    if (!playIcon) return;
+
+    const id = playIcon.getAttribute('data-video');
+    const video = document.getElementById(id);
+    const iconImg = playIcon.querySelector('img');
+
+    if (video.paused) {
+      // 1) Keep the poster visible by forcing a frame refresh
+      video.style.display = 'block'; // Ensure video is visible
+      video.load(); // Force browser to refresh video rendering
+
+      // 2) Disable Shopify’s lazy-loader on desktop videos
+      video.removeAttribute('loading');
+      video.classList.remove('lazy');
+
+      // 3) Play the video while keeping the poster visible
+      video.muted = false; // Ensure sound is enabled
+      video.currentTime = 0.05; // Start slightly after 0 to avoid black frame
+      video.play();
+
+      // 4) Hide play icon
+      iconImg.style.display = 'none';
+    } else {
+      video.pause();
+      iconImg.style.display = 'block';
+    }
+  });
+
+  // Sync play icon with video state
+  document.querySelectorAll('.video-player').forEach(video => {
+    const pid = video.id;
+    const playIcon = document.querySelector(`.play-iconn[data-video="${pid}"] img`);
+    video.addEventListener('play', () => playIcon.style.display = 'none');
+    video.addEventListener('pause', () => playIcon.style.display = 'block');
+  });
+
+  // Initialize Swiper
+  if (typeof Swiper !== 'undefined') {
+    new Swiper('.video-swiper-centered', {
+      slidesPerView: 1,
+      loop: false,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      },
+    });
+  }
+});
+  </script>
+  <style>
+            /* @media (max-width: 480px) {
+              .video-swiper-centered { max-width: 95vw; }
+              .video-swiper-centered .swiper-slide { max-width: 85vw; height: 60vw; }
+              .video-swiper-centered .swiper-button-prev { left: 4px !important; }
+              .video-swiper-centered .swiper-button-next { right: 4px !important; }
+            } */
+
+                .mobile-only { display: none !important; }
+            .desktop-tablet-only { display: flex; gap: 18px; }
+            .left-section.desktop-tablet-only {
+              display: block;
+            }
+            @media (max-width: 767px) {
+              .left-section.desktop-tablet-only {
+              display: none;
+            }
+              .section.section--tight.section-blends.hdt-container {
+                padding: 0 !important;
+                background: #e9e0ec;
+            }
+              #shopify-section-{{ section.id }} .container {
+                  padding: 0;
+              }
+              .right-section.mobile-only {
+                background: #e9e0ec;
+            }
+              .Mobile_headeing {
+                text-align: left;
+                padding: 0 20px;
+                    margin-bottom: 20px;
+            }
+              .Mobile_headeing h1, .Mobile_headeing p {
+                color: black !important;
+            }
+              .key-benefits__container {
+                background: #1f1661;
+                padding: 25px 31px;
+                        margin-bottom: -2px;
+            }
+              .video-slider-mobile {
+              background: #e9e0ec;
+              padding: 0px 0 32px 0;
+              overflow: hidden;
+              border-radius: 16px;
+              position: relative;
+            }
+            .video-swiper-centered {
+              overflow: visible !important;
+              position: relative;
+              max-width: 320px;
+              margin: 0 auto;
+            }
+            .video-swiper-centered .swiper-wrapper {
+              overflow: visible !important;
+              align-items: center;
+            }
+            .video-swiper-centered .swiper-slide {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border-radius: 18px;
+              overflow: hidden;
+              background: #fff;
+              box-shadow: 0 2px 14px rgba(77, 63, 186, 0.12);
+              height: 500px;
+              max-width: 220px;
+              margin: 0 auto;
+            }
+            .video-thumb-outer {
+              position: relative;
+              width: 100%;
+              height: 100%;
+              display: flex;
+              align-items: center; justify-content: center;
+              overflow: hidden;
+              border-radius: 18px;
+            }
+            .video-thumb {
+              border-radius: 18px;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+            .video-swiper-centered .swiper-button-prev,
+            .video-swiper-centered .swiper-button-next {
+              background: #fff;
+              border-radius: 50%;
+              box-shadow: 0 2px 14px rgba(77,63,186,0.13);
+              width: 40px; height: 40px;
+              top: 50%;
+              transform: translateY(-50%);
+              z-index: 10;
+              color: #000;
+              border: 1px solid #d1c7e3;
+              display: flex; align-items: center; justify-content: center;
+              position: absolute;
+            }
+            .right-section .swiper-slide.swiper-slide-active {
+                opacity: 1 !important;
+            }
+            .right-section .swiper-slide {
+                opacity: 0;
+            }
+            .video-swiper-centered .swiper-button-prev { left: -46px; }
+            .video-swiper-centered .swiper-button-next { right: -40px; }
+            .video-swiper-centered .swiper-button-prev:after,
+            .video-swiper-centered .swiper-button-next:after {
+              font-size: 16px;
+              font-weight: bold;
+            }
+              .mobile-only { display: block !important; }
+              .desktop-tablet-only { display: none !important; }
+              .video-swiper .swiper-slide { width: 90vw; max-width: 330px; }
+            }
+
+                         {% if section.settings.container_bg %}
+                         #innersection-{{ section.id }} .center-section {
+                           background: {{section.settings.bg_color}};
+                           border-radius: 30px;
+                         }
+                         #innersection-{{ section.id }} .left-section {
+                           padding-left: 40px !important;
+                         }
+                         #innersection-{{ section.id }} {
+                           background: transparent !important;
+                         }
+                         {% endif %}
+
+                         .custom-video img.sec-bottom-img {
+                               margin-top: -10px;
+                         }
+
+                         .custom-video .full-width-background {
+                           background: {{section.settings.bg_color}};
+                           background: {{section.settings.bg_color_gradient}};
+                           color: {{section.settings.txt_color}};
+                           position: relative;
+                           display: inline-block;
+                           width: 100%;
+                         }
+                       .custom-video h1,
+                         .custom-video p {
+                           color: {{section.settings.txt_color}};
+                         }
+
+                         .custom-video .center-section {
+                           display: flex;
+                           margin: 0 auto;
+                           gap: 50px;
+                           padding: 80px 1px 10px 1px;
+                           align-items: center;
+                         }
+
+                         .left-section {
+                           width: 40%;
+                           padding: 20px;
+                         }
+
+                        .left-section h1 {
+                       margin-bottom: 10px;
+                       color: #FFF;
+                       font-size: 60px;
+                       font-style: normal;
+                       font-weight: 700;
+                       line-height: normal;
+                       text-transform: none;
+                       font-family:'HarmoniaSansW01';
+                   }
+
+                         .left-section p {
+                               margin-bottom: 22px;
+                       color: #FFF;
+                       font-size: 18px;
+                       font-style: normal;
+                       font-weight: 400;
+                       line-height: 150%;
+                         }
+
+                         .cta-button {
+                           margin-bottom: 20px;
+                           color: #FFF;
+                           text-align: center;
+                           font-size: 18px;
+                           font-weight: 700;
+                           display: flex;
+                           width: 262.547px;
+                           height: 54px;
+                           justify-content: center;
+                           align-items: center;
+                           gap: 5px;
+                           border-radius: 50px;
+                           background: #6D0476;
+                           max-width: 100%;
+                         }
+
+                         .rating-section {
+                           font-size: 18px;
+                           display: flex;
+                           align-items: center;
+                         }
+
+                         #shopify-section-{{ section.id }} img.c-v-t__top-svg {
+                           position: absolute;
+                           top: 0px;
+                           left: 0;
+                           right: 0;
+                           z-index: 99;
+                           max-width: 100%;
+                           width: 100%;
+                         }
+
+                         .rating-section span {
+                           font-size: 20px;
+                           color: gold;
+                           margin-right: 10px;
+                         }
+
+                         .rating-section p {
+                           margin-left: 10px;
+                           margin-bottom: 0px;
+                           color: #000;
+                           font-size: 15px;
+                           font-weight: 400;
+                           line-height: 150%;
+                         }
+
+                         .right-section {
+                           width: 60%;
+                           display: flex;
+                           justify-content: space-between;
+                           gap:20px
+                         }
+
+                         .video-thumbnail {
+                           position: relative;
+                           border-radius: 20px;
+                           overflow: hidden;
+                           margin: auto;
+                           display: flex;
+                           align-items: center;
+                           justify-content: center;
+                           width: 100%;
+                         }
+
+                         .video-thumbnail img {
+                           width: 100%;
+                           border-radius: 20px;
+                         }
+
+                         /* .video-thumbnaill video {
+                           border-radius: 20px;
+                           background: url(<path-to-image>) lightgray -13.893px 0px / 244.708% 100% no-repeat;
+                         } */
+
+                         .video-wrapper {
+                           position: relative;
+                           margin: 0 auto;
+                           width: 100%;
+                           max-width: 1200px;
+                           height: 560px;
+                           overflow: hidden;
+                           margin-top: 50px;
+                           margin-bottom: 0px;
+                         }
+
+                         .play-iconn {
+                           position: absolute;
+                           top: 50px;
+                           left: 0;
+                           bottom: 50px;
+                           right: 0;
+                           cursor: pointer;
+                           padding: 15px;
+                           z-index: 10;
+                           transition: background-color 0.3s ease;
+                           display: flex;
+                           align-items: center;
+                           justify-content: center;
+                           display:none;
+                         }
+
+                         .play-iconn img {
+                           width: 60px;
+                           height: 60px;
+                         }
+
+                         .video-player {
+                           width: 100%;
+                           max-width: 100%;
+                           height: 100%;
+                           object-fit: cover;
+                           border-radius: 6px !important;
+                         }
+
+                        .custom-video .section.section--tight.section-blends.section-full.hdt-container.max-w-site {
+                           position: relative;
+                         }
+
+                         #shopify-section-{{ section.id }} img.c-v-t__top-svg {
+                           position: absolute;
+                           top: -130px;
+                         }
+
+                         @media (max-width: 768px) {
+                           .custom-video img.sec-bottom-img {
+                               margin-top: 0px !important;
+                         }
+                           .custom-video .center-section {
+                             flex-direction: column;
+                             text-align: center;
+                             padding: 0px 1px 0px 0 !important;
+                             gap: 20px !important;
+                           }
+
+                           #shopify-section-{{ section.id }} img.c-v-t__top-svg {
+                             max-width: 100px !important;
+                           }
+
+                           .custom-video .cta-button {
+                             margin: 0 auto;
+                           }
+
+                           .custom-video .rating-section {
+                             flex-direction: column;
+                           }
+
+                           .video-wrapper {
+                             width: 100%;
+                             max-width: 450px;
+                             padding: 0 1rem;
+                             height: 200px;
+                             margin-top: 30px !important;
+                             margin-bottom: 0px;
+                             border-radius: 16px !important;
+                           }
+
+                           .play-icon img {
+                             width: 64px;
+                             height: 64px;
+                           }
+
+                           .left-section {
+                             width: 100%;
+                             padding: 20px 10px;
+                           }
+
+                           .right-section {
+                             width: 100%;
+                             display: flex;
+                             justify-content: space-between;
+                             align-items: flex-start;
+                             gap: 20px;
+                           }
+
+                           .rating-section {
+                             padding: 12px 0;
+                           }
+
+                           .rating-section p {
+                             font-size: 12px;
+                           }
+
+                           .rating-section svg {
+                             width: 100px;
+                           }
+
+                           .cta-button {
+                             margin-bottom: 6px;
+                           }
+                           .left-section h1 {
+                            font-size: 29px;
+                           }
+                           .custom-video .full-width-background {
+                             margin-bottom: -5px;
+                           }
+                         }
+                       .key-benefits-section {
+                     padding: 48px 0;
+                     background: #1A1F71;
+                   }
+
+                   .key-benefits__heading {
+                     color: #FFF;
+                     font-size: 36px;
+                     font-style: normal;
+                     font-weight: 700;
+                     line-height: normal;
+                     margin-bottom: 3rem;
+                     font-family: 'HarmoniaSansW01';
+                   }
+                   .key-benefits__grid {
+                     display: grid;
+                     grid-template-columns: 1fr 1fr;
+                     gap: 23px 23px;
+                   }
+                   .key-benefit {
+                     display: flex;
+                     align-items: center;
+                     gap: 16px;
+                     font-size: 1rem;
+                   }
+                   .key-benefit__icon svg {
+                     width: 36px;
+                     height: 36px;
+                     display: flex;
+                     align-items: center;
+                     justify-content: center;
+                   }
+                   .key-benefit__text {
+                    color: #FFF;
+                   font-size: 18px;
+                   font-style: normal;
+                   font-weight: 400;
+                   line-height: 150%; /* 27px */
+                   }
+                   video {
+                       width: 100%;
+                   }
+                   @media (max-width: 600px) {
+                     .key-benefits__grid {
+                       grid-template-columns: 1.5fr 1fr;
+                       gap: 35px 0;
+                     }
+                     .key-benefits-section {
+                       padding: 32px 0;
+                     }
+                     .key-benefit
+                {
+                   gap: 25px;
+                }
+                     .key-benefit__icon {
+                   width: 24px;
+                   height: 26px;
+                     }
+                     .key-benefit__text {
+                   font-size: 12px;
+                       margin-top:10px;
+                     }
+                   }
+            @media (max-width: 767px) {
+          .video-swiper-centered {
+            max-width: 230px;
+            margin: 0 auto;
+            position: relative;
+          }
+
+          .video-swiper-centered .swiper-slide {
+            width: 100% !important;
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 9 / 16;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 14px rgba(77, 63, 186, 0.12);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+          }
+
+          .video-thumbnail video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+          }
+
+          .play-iconn img {
+            width: 56px;
+            height: 56px;
+            z-index: 5;
+          }
+
+          .video-swiper-centered .swiper-button-prev,
+          .video-swiper-centered .swiper-button-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            z-index: 10;
+            border: 1px solid #d1c7e3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 14px rgba(77,63,186,0.13);
+            color: black;
+          }
+
+          .video-swiper-centered .swiper-button-prev {
+            left: -48px;
+          }
+
+          .video-swiper-centered .swiper-button-next {
+            right: -48px;
+          }
+
+          .video-swiper-centered .swiper-button-prev::after,
+          .video-swiper-centered .swiper-button-next::after {
+            font-size: 18px;
+            font-weight: bold;
+          }
+              .Mobile_headeing h1 {
+        margin-bottom: 10px;
+    }
+        }
+  </style>
+</div>
+{% schema %}
+  {
+    "name": "custom video with text",
+    "class": "custom-video",
+    "settings": [
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "background Color"
+      },
+      {
+        "type": "color_background",
+        "id": "bg_color_gradient",
+        "label": "background Gradient Color"
+      },
+      {
+        "type": "image_picker",
+        "id": "top-svg",
+        "label": "Top image"
+      },
+      {
+      "type": "image_picker",
+      "id": "backgorundimage",
+      "label": "background image"
+      },
+      {
+      "type": "image_picker",
+      "id": "bottomimage",
+      "label": "bottom image"
+      },
+      {
+        "type": "color",
+        "id": "txt_color",
+        "label": "Text Color"
+      },
+      {
+        "type": "checkbox",
+        "id": "container_bg",
+        "label": "Container Background"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading"
+      },
+      {
+        "type": "text",
+        "id": "text",
+        "label": "text"
+      },
+      {
+        "type": "text",
+        "id": "button",
+        "label": "button text"
+      },
+      {
+        "type": "text",
+        "id": "url",
+        "label": "Button Url"
+      },
+      {
+        "type": "color",
+        "id": "btn_bg_color",
+        "label": "Button Background color"
+      },
+      {
+        "type": "color",
+        "id": "btn_txt_color",
+        "label": "Button Text Color"
+      },
+      {
+        "type": "text",
+        "id": "button2",
+        "label": "Button 2"
+      },
+      {
+          "type": "url",
+          "id": "url1",
+          "label": "Url"
+      },
+      {
+        "type": "text",
+        "id": "rating",
+        "label": "Rating"
+      },
+      {
+        "type": "video",
+        "id": "video",
+        "label": "video"
+      },
+       {
+        "type": "video",
+        "id": "video1",
+        "label": "video 1"
+      },
+       {
+        "type": "video",
+        "id": "video2",
+        "label": "video 2"
+      },
+      {
+      "type": "text",
+      "id": "heading1",
+      "default": "Key benefits:",
+      "label": "Heading"
+    }
+
+    ],
+    "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "html",
+          "id": "icon",
+          "label": "SVG Icon",
+          "default": "<svg width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle></svg>"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Benefit Text",
+          "default": "Benefit"
+        }
+      ]
+    }
+  ],
+      "presets": [
+    {
+      "name": "custom video with text"
+    }
+  ]
+}
+{% endschema %}

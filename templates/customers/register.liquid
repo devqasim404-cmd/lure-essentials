@@ -1,0 +1,70 @@
+<style>
+  .registerform .form-control::placeholder {
+      color: #666666 !important;
+  }
+</style>
+
+<div class="page-width py-5">
+  <div class="grid">
+    <div class="grid__item medium-up--one-half medium-up--push-one-quarter">
+      <div class="content-block text-center">
+        <h1 class="h3 mb-3">{{ 'customer.register.title' | t }}</h1>
+        <p class="mb-5">{{ 'customer.register.sub_title' | t }}</p>
+        <div class="form-vertical text-center">
+          {%- form 'create_customer', data-shopify-captcha: "true", id: 'Registerform', class: 'isolate registerform' -%}
+            {{ form.errors | default_errors }}
+            <div class="form-group">
+              <input class="form-control" type="text" name="customer[first_name]" id="FirstName" 
+                     placeholder="{{ 'customer.register.first_name' | t }}" 
+                     {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autofocus>
+            </div>
+            
+            <div class="form-group">
+              <input class="form-control" type="text" name="customer[last_name]" id="LastName" 
+                     placeholder="{{ 'customer.register.last_name' | t }}" 
+                     {% if form.last_name %}value="{{ form.last_name }}"{% endif %}>
+            </div>
+            
+            <div class="form-group">
+              <input class="form-control" type="email" name="customer[email]" id="Email" 
+                     placeholder="{{ 'customer.register.email' | t }}" 
+                     {% if form.email %}value="{{ form.email }}"{% endif %} 
+                     autocorrect="off" autocapitalize="off">
+            </div>
+            
+            <div class="form-group">
+              <input class="form-control" autocomplete="on" type="password" 
+                     name="customer[password]" id="CreatePassword" 
+                     placeholder="{{ 'customer.register.password' | t }}">
+            </div>
+            
+            <p>
+              <button type="submit" id="RegisterButton" class="btn btn-theme gradien-theme mt-4 w-100">
+                {{ 'customer.register.submit' | t }}
+              </button>
+            </p>
+            
+            <p class="pt-2">
+              <span class="d-inline-block mr-2">{{ 'customer.register.already' | t }}</span>
+              {{ 'customer.register.login' | t | customer_login_link }}
+            </p>
+          {%- endform -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('Registerform');
+
+  const interval = setInterval(() => {
+    if (window.Shopify && Shopify.captcha && typeof Shopify.captcha.protect === 'function') {
+      clearInterval(interval);
+      Shopify.captcha.protect(form); // optional, only if needed
+    }
+  }, 100);
+});
+
+</script>

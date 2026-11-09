@@ -1,0 +1,491 @@
+{% comment %}}<div class="product_video">
+  <div class="video-grid" data-video-set>
+    {% for i in (1..10) %}
+      {% assign video_key = 'video' | append: i %}
+      {% assign label_key = 'label' | append: i %}
+      {% assign thumb_key = 'thumbnail' | append: i %}
+
+      {% assign video = block.settings[video_key] %}
+      {% assign label = block.settings[label_key] %}
+       {% assign thumbnail = block.settings[thumb_key] %} 
+
+      {% if video != blank %}
+        <div class="video-thumb_video">
+          <div
+            class="video-thumb"
+            data-index="{{ forloop.index0 }}"
+            data-group="{{ block.id }}"
+            data-video-url="{{ video }}"
+          >
+            <video
+              src="{{ video }}"
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              class="inline-video-preview"
+              style="width:100%;height:auto;object-fit:cover;border-radius: 50%;aspect-ratio: 1 / 1;padding: 6px;"
+            ></video>
+            <div class="play-icon">
+              <svg
+                width="17"
+                height="20"
+                viewBox="0 0 17 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M0.752558 0.241755L16.9494 9.97377L0.422782 19.1346L0.752558 0.241755Z" fill="white"></path>
+              </svg>
+            </div>
+          </div>
+          {% if label %}
+            <div class="video-label">{{ label }}</div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endcomment %}
+
+<div class="product_video">
+  <div class="video-grid" data-video-set>
+    {% for i in (1..10) %}
+      {% assign video_key = 'video' | append: i %}
+      {% assign label_key = 'label' | append: i %}
+      {% assign thumb_key = 'thumbnail' | append: i %}
+
+      {% assign video = block.settings[video_key] %}
+      {% assign label = block.settings[label_key] %}
+      
+     {% assign thumbnail = block.settings[thumb_key] %} 
+      {% if video != blank %}
+        <div class="video-thumb_video">
+          <div
+            class="video-thumb"
+            data-index="{{ forloop.index0 }}"
+            data-group="{{ block.id }}"
+            data-video-url="{{ video }}"
+          >
+           {% if i == 2 %}{% else %}<img src="{{ thumbnail | img_url: width: 300 }}" alt="Thumbnail">{%endif %}
+            <video
+              src="{{ video }}"
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              class="inline-video-preview"
+              style="width:100%;height:auto;object-fit:cover; {% if i == 2 %}{% else %}display:none;{% endif %}"
+            ></video>
+            <div class="play-icon"><svg width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.752558 0.241755L16.9494 9.97377L0.422782 19.1346L0.752558 0.241755Z" fill="white"></path></svg>
+</div>
+          </div>
+          {% if label %}
+            <div class="video-label">{{ label }}</div>
+          {% endif %}
+        </div>
+ 
+      {% endif %}
+    {% endfor %}
+  </div>
+  <!-- Popup Overlay Added -->
+  <div id="videoPopup" class="video-popup-overlay">
+    <div class="video-popup-content">
+      <span class="video-popup-close" onclick="closeVideoPopup()">&times;</span>
+      <video
+        id="popupVideo"
+        src=""
+        controls
+        autoplay
+        playsinline
+        style="background: #000; width: 100%; max-height: 70vh; border-radius: 16px;"
+      ></video>
+      <div class="video-popup-nav">
+        <button class="prevVideo" onclick="prevVideo()">&#8592; Prev</button>
+        <button class="nextVideo" onclick="nextVideo()">Next &#8594;</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+                      let currentVideoIndex = 0;
+                      let currentGroup = '';
+                      let allVideos = [];
+                      
+                      function openVideoPopup(group, index) {
+                        currentGroup = group;
+                        currentVideoIndex = index;
+                      
+                        allVideos = Array.from(document.querySelectorAll(`.video-thumb[data-group="${group}"]`));
+                        const selected = allVideos[currentVideoIndex];
+                        const videoURL = selected.getAttribute("data-video-url");
+                      
+                        const popupVideo = document.getElementById("popupVideo");
+                        popupVideo.src = videoURL;
+                        document.getElementById("videoPopup").classList.add("active");
+                        popupVideo.pause(); // Ensure paused
+                      
+                        // Always show play icon initially
+                        const playIcon = document.getElementById("popupPlayIcon");
+                        if (playIcon) playIcon.style.display = '';
+                      }
+                      
+                      function closeVideoPopup() {
+                        document.getElementById("videoPopup").classList.remove("active");
+                        const popupVideo = document.getElementById("popupVideo");
+                        popupVideo.pause();
+                        popupVideo.src = "";
+                      }
+                      
+                      document.addEventListener("keydown", function(e) {
+                        if (e.key === "Escape") closeVideoPopup();
+                      });
+                      
+                      function nextVideo() {
+                        currentVideoIndex = (currentVideoIndex + 1) % allVideos.length;
+                        openVideoPopup(currentGroup, currentVideoIndex);
+                      }
+                      
+                      function prevVideo() {
+                        currentVideoIndex = (currentVideoIndex - 1 + allVideos.length) % allVideos.length;
+                        openVideoPopup(currentGroup, currentVideoIndex);
+                      }
+                      
+                      document.addEventListener("DOMContentLoaded", function () {
+                        document.querySelectorAll(".video-thumb").forEach((el, i) => {
+                          el.addEventListener("click", function () {
+                            openVideoPopup(this.dataset.group, parseInt(this.dataset.index));
+                          });
+                      
+                          const video = el.querySelector('video');
+                          const playIcon = el.querySelector('.play-icon');
+                          if (video && playIcon) {
+                            playIcon.style.display = '';
+                            video.pause(); // Ensure video is paused and play icon is shown
+                      
+                            video.addEventListener('play', function() {
+                              playIcon.style.display = 'none';
+                            });
+                            video.addEventListener('pause', function() {
+                              playIcon.style.display = '';
+                            });
+                            video.addEventListener('error', function() {
+                              playIcon.style.display = '';
+                            });
+                          }
+                        });
+                      
+                        // --- Popup Play/Pause Icon Handler ---
+                        const popupVideo = document.getElementById("popupVideo");
+                        const playIcon = document.getElementById("popupPlayIcon");
+                        if (popupVideo && playIcon) {
+                          playIcon.style.display = '';
+                          popupVideo.addEventListener('play', function() {
+                            playIcon.style.display = 'none';
+                          });
+                          popupVideo.addEventListener('pause', function() {
+                            playIcon.style.display = '';
+                          });
+                          popupVideo.addEventListener('click', function() {
+                            if (popupVideo.paused) {
+                              popupVideo.play();
+                            } else {
+                              popupVideo.pause();
+                            }
+                          });
+                          playIcon.addEventListener('click', function(e) {
+                            popupVideo.play();
+                            e.stopPropagation();
+                          });
+                        }
+                      });
+                         document.addEventListener("DOMContentLoaded", function () {
+                        // Your existing code ...
+                      
+                        // --- Autoplay only the second video ---
+                        var allThumbVideos = document.querySelectorAll('.inline-video-preview');
+                        if (allThumbVideos.length > 1) {
+                          // Pause all videos
+                          allThumbVideos.forEach(v => v.pause());
+                          // Play the second one
+                          allThumbVideos[1].muted = true;
+                          allThumbVideos[1].play();
+                        }
+                      });
+  </script>
+  <style>
+            .product_video {
+              margin: 25px 0 !important;
+            }
+            .product_video {
+                width: 100%;
+                overflow: hidden;
+            }
+            button.nextVideo {
+                position: relative;
+                left: -18%;
+            }
+            .video-grid {
+                display: grid                    ;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 10px;
+                /* margin-bottom: 20px; */
+                max-width:530px;
+                margin: 50px auto;
+            }
+            .video-thumb_video {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+                justify-content: center;
+                align-content: center;
+                  width: max-content;
+                  margin: 0 auto;
+            }
+
+        .video-thumb {
+          width: 150px;
+          height: 150px;
+          overflow: hidden;
+          position: relative;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          aspect-ratio: 1.1;
+          max-width: 100%;
+          border-radius: 50%;
+          background:
+            linear-gradient(#fff, #fff) padding-box,
+            {{ block.settings.border-color}} border-box;
+          border: 4px solid transparent;
+        }
+        /* .video-thumb {
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        border: 4px solid transparent;
+        background: conic-gradient(#ff6272, #bc6aff, #ff6272);
+        background-origin: border-box;
+        background-clip: border-box, padding-box;
+        aspect-ratio: 1.1;
+        max-width: 100%;
+    } */
+
+            /* video.inline-video-preview {
+                outline: 4px solid #fff;
+                padding: 0px;
+                    width: 90px !important;
+                height: 90px !important;
+                object-fit: cover;
+                border: 6px solid #fff;
+                border-radius: 50%;
+                background: transparent;
+                aspect-ratio: 1.1;
+            } */
+              .video-thumb:after {
+                content: "";
+                background: #00000021;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                position: absolute;
+            }
+            .video-thumb img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+
+            .video-thumb .play-icon {
+                position: absolute;
+                width: 32px;
+                height: 32px;
+                border-radius: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                color: #000;
+              z-index: 19;
+            }
+
+            .video-label {
+            color: #2E2A39;
+                text-align: center;
+                font-size: 15px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: 21px;
+                  letter-spacing: -0.4px;
+            }
+
+            /* Popup styles */
+            .video-popup-overlay {
+              position: fixed;
+              inset: 0;
+              background: rgba(0,0,0,0.8);
+              z-index: 9999;
+              display: none;
+              justify-content: center;
+              align-items: center;
+              flex-direction: column;
+            }
+
+            .video-popup-overlay.active {
+              display: flex;
+            }
+
+            .video-popup-content {
+              position: relative;
+              width: 90%;
+              max-width: 600px;
+            }
+
+            .video-popup-content video {
+              width: 100%;
+              height: auto;
+              max-height:750px;
+            }
+
+            .video-popup-close {
+              position: absolute;
+              top: -40px;
+              right: 0;
+              color: white;
+              font-size: 28px;
+              cursor: pointer;
+            }
+
+            .video-popup-nav {
+              margin-top: 15px;
+              display: flex;
+              justify-content: space-between;
+              width: 100%;
+                  position: absolute;
+                top: 45%;
+            }
+
+            .video-popup-nav button {
+              background: white;
+              border: none;
+              font-weight: bold;
+              padding: 8px 20px;
+              cursor: pointer;
+            }
+            button.prevVideo {
+                right: -18%;
+                position: absolute;
+            }
+            @media (max-width: 767px){
+            .product_video {
+              margin: 0px 0 !important;
+              width: 100%;
+              overflow: hidden;
+            }
+
+            .video-grid {
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fer;
+              gap: 10px;
+              max-width: 450px;
+              margin: 50px auto;
+            }
+            .video-thumb_video {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            }
+            .video-thumb {
+              width: 100px !important;
+              height: 100px !important;
+              border-radius: 50% !important;
+              overflow: hidden;
+              position: relative;
+              cursor: pointer;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+            .video-thumb img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+            .video-thumb .play-icon {
+              position: absolute;
+              width: 32px;
+              height: 32px;
+              background: rgba(255,255,255,0.8);
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 18px;
+              color: #000;
+            }
+
+            .video-popup-overlay {
+              position: fixed;
+              inset: 0;
+              background: rgba(0,0,0,0.8);
+              z-index: 9999;
+              display: none;
+              justify-content: center;
+              align-items: center;
+              flex-direction: column;
+            }
+            .video-popup-overlay.active { display: flex; }
+            .video-popup-content {
+              position: relative;
+              width: 90%;
+              max-width: 600px;
+            }
+            .video-popup-content video {
+              width: 100%;
+              height: auto;
+              max-height:750px;
+            }
+            .video-popup-close {
+              position: absolute;
+              top: -40px;
+              right: 0;
+              color: white;
+              font-size: 28px;
+              cursor: pointer;
+            }
+            .video-popup-nav {
+              margin-top: 15px;
+              display: flex;
+              justify-content: space-between;
+              width: 100%;
+              position: absolute;
+              top: 45%;
+            }
+            .video-popup-nav button {
+              background: white;
+              border: none;
+              font-weight: bold;
+              padding: 8px 20px;
+              cursor: pointer;
+            }
+            button.nextVideo {
+              position: relative;
+              left: -18%;
+            }
+            button.prevVideo {
+              right: -18%;
+              position: absolute;
+            }
+            }
+  </style>
+</div>

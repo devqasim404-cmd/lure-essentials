@@ -1,0 +1,135 @@
+{% comment %}
+  Repeatable product information accordion block.
+  Add this snippet inside the product section's existing block loop:
+  {% when 'custom_product_accordion' %}
+    {% render 'product-info-custom-accordion', block: block %}
+{% endcomment %}
+
+<style>
+  .pica {
+    color: rgb(20, 26, 92);
+    font-family: inherit;
+    border-bottom: 1px solid rgb(230, 233, 240);
+    padding: 0 0 15px;
+    margin: 0 0 15px;
+  }
+  .pica:last-child { margin-bottom: 0; }
+  .pica__summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+    color: rgb(20, 26, 92);
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  .pica__summary::-webkit-details-marker { display: none; }
+  .pica__chevron {
+    width: 8px;
+    height: 8px;
+    border-right: 1px solid rgb(20, 26, 92);
+    border-bottom: 1px solid rgb(20, 26, 92);
+    transform: rotate(225deg);
+    flex: 0 0 auto;
+    margin: 4px 4px 0 0;
+    transition: transform .18s ease;
+  }
+  .pica details:not([open]) .pica__chevron {
+    transform: rotate(45deg);
+    margin-top: -4px;
+  }
+  .pica__content {
+    padding-top: 16px;
+    color: rgb(74, 81, 112);
+    font-size: 14px;
+    line-height: 1.55;
+    font-weight: 300;
+  }
+  .pica__content p{
+    color: rgb(74, 81, 112);
+    font-size: 14px;
+    line-height: 1.55;
+    font-weight: 300;
+}
+  .pica__steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .pica__step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgb(20, 26, 92);
+    color: #fff;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .pica__step-copy {
+    color: rgb(74, 81, 112);
+    font-size: 13px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+  }
+  .pica__step-copy strong { color: rgb(74, 81, 112); font-weight: 600; }
+  .pica__description { margin: 0; white-space: pre-line; }
+  @media screen and (max-width: 480px) {
+    .pica__steps { gap: 10px; }
+    .pica__step-copy { font-size: 12px; }
+  }
+</style>
+
+{%- liquid
+  # Text content can come from a product metafield (pdp.<key>); the block text is the fallback.
+  assign accordion_text = block.settings.description
+  assign metafield_source = block.settings.metafield_source
+  if metafield_source != blank and metafield_source != 'none'
+    assign metafield_text = product.metafields.pdp[metafield_source].value
+    if metafield_text != blank
+      assign accordion_text = metafield_text
+    endif
+  endif
+-%}
+
+{%- if block.settings.content_type == 'steps' or accordion_text != blank -%}
+<div class="pica" {{ block.shopify_attributes }}>
+  <details{% if block.settings.open_by_default %} open{% endif %}>
+    <summary class="pica__summary">
+      <span>{{ block.settings.heading | escape }}</span>
+      <span class="pica__chevron" aria-hidden="true"></span>
+    </summary>
+
+    <div class="pica__content">
+      {% if block.settings.content_type == 'steps' %}
+        <div class="pica__steps">
+          {% for i in (1..3) %}
+            {% capture title_key %}step_{{ i }}_title{% endcapture %}
+            {% capture description_key %}step_{{ i }}_description{% endcapture %}
+            {% assign step_title = block.settings[title_key] %}
+            {% assign step_description = block.settings[description_key] %}
+            <div>
+              <div class="pica__step-number">{{ i }}</div>
+              <div class="pica__step-copy">
+                {% if step_title != blank %}<strong>{{ step_title | escape }}</strong>{% endif %}
+                {% if step_description != blank %}
+                  {% if step_title != blank %} {% endif %}{{ step_description | escape }}
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="pica__description">{{ accordion_text | escape }}</p>
+      {% endif %}
+    </div>
+  </details>
+</div>
+{%- endif -%}

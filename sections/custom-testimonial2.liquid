@@ -1,0 +1,2591 @@
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+{%- if section.settings.section_topimg != blank -%}
+  <img class="sec-top-img" src="{{ section.settings.section_topimg | img_url: 'master' }}">
+{%- endif -%}
+<div class="secbgcolor" id="innersection-{{ section.id }}">
+  {%- if section.blocks.size > 0 -%}
+    <section class="testimonials-section hdt-container wrapper">
+      <div class="container">
+        <div class="content-custom">
+          <p class="testimonial-subtitle">{{ section.settings.subheading_text }}</p>
+          <h2 class="testimonial-title">{{ section.settings.heading_text }}</h2>
+        </div>
+        <div class="testimonial-cards two-column">
+          {% if section.settings.videobk1 != blank %}
+            <div class="three-video-block full-width">
+              <div class="testimonial-card half-width">
+                {% if section.settings.videobk1 != blank %}
+                  {{
+                    section.settings.videobk1
+                    | video_tag:
+                      image_size: '1100x',
+                      autoplay: false,
+                      loop: true,
+                      playsinline: true,
+                      muted: true,
+                      id: 'background-video',
+                      class: 'lazy only-tablete block-image'
+                  }}
+                {% else %}
+                  {% if section.settings.image != blank %}
+                    <img src="{{ section.settings.image | img_url: 'master' }}" class="block-image">
+                  {%- endif %}
+                {% endif %}
+              </div>
+              {% if section.settings.videobk2 != blank %}
+                <div class="testimonial-card half-width">
+                  {% if section.settings.videobk2 != blank %}
+                    {{
+                      section.settings.videobk2
+                      | video_tag:
+                        image_size: '1100x',
+                        autoplay: false,
+                        loop: true,
+                        playsinline: true,
+                        muted: false,
+                        id: 'background-video',
+                        class: 'lazy only-tablete block-image'
+                    }}
+                  {% else %}
+                    {% if section.settings.image != blank %}
+                      <img src="{{ section.settings.image | img_url: 'master' }}" class="block-image">
+                    {%- endif %}
+                  {% endif %}
+                </div>
+              {% endif %}
+              {% if section.settings.videobk3 != blank %}
+                <div class="testimonial-card half-width">
+                  {% if section.settings.videobk3 != blank %}
+                    {{
+                      section.settings.videobk3
+                      | video_tag:
+                        image_size: '1100x',
+                        autoplay: false,
+                        loop: true,
+                        playsinline: true,
+                        muted: false,
+                        id: 'background-video',
+                        class: 'lazy only-tablete block-image'
+                    }}
+                  {% else %}
+                    {% if section.settings.image != blank %}
+                      <img src="{{ section.settings.image | img_url: 'master' }}" class="block-image">
+                    {%- endif %}
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'testimonial_block' %}
+                <div
+                  id="block-{{ block.id }}"
+                  class="testimonial-card{% if block.settings.testimonial_width == '50'  %} half-width {% else %} full-width {% endif %} {{ block.settings.customclass }}"
+                >
+                  <div class="testimonial-text">
+                    <div class="testmoina-top-barr">
+                      <div class="testmoina-top-bar">
+                        {% if block.settings.imageicon != blank %}
+                          <img src="{{ block.settings.imageicon | img_url: 'mster' }}">
+                        {% endif %}
+
+                        {% if block.settings.customer_name != blank %}
+                          <h3>{{ block.settings.customer_name }}</h3>
+                        {% endif %}
+                      </div>
+                      <span class="testimonial-stars">
+                        {% for i in (1..5) %}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="23"
+                            height="22"
+                            viewBox="0 0 23 22"
+                            fill="none"
+                          >
+                            <path d="M5.86437 19L7.32687 12.7145L2.42188 8.48684L8.90187 7.92763L11.4219 2L13.9419 7.92763L20.4219 8.48684L15.5169 12.7145L16.9794 19L11.4219 15.6671L5.86437 19Z" fill="#FFAF4C"></path>
+                          </svg>
+                        {% endfor -%}
+                      </span>
+                      <span class="testimonial-date">{{ block.settings.customer_namedate }}</span>
+                    </div>
+                    <p>{{ block.settings.testimonial_text }}</p>
+                    <div class="testimonial-meta">
+                      {% if block.settings['customer_name-pp'] != blank %}
+                        <h3>{{ block.settings['customer_name-pp'] }}</h3>
+                      {% endif %}
+                      <div class="animation-flex">
+                        <span class="dot-animation pulse-light-green"></span
+                        ><span class="testimonial-date">{{ block.settings.testimonial_date }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  {% if block.settings.videoblock1 != blank %}
+                    {{
+                      block.settings.videoblock1
+                      | video_tag:
+                        image_size: '1100x',
+                        autoplay: false,
+                        loop: true,
+                        controls: true,
+                        playsinline: true,
+                        muted: false,
+                        id: 'background-video',
+                        class: 'lazy only-tablete block-image'
+                    }}
+                    <div
+                      class="play-button"
+                      aria-label="Play Video"
+                      role="button"
+                      tabindex="0"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="86"
+                        height="86"
+                        viewBox="0 0 86 86"
+                        fill="none"
+                      >
+                        <circle cx="43.2678" cy="42.6677" r="42.616" fill="white"></circle>
+                        <path d="M35.1037 28.5225V56.9331L57.4264 42.7278L35.1037 28.5225Z" fill="#432649"></path>
+                      </svg>
+                    </div>
+                  {% else %}
+                    {% if block.settings.image != blank %}
+                      <img src="{{ block.settings.image | img_url: 'master' }}" class="block-image">
+                    {% endif %}
+                  {% endif %}
+                  {% if block.settings.customer_name1 != blank %}
+                    <div class="testimonial-text">
+                      <div class="testmoina-top-barr">
+                        <div class="testmoina-top-bar">
+                          {% if block.settings.imageicon1 != blank %}
+                            <img src="{{ block.settings.imageicon1 | img_url: 'master' }}">
+                          {% endif %}
+
+                          {% if block.settings.customer_name1 != blank %}
+                            <h3>{{ block.settings.customer_name1 }}</h3>
+                          {% endif %}
+                        </div>
+                        <span class="testimonial-stars">
+                          {% for i in (1..5) %}
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="23"
+                              height="22"
+                              viewBox="0 0 23 22"
+                              fill="none"
+                            >
+                              <path d="M5.86437 19L7.32687 12.7145L2.42188 8.48684L8.90187 7.92763L11.4219 2L13.9419 7.92763L20.4219 8.48684L15.5169 12.7145L16.9794 19L11.4219 15.6671L5.86437 19Z" fill="#FFAF4C"></path>
+                            </svg>
+                          {% endfor -%}
+                        </span>
+                        <span class="testimonial-date">{{ block.settings.customer_namedate1 }}</span>
+                      </div>
+                      <p>{{ block.settings.testimonial_text1 }}</p>
+                      <div class="testimonial-meta">
+                        {% if block.settings['customer_name-pp'] != blank %}
+                          <h3>{{ block.settings['customer_name-pp'] }}</h3>
+                        {% endif %}
+                        <div class="animation-flex">
+                          <span class="dot-animation pulse-light-green"></span
+                          ><span class="testimonial-date">{{ block.settings.testimonial_date1 }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+
+              {% when 'tes_image_block' %}
+                <div class="img-bk full-width">
+                  <img src="{{ block.settings.image_bk1 | img_url: 'master' }}" class="block-image img1">
+                  <img src="{{ block.settings.image_bk2 | img_url: 'master' }}" class="block-image img2">
+                  <img src="{{ block.settings.image_bk3 | img_url: 'master' }}" class="block-image img3">
+                </div>
+
+              {% when 'video_block' %}
+                <div class="testimonial-video full-width">
+                  <div class="swiper-containersss">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide">
+                        <div class="video-container">
+                          {{-
+                            block.settings.video
+                            | video_tag:
+                              image_size: '1500x',
+                              playsinline: true,
+                              muted: false,
+                              loop: true,
+                              controls: true,
+                              preload: 'metadata',
+                              autoplay: false,
+                              class: 'my-video'
+                          -}}
+                          <img
+                            src="https://cdn.shopify.com/s/files/1/0648/1028/7333/files/iPhone_15_Pro_-_Black_Titanium_-_Portrait5.png?v=1727194412"
+                            class="iphone-frame-svg"
+                          >
+                          <div
+                            class="play-button"
+                            aria-label="Play Video"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="86"
+                              height="86"
+                              viewBox="0 0 86 86"
+                              fill="none"
+                            >
+                              <circle cx="43.2678" cy="42.6677" r="42.616" fill="white"></circle>
+                              <path d="M35.1037 28.5225V56.9331L57.4264 42.7278L35.1037 28.5225Z" fill="#432649"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="swiper-slide">
+                        <div class="video-container">
+                          {{-
+                            block.settings.video1
+                            | video_tag:
+                              image_size: '1500x',
+                              playsinline: true,
+                              muted: false,
+                              loop: true,
+                              controls: true,
+                              preload: 'metadata',
+                              autoplay: false,
+                              class: 'my-video'
+                          -}}
+                          <img
+                            src="https://cdn.shopify.com/s/files/1/0648/1028/7333/files/iPhone_15_Pro_-_Black_Titanium_-_Portrait5.png?v=1727194412"
+                            class="iphone-frame-svg"
+                          >
+                          <div
+                            class="play-button"
+                            aria-label="Play Video"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="86"
+                              height="86"
+                              viewBox="0 0 86 86"
+                              fill="none"
+                            >
+                              <circle cx="43.2678" cy="42.6677" r="42.616" fill="white"></circle>
+                              <path d="M35.1037 28.5225V56.9331L57.4264 42.7278L35.1037 28.5225Z" fill="#432649"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="swiper-slide">
+                        <div class="video-container">
+                          {{-
+                            block.settings.video2
+                            | video_tag:
+                              image_size: '1500x',
+                              playsinline: true,
+                              muted: false,
+                              loop: true,
+                              controls: true,
+                              preload: 'metadata',
+                              autoplay: false,
+                              class: 'my-video'
+                          -}}
+                          <img
+                            src="https://cdn.shopify.com/s/files/1/0648/1028/7333/files/iPhone_15_Pro_-_Black_Titanium_-_Portrait5.png?v=1727194412"
+                            class="iphone-frame-svg"
+                          >
+                          <div
+                            class="play-button"
+                            aria-label="Play Video"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="86"
+                              height="86"
+                              viewBox="0 0 86 86"
+                              fill="none"
+                            >
+                              <circle cx="43.2678" cy="42.6677" r="42.616" fill="white"></circle>
+                              <path d="M35.1037 28.5225V56.9331L57.4264 42.7278L35.1037 28.5225Z" fill="#432649"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="swiper-slide">
+                        <div class="video-container">
+                          {{-
+                            block.settings.video3
+                            | video_tag:
+                              image_size: '1500x',
+                              playsinline: true,
+                              muted: false,
+                              loop: true,
+                              controls: true,
+                              preload: 'metadata',
+                              autoplay: false,
+                              class: 'my-video'
+                          -}}
+                          <img
+                            src="https://cdn.shopify.com/s/files/1/0648/1028/7333/files/iPhone_15_Pro_-_Black_Titanium_-_Portrait5.png?v=1727194412"
+                            class="iphone-frame-svg"
+                          >
+                          <div
+                            class="play-button"
+                            aria-label="Play Video"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="86"
+                              height="86"
+                              viewBox="0 0 86 86"
+                              fill="none"
+                            >
+                              <circle cx="43.2678" cy="42.6677" r="42.616" fill="white"></circle>
+                              <path d="M35.1037 28.5225V56.9331L57.4264 42.7278L35.1037 28.5225Z" fill="#432649"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="swiper-slide">
+                        <div class="video-container">
+                          {{-
+                            block.settings.video4
+                            | video_tag:
+                              image_size: '1500x',
+                              playsinline: true,
+                              muted: false,
+                              loop: true,
+                              controls: true,
+                              preload: 'metadata',
+                              autoplay: false,
+                              class: 'my-video'
+                          -}}
+                          <img
+                            src="https://cdn.shopify.com/s/files/1/0648/1028/7333/files/iPhone_15_Pro_-_Black_Titanium_-_Portrait5.png?v=1727194412"
+                            class="iphone-frame-svg"
+                          >
+                          <div
+                            class="play-button"
+                            aria-label="Play Video"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="86"
+                              height="86"
+                              viewBox="0 0 86 86"
+                              fill="none"
+                            >
+                              <circle cx="43.2678" cy="42.6677" r="42.616" fill="white"></circle>
+                              <path d="M35.1037 28.5225V56.9331L57.4264 42.7278L35.1037 28.5225Z" fill="#432649"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="swiper-slide">
+                        <div class="video-container">
+                          {{-
+                            block.settings.video5
+                            | video_tag:
+                              image_size: '1500x',
+                              playsinline: true,
+                              muted: false,
+                              loop: true,
+                              controls: true,
+                              preload: 'metadata',
+                              autoplay: false,
+                              class: 'my-video'
+                          -}}
+                          <img
+                            src="https://cdn.shopify.com/s/files/1/0648/1028/7333/files/iPhone_15_Pro_-_Black_Titanium_-_Portrait5.png?v=1727194412"
+                            class="iphone-frame-svg"
+                          >
+                          <div
+                            class="play-button"
+                            aria-label="Play Video"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="86"
+                              height="86"
+                              viewBox="0 0 86 86"
+                              fill="none"
+                            >
+                              <circle cx="43.2678" cy="42.6677" r="42.616" fill="white"></circle>
+                              <path d="M35.1037 28.5225V56.9331L57.4264 42.7278L35.1037 28.5225Z" fill="#432649"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="swiper-slide">
+                        <div class="video-container">
+                          {{-
+                            block.settings.video6
+                            | video_tag:
+                              image_size: '1500x',
+                              playsinline: true,
+                              muted: false,
+                              loop: true,
+                              controls: true,
+                              preload: 'metadata',
+                              autoplay: false,
+                              class: 'my-video'
+                          -}}
+                          <img
+                            src="https://cdn.shopify.com/s/files/1/0648/1028/7333/files/iPhone_15_Pro_-_Black_Titanium_-_Portrait5.png?v=1727194412"
+                            class="iphone-frame-svg"
+                          >
+                          <div
+                            class="play-button"
+                            aria-label="Play Video"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="86"
+                              height="86"
+                              viewBox="0 0 86 86"
+                              fill="none"
+                            >
+                              <circle cx="43.2678" cy="42.6677" r="42.616" fill="white"></circle>
+                              <path d="M35.1037 28.5225V56.9331L57.4264 42.7278L35.1037 28.5225Z" fill="#432649"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="swiper-slide">
+                        <div class="video-container">
+                          {{-
+                            block.settings.video7
+                            | video_tag:
+                              image_size: '1500x',
+                              playsinline: true,
+                              muted: false,
+                              loop: true,
+                              controls: true,
+                              preload: 'metadata',
+                              autoplay: false,
+                              class: 'my-video'
+                          -}}
+                          <img
+                            src="https://cdn.shopify.com/s/files/1/0648/1028/7333/files/iPhone_15_Pro_-_Black_Titanium_-_Portrait5.png?v=1727194412"
+                            class="iphone-frame-svg"
+                          >
+                          <div
+                            class="play-button"
+                            aria-label="Play Video"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="86"
+                              height="86"
+                              viewBox="0 0 86 86"
+                              fill="none"
+                            >
+                              <circle cx="43.2678" cy="42.6677" r="42.616" fill="white"></circle>
+                              <path d="M35.1037 28.5225V56.9331L57.4264 42.7278L35.1037 28.5225Z" fill="#432649"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="swiper-slide">
+                        <div class="video-container">
+                          {{-
+                            block.settings.video8
+                            | video_tag:
+                              image_size: '1500x',
+                              playsinline: true,
+                              muted: false,
+                              loop: true,
+                              controls: true,
+                              preload: 'metadata',
+                              autoplay: false,
+                              class: 'my-video'
+                          -}}
+                          <img
+                            src="https://cdn.shopify.com/s/files/1/0648/1028/7333/files/iPhone_15_Pro_-_Black_Titanium_-_Portrait5.png?v=1727194412"
+                            class="iphone-frame-svg"
+                          >
+                          <div
+                            class="play-button"
+                            aria-label="Play Video"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="86"
+                              height="86"
+                              viewBox="0 0 86 86"
+                              fill="none"
+                            >
+                              <circle cx="43.2678" cy="42.6677" r="42.616" fill="white"></circle>
+                              <path d="M35.1037 28.5225V56.9331L57.4264 42.7278L35.1037 28.5225Z" fill="#432649"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="swiper-slide">
+                        <div class="video-container">
+                          {{-
+                            block.settings.video9
+                            | video_tag:
+                              image_size: '1500x',
+                              playsinline: true,
+                              muted: false,
+                              loop: true,
+                              controls: true,
+                              preload: 'metadata',
+                              autoplay: false,
+                              class: 'my-video'
+                          -}}
+                          <img
+                            src="https://cdn.shopify.com/s/files/1/0648/1028/7333/files/iPhone_15_Pro_-_Black_Titanium_-_Portrait5.png?v=1727194412"
+                            class="iphone-frame-svg"
+                          >
+                          <div
+                            class="play-button"
+                            aria-label="Play Video"
+                            role="button"
+                            tabindex="0"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="86"
+                              height="86"
+                              viewBox="0 0 86 86"
+                              fill="none"
+                            >
+                              <circle cx="43.2678" cy="42.6677" r="42.616" fill="white"></circle>
+                              <path d="M35.1037 28.5225V56.9331L57.4264 42.7278L35.1037 28.5225Z" fill="#432649"></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+
+                    <!-- Add these elements somewhere in your HTML where the slider is being rendered -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                  </div>
+                </div>
+            {% endcase %}
+            <style>
+              {% if block.settings.hide_video %}
+                  #innersection-{{ section.id }} .testimonial-text { background: #fff; }
+                  #block-{{ block.id }} .vid-cus-con, #block-{{ block.id }} .block-image { display: none !important; }
+              {% endif %}
+            </style>
+          {% endfor %}
+        </div>
+        {% if section.settings.button_text != blank %}
+          <div class="custom-tes-buton">
+            <a
+              href="{{ section.settings.button_url }}"
+              class="hdt-btn hdt-text-lg hdt-oh hdt-inline-flex hdt-align-center hdt-justify-center hdt-relative hdt-btn-solid hdt-font-normal read_all_rivews"
+            >
+              {{- section.settings.button_text -}}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  {%- endif -%}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const section = document.querySelector('#innersection-{{ section.id }}');
+
+      if (section) {
+        section.addEventListener('click', function (event) {
+          const playBtn = event.target.closest('.play-button');
+          if (!playBtn) return;
+
+          const currentCard = playBtn.closest('.testimonial-card');
+          const currentVideo = currentCard.querySelector('video');
+
+          // Pause all other videos and reset SVGs
+          section.querySelectorAll('.testimonial-card').forEach(card => {
+            const video = card.querySelector('video');
+            const svg = card.querySelector('.play-button svg');
+            if (video && video !== currentVideo) {
+              video.pause();
+              if (svg) svg.style.display = 'block';
+            }
+          });
+
+          // Play or pause current video
+          if (currentVideo) {
+            const svg = playBtn.querySelector('svg');
+            if (currentVideo.paused) {
+              currentVideo.play();
+              if (svg) svg.style.display = 'none';
+            } else {
+              currentVideo.pause();
+              if (svg) svg.style.display = 'block';
+            }
+          }
+        });
+      }
+    });
+  </script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Swiper
+        var swiper = new Swiper('.swiper-containersss', {
+          slidesPerView: 1,
+          spaceBetween: 30,
+          centeredSlides: true,
+          // autoplay: false,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+          breakpoints: {
+            640: {
+              slidesPerView: 1,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 10,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+            1027: {
+              slidesPerView: 3,
+              spaceBetween:20,
+            },
+            1591: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+            1600: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+          },
+          // on: {
+          //   init: function () {
+          //     // Automatically play the first video when the Swiper is initialized
+          //     playActiveVideo(this.activeIndex);
+          //   },
+          //   slideChange: function () {
+          //     // Play the video in the current active slide and pause others
+          //     playActiveVideo(this.activeIndex);
+          //   },
+          // },
+        });
+
+        // Function to play the active video and pause others
+    // function playActiveVideo(activeIndex) {
+    //     // Get all slides
+    //     var slides = document.querySelectorAll('.swiper-containersss .swiper-slide');
+
+    //     // Loop through slides
+    //     slides.forEach(function (slide, index) {
+    //         var video = slide.querySelector('.my-video');
+    //         var svg = slide.querySelector('.play-button svg');
+
+    //         if (video) {
+    //             if (index === activeIndex) {
+    //                 // Ensure the video is muted to allow autoplay
+    //                 video.muted = true;
+    //                 video.play().catch(function (error) {
+    //                     console.warn('Autoplay blocked, user interaction required', error);
+    //                 });
+
+    //                 if (svg) {
+    //                     svg.style.display = 'none';
+    //                 }
+    //             } else {
+    //                 video.pause();
+    //                 if (svg) {
+    //                     svg.style.display = 'block';
+    //                 }
+    //             }
+    //         }
+    //     });
+    // }
+
+
+        // Play button click handler to toggle video playback
+        document.querySelectorAll('#shopify-section-{{ section.id }} .play-button').forEach(function (button) {
+          button.addEventListener('click', function () {
+            var video = this.closest('.video-container').querySelector('.my-video');
+            var svg = this.querySelector('svg'); // Get the SVG element inside the play button
+
+            if (video.paused) {
+              video.play();
+              svg.style.display = 'none';
+            } else {
+              video.pause();
+              svg.style.display = 'block';
+            }
+          });
+        });
+      });
+  </script>
+  <style>
+     #shopify-section-{{ section.id }} .sec-top-img {
+        width: 100%;
+        margin-bottom: -2px;
+      }
+    {%- if section.settings.section_topimg != blank -%}
+         #shopify-section-{{ section.id }} .secbgcolor {
+            background: {{ section.settings.sec_background_color }};
+        }
+      {% else %}
+        #shopify-section-{{ section.id }} {
+            background: {{ section.settings.sec_background_color }};
+        }
+      {% endif %}
+          img.sec-bottom-img {
+            width: 100%;
+        }
+            .section.section--tight.section-blends.section-full {
+              display: inline-block;
+              width: 100%;
+              overflow: hidden;
+          }
+           .background-custom {
+              height: 540px;
+              background: #000000;
+              position: absolute;
+              width: 100%;
+              top: 0;
+              left: 0;
+              right: 0;
+            }
+
+           #shopify-section-{{ section.id }}  .play-button {
+                 position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              z-index: 9;
+              bottom: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+          }
+           #shopify-section-{{ section.id }} .swiper-wrapper {
+              position: relative;
+              width: 100%;
+              height: 100%;
+              z-index: 1;
+              display: flex;
+              transition-property: transform;
+              transition-timing-function: var(--swiper-wrapper-transition-timing-function, initial);
+              box-sizing: content-box;
+          }
+          #shopify-section-{{ section.id }}  .slider-title, .heading-slider {
+              z-index: 1;
+              text-align: center;
+              font-size: 42px;
+              font-style: normal;
+              font-weight: 700;
+                color: {{section.settings.text_color}};
+          }
+           #shopify-section-{{ section.id }}  .slider-subtitle {
+               z-index: 1;
+              font-size: 28px;
+              font-style: normal;
+              font-weight: 500;
+          }
+           #shopify-section-{{ section.id }} .swiper-containersss {
+                width: 100%;
+              margin: 0 auto;
+              padding-top: 20px;
+              overflow: hidden;
+              display: inline-block;
+
+              position: relative;
+              /* padding-bottom: 60px; */
+          }
+            #shopify-section-{{ section.id }} video.my-video {
+              object-fit: cover;
+              max-width: 100%;
+              margin: auto auto;
+              border-radius: 10px;
+          }
+             #shopify-section-{{ section.id }}  .swiper-slide-active video {
+              object-fit: cover;
+              max-width: 100%;
+              display: inline-block;
+              border-radius: 10px;
+          }
+          /* #shopify-section-{{ section.id }}  .swiper-slide-active .video-container {
+            transform: scale(1.1);
+        } */
+             #shopify-section-{{ section.id }}  .swiper-slide-active .iphone-frame-svg {
+              display:flex !important;
+          }
+           #shopify-section-{{ section.id }} .video-container {
+            position: relative;
+             overflow: hidden;
+             width: 100%;
+        }
+              #shopify-section-{{ section.id }} .swiper-slide .iphone-frame-svg {
+                display:none !important;
+          }
+          #shopify-section-{{ section.id }} .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          #shopify-section-{{ section.id }} .swiper-pagination-bullets {
+            bottom: 0px !important;
+            display:none !important;
+          }
+
+          #shopify-section-{{ section.id }} .iphone-frame-svg {
+            position: absolute;
+            z-index: 9;
+            top: 0;
+            width: 100%;
+            max-width: 100%;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+          }
+            /* #shopify-section-{{ section.id }} .iphone-frame-svg img {
+            width: 260px;
+          } */
+
+          #shopify-section-{{ section.id }} .video-slideor-custom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+          }
+
+            .swiper-button-prev {
+              background: #fff;
+              color: #E83573;
+              padding: 11px;
+              border-radius: 100%;
+              /* font-size: 10px !important; */
+              height: 40px;
+              width: 40px;
+          }
+
+        .swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
+            content: 'prev';
+            font-weight: bolder;
+            font-size: 20px;
+            margin: 0;
+            padding: 0;
+            margin-right: 5px;
+            color: #E83573;
+        }
+        .swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {
+            content: 'next';
+            font-weight: bolder;
+            font-size: 20px;
+            margin: 0;
+            padding: 0;
+            margin-left: 3px;
+             color: #E83573;
+        }
+
+          .swiper-button-next {
+              background: #fff;
+              color: #E83573;
+              padding: 11px;
+              border-radius: 100%;
+              /* font-size: 10px !important; */
+              height: 40px;
+              width: 40px;
+          }
+
+          @media (max-width: 768px){
+           /* #shopify-section-{{ section.id }} video.my-video {
+              height: 640px !important;
+           } */
+            #shopify-section-{{ section.id }} .swiper-pagination-bullets {
+              display:block !important;
+                  bottom: 10px !important;
+            }
+          }
+          @media (max-width: 500px){
+           /* #shopify-section-{{ section.id }} video.my-video {
+              height: 540px !important;
+           } */
+          }
+          @media (min-width: 300px) and (max-width: 768px){
+              #shopify-section-{{ section.id }}  .slider-title, .heading-slider {
+              font-size: 30px;
+             }
+             #shopify-section-{{ section.id }}  .slider-subtitle {
+              font-size: 18px;
+             }
+            /* #shopify-section-{{ section.id }} .swiper-slide-active video {
+              height: 457px !important;
+              object-fit: cover;
+              max-width: 200px !important;
+              width: 100% !important;
+             } */
+          }
+          #shopify-section-{{ section.id }} img.bottomimage {
+            width: 100%;
+        }
+
+          .iphone-frame-svg{
+            display:none !important;
+          }
+
+          .shopify-section--specification-table .container {
+             background:{{ section.settings.sec_background }};
+             background:{{ section.settings.sec_background1 }};
+             padding-top: {{ section.settings.sec_padding-top }};
+             padding-bottom: {{ section.settings.sec_padding-bottom }};
+          }
+
+        @media (max-width:768px){
+         #shopify-section-{{ section.id }} .swiper-button-next,
+         #shopify-section-{{ section.id }} .swiper-button-prev {
+            display: block !important;
+            width: 40px !important;
+            height: 40px !important;
+            padding: 10px 14px !important;
+         }
+         #shopify-section-{{ section.id }} .swiper-button-next:after,
+         #shopify-section-{{ section.id }} .swiper-button-prev:after {
+           font-size: 16px !important;
+         }
+        }
+  </style>
+  <style>
+            div#shopify-block-AdUkyTXU4SEJ3UFpzd__okendo_reviews_widget_k8nWB8 {
+            display: none;
+        }
+            .testimonial-card.newclass {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr;
+                  gap: 2.5rem;
+        }
+             #innersection-{{ section.id }} .testimonial-card.newclass .block-image {
+                  height: 600px;
+               object-fit: cover;
+                      }
+            .testimonial-card.newclass .block-image {
+            grid-row: span 2;
+        }
+            {% if section.settings.sec_bg_img != blank %}
+            #innersection-{{ section.id }}{
+              background: url({{section.settings.sec_bg_img | img_url: 'master'}});
+              background-repeat: no-repeat;
+              background-size: cover;
+            }
+            {% endif %}
+
+
+                /* Main Styling */
+               #innersection-{{ section.id }} video#background-video {
+                  width: 100%;
+                  border-radius: 25px;
+              }
+              #innersection-{{ section.id }} .vid-cus-con {
+                  position: relative;
+              }
+              #innersection-{{ section.id }} section.testimonials-section.hdt-container {
+                padding: 20px 0 100px 0 !important;
+              }
+              #innersection-{{ section.id }} .play-button {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+              }
+              #innersection-{{ section.id }} span.testimonial-date {
+                  color: #000;
+                  font-size: 11.188px;
+                  font-style: normal;
+                  font-weight: 300;
+                  line-height: 160%;
+              }
+
+    #innersection-{{ section.id }} .testmoina-top-bar img {
+        width: 45px;
+        border-radius: 50%;
+    }
+
+               #innersection-{{ section.id }} .testimonial-card.full-width {
+                  border-radius: 25px;
+                  /* background: #F7F7F7; */
+                  /* margin-bottom: 25px; */
+                     display: inline-block;
+                 background:transparent;
+              }
+              #innersection-{{ section.id }} .block-image {
+                  border-radius: 25px 25px 0 0;
+                  width: 100%;
+                  height: 100%;
+                      }
+
+              #innersection-{{ section.id }} section.testimonials-section.hdt-container {
+                  max-width: 1200px;
+                  margin: 0 auto;
+              }
+
+              #innersection-{{ section.id }} .testmoina-top-bar {
+                  display: flex;
+                  height: 34px;
+                  justify-content: flex-start;
+                  align-items: center;
+                  flex-shrink: 0;
+                  align-self: stretch;
+                    gap: 10px;
+              }
+
+              #innersection-{{ section.id }} .content-custom {
+                  margin:50px auto 30px;
+                display: inline-block;
+                width: 100%;
+                position:relative;
+              }
+
+              #innersection-{{ section.id }} .testimonials-section {
+                  padding: 0 20px;
+                  background-size: cover;
+                  background-position: center;
+                  text-align: left;
+              }
+
+              #innersection-{{ section.id }} .testimonial-title {
+                  margin: 0 auto;
+                  max-width: 100%;
+                   /* text-shadow: 0px 0px 0 #000, 1px 2px 0 #000, 1px 3px 0 #000, 1px -2px 0 #000, 4px 4px 5px rgba(0, 0, 0, 0.2); */
+                  color: #000;
+                  text-align: center;
+                  font-size: 60px;
+                  font-style: normal;
+                  font-weight: 700;
+                  line-height: 86px; /* 143.333% */
+                  font-family: 'HarmoniaSansW01';
+              }
+
+              #innersection-{{ section.id }} .testimonial-subtitle {
+                  margin: 0px;
+                  color: #FBF5E7;
+                  text-align: center;
+                  font-size: 22px;
+                  font-style: normal;
+                  font-weight: 600;
+                  line-height: 30px;
+                  letter-spacing: 2px;
+                    text-transform: uppercase;
+                      margin-bottom: 15px;
+              }
+
+              #innersection-{{ section.id }} .half-width {
+                  height: 100%;
+                  margin: 10px auto;
+                  display: inline-block;
+                  border-radius: 0 0 10px 10px;
+              }
+              #innersection-{{ section.id }} .half-width .testimonial-text {
+                 height: 100%;
+              }
+
+              #innersection-{{ section.id }} .testimonial-text {
+                  padding: 30px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 10px;
+                    /* border: 1px solid #000; */
+            border-radius: 0 0 25px 25px;
+              }
+
+              #innersection-{{ section.id }} .testmoina-top-barr {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 11px;
+              }
+
+              #innersection-{{ section.id }} .testimonial-cards {
+                  padding: 20px;
+                  border-radius: 13px;
+                  width: 100%;
+                  columns: 3;
+                  gap: 2.5rem;
+              }
+
+              #innersection-{{ section.id }} .testimonial-text h3 {
+                  font-size: 17px;
+                  font-weight: 600;
+                  color: #7d3bb0;
+                  margin:0px;
+              }
+
+              #innersection-{{ section.id }} .testimonial-text p {
+                  color: #333;
+                  font-size: 17px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: 160%;
+                    margin: 0;
+              }
+
+              #innersection-{{ section.id }} .testimonial-meta {
+                  display: flex;
+                  justify-content: flex-end;
+                  align-items: center;
+                  color: black;
+              }
+
+              #innersection-{{ section.id }} .testimonial-stars {
+                  display: flex;
+                    margin-top: 10px;
+              }
+
+              #innersection-{{ section.id }} .testimonial-videos {
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                  gap: 20px;
+                  margin-bottom: 40px;
+              }
+
+              #innersection-{{ section.id }} .testimonial-video iframe {
+                  width: 100%;
+                  height: 200px;
+                  border-radius: 10px;
+              }
+
+              #innersection-{{ section.id }} .load-more-button {
+                  color: #fff;
+                  cursor: pointer;
+                  display: flex;
+                  width: 219px;
+                  height: 55px;
+                  font-size: 16px;
+                  padding: 0 60px;
+                  justify-content: center;
+                  align-items: center;
+                  gap: 5px;
+                  border-radius: 8px;
+                  border: 1px solid #4C08F9;
+                  background: linear-gradient(to right, #5e005e, #d80088);
+                  /* box-shadow: 0 4px 0 #3900B4, 0 10px 20px rgba(81, 81, 81, 0.4); */
+              }
+
+              #innersection-{{ section.id }} .load-more-button:hover {
+                  background-color: #5548c9;
+              }
+
+              #innersection-{{ section.id }} .custom-tes-buton {
+                  /* display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  margin: 66px auto; */
+                display: inline-block;
+                width: 100%;
+                margin: 20px auto;
+                text-align: center;
+              }
+
+              /* #innersection-{{ section.id }} .testimonial-title span,
+              #innersection-{{ section.id }} .testimonial-title strong {
+                  color: #B19449;
+              } */
+
+            #innersection-{{ section.id }} .swiper-wrapper {
+              align-items: center;
+            }
+
+              #innersection-{{ section.id }} .testimonials-section a.hdt-btn {
+                  border-radius: 50px;
+                  background: #472353;
+                  display: flex;
+                  width: 350px;
+                  height: 55px;
+                  justify-content: center;
+                  align-items: center;
+                  gap: 3.548px;
+                  flex-shrink: 0;
+                  color: #fff;
+                  text-decoration: none !important;
+                  text-align: center;
+                  font-size: 18px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: normal;
+                  margin: 0 auto;
+                .testimonials-section a.hdt-btn {
+
+
+            }
+              }
+
+              #innersection-{{ section.id }} .testimonial-card.half-width .play-button {
+                  top: 0%;
+                  align-items: center;
+                  justify-content: center;
+                  display: flex;
+              }
+
+              #innersection-{{ section.id }} .testimonial-card.half-width {
+                  position: relative;
+              }
+
+              /* Responsive Styling */
+              @media screen and (max-width: 768px) {
+               .template-custom-products-2 .testimonial-card.newclass {
+                  grid-template-columns: 1fr;
+                }
+                /* #innersection-{{ section.id }} .half-width .testimonial-text {
+                 height: max-content;
+              } */
+                #innersection-{{ section.id }} .half-width {
+                    height: auto !important;
+                }
+
+                #innersection-{{ section.id }} .content-custom {
+                  margin:0px auto 30px;
+                }
+                 /* #innersection-{{ section.id }} .testimonial-text p {
+                      margin: 0 0 10px 0px;
+              } */
+                  #innersection-{{ section.id }} .testimonial-cards {
+                    padding: 20px 20px !important;
+                  }
+                  #innersection-{{ section.id }} section.testimonials-section.hdt-container {
+                    padding: 0px 0 !important;
+                     padding-bottom: 13px !important;
+                  }
+                  #innersection-{{ section.id }} .testimonial-title {
+                      font-size: 40px;
+                        letter-spacing: -2px;
+                    line-height: 50px;
+                  }
+
+                  #innersection-{{ section.id }} .testimonial-subtitle {
+                      font-size: 18px;
+                  }
+
+                  #innersection-{{ section.id }} .half-width {
+                      width: 100%;
+                  }
+
+                  #innersection-{{ section.id }} .testimonial-cards {
+                      columns: 1 !important;
+                  }
+
+                  #innersection-{{ section.id }} .testimonial-card.full-width {
+                      display: flex;
+                      flex-direction: column !important;
+                     margin-bottom: 0 !important;
+                  }
+                 .testimonial-card.newclass {
+                   column-gap: 2.5rem !important;
+                   row-gap: 1.5rem;
+                 }
+
+                  #innersection-{{ section.id }} .testimonial-text {
+                      padding: 20px 15px !important;
+                        gap: 2px;
+                    border-radius: 15px !important;
+                  }
+
+                  #innersection-{{ section.id }} .custom-tes-buton {
+                      margin:0;
+                      padding-bottom:0px;
+                  }
+                  #innersection-{{ section.id }} .testimonials-section a.hdt-btn {
+                    width: 250px !important;
+                    font-size: 16px !important;
+                    height: 50px !important;
+                  }
+                  #innersection-{{ section.id }} .content-custom {
+                     margin-bottom: 0 !important;
+                  }
+                  #innersection-{{ section.id }} {
+                     padding-bottom: 20px !important;
+                  }
+
+              }
+            {% if section.settings.for_3blocks %}
+              #innersection-{{ section.id }} .half-width {
+                  display: inline;
+              }
+            {% endif %}
+
+            {% if section.settings.text_block_bg %}
+            #innersection-{{ section.id }} .block-image {
+                  border-radius: 25px 25px 0 0 !important;
+              }
+            #innersection-{{ section.id }} .testimonial-card.half-width {
+                background: #fff;
+                border-radius: 25px;
+            }
+            {% endif %}
+  </style>
+</div>
+
+<style>
+            .two-column {
+                display: grid;
+                grid-template-columns: 1fr 1fr !important;
+            }
+            .three-video-block {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr !important;
+                gap: 2.5rem;
+            }
+            .full-width {
+                grid-column: span 2;
+            }
+            .half-width {
+                grid-column: span 1;
+            }
+
+            #innersection-{{ section.id }} .three-video-block video#background-video {
+                width: 100%;
+                border-radius: 25px;
+            }
+            #innersection-{{ section.id }} .testimonial-text{
+              border-radius: 25px;
+              background: #fff;
+            }
+            #innersection-{{ section.id }} .block-image.img1, #innersection-{{ section.id }} .block-image.img3 {
+                width: 450px !important;
+                height: 100% !important;
+              border-radius: 0 !important;
+              object-fit: contain;
+            }
+            #innersection-{{ section.id }} .block-image.img2 {
+                position: absolute;
+                top: 35px;
+                bottom: 0;
+                left: 33%;
+                right: 0;
+                width: 390px !important;
+                height: 100% !important;
+                border-radius: 0 !important;
+                object-fit: contain;
+            }
+            #innersection-{{ section.id }} .img-bk.full-width {
+                display: flex;
+                align-items: center;
+                width: 100%;
+              position: relative;
+              justify-content: space-between;
+                  margin-top: 12px;
+              background:transparent;
+            }
+            #innersection-{{ section.id }} .newclass {
+            position: relative;
+        }
+            #innersection-{{ section.id }} .newclass .play-button {
+            left: 50%;
+        }
+            @media (max-width: 999px){
+              #innersection-{{ section.id }} .block-image.img1, #innersection-{{ section.id }} .block-image.img3 {
+                width: 40% !important;
+                height: 100% !important;
+                border-radius: 0 !important;
+              }
+              #innersection-{{ section.id }} .block-image.img2 {
+                position: absolute;
+                top: 10px;
+                bottom: 0;
+                left: 31%;
+                right: 0;
+                width: 40% !important;
+                height: auto !important;
+                border-radius: 0 !important;
+              }
+              /* #innersection-{{ section.id }} .half-width:not(.three-video-block .half-width) {
+                grid-column: span 2 !important;
+              } */
+              #innersection-{{ section.id }} .three-video-block, #innersection-{{ section.id }} .testimonial-cards {
+                gap: 17px !important;
+              }
+            }
+
+    /* @media (max-width: 999px) {
+      #innersection .block-image.img2 {
+
+          position: absolute;
+          top: 10px;
+          bottom: 0;
+          left: 31%;
+          right: 0;
+          width: 40% !important;
+          height: auto !important;
+          border-radius: 0 !important;
+      }
+
+      } */
+
+          @media (max-width: 768px){
+            #innersection-{{ section.id }} .img-bk.full-width {
+                  margin-bottom: 0px;
+                  margin-top: 0px;
+            }
+              #innersection-{{ section.id }} .testimonial-text p {
+              font-size: 12px;
+            }
+             #innersection-{{ section.id }}  .testmoina-top-bar img {
+                      width: 20px;
+            }
+            #innersection-{{ section.id }} .testmoina-top-barr {
+              gap: 0px !important;
+            }
+             #innersection-{{ section.id }} .testmoina-top-bar {
+                  height: 20px;
+                  gap: 5px;
+            }
+            #innersection-{{ section.id }} .testimonial-text h3 {
+               font-size: 10px;
+            }
+            #innersection-{{ section.id }} .testimonial-stars svg {
+                  width: 15px;
+             }
+            #innersection-{{ section.id }} .testimonial-card.newclass .block-image {
+              height: 275px;
+              object-fit: cover;
+            }
+           #innersection-{{ section.id }} .newclass .testimonial-text:last-child {
+               grid-column: span 1;
+           }
+            #innersection-{{ section.id }} .testimonial-stars {
+               margin-top: 4px;
+            }
+              /* .testimonial-card.newclass {
+                grid-template-columns: 1fr;
+            } */
+      }
+  #shopify-section-{{ section.id }}  .play-button {
+             display:none !important;
+  }
+  .testimonial-video.full-width {
+
+      background: transparent;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const video = document.querySelector('#block-testimonial_block_NeXe7X #background-video');
+
+    if (video) {
+      const observer = new IntersectionObserver(
+        function (entries, observer) {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              video.muted = true;
+              video.play().catch(err => console.warn('❌ Autoplay failed:', err));
+              observer.unobserve(entry.target); // remove observer after first play
+            }
+          });
+        },
+        {
+          root: null,
+          threshold: 0.4 // play when 40% visible
+        }
+      );
+
+      observer.observe(video);
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Testimonials 3",
+  "class": "section-testimonial",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "section_topimg",
+      "label": "Section Background Top-image"
+    },
+    {
+      "type": "image_picker",
+      "id": "sec_bg_img",
+      "label": "Section Background Image"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_text",
+      "label": "Heading Text",
+      "default": "View More Of Our Heartfelt Testimonials"
+    },
+    {
+      "type": "text",
+      "id": "subheading_text",
+      "label": "Subheading Text",
+      "default": "The #1 Solution ⭐️⭐️⭐️⭐️⭐️ See Why Our Customers"
+    },
+
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Load More"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button Url"
+    },
+    {
+      "type": "color_background",
+      "id": "sec_background_color",
+      "label": "Section Bg Color"
+    },
+    {
+      "type": "checkbox",
+      "id": "pp-design",
+      "label": "Product Page Design",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "for_3blocks",
+      "label": "For 3 blocks setting",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "text_block_bg",
+      "label": "Text block Background",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "3 Video Block"
+    },
+    {
+      "type": "video",
+      "id": "videobk1",
+      "label": "video1 block"
+    },
+    {
+      "type": "video",
+      "id": "videobk2",
+      "label": "video2 block"
+    },
+    {
+      "type": "video",
+      "id": "videobk3",
+      "label": "video3 block"
+    },
+  ],
+  "blocks": [
+    {
+      "type": "testimonial_block",
+      "name": "Testimonial",
+      "settings": [
+
+      {
+        "type": "text",
+        "id": "customclass",
+        "label": "custom class",
+        "info": "Add (newclass) class to set the video"
+      },
+      {
+        "type": "video",
+        "id": "videoblock1",
+        "label": "video1 block"
+      },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "testimonial_width",
+          "label": "Testimonial Width",
+          "options": [
+            {
+              "value": "33",
+              "label": "33% Width (Three Columns)"
+            },
+            {
+              "value": "50",
+              "label": "50% Width (Two Columns)"
+            },
+            {
+              "value": "100",
+              "label": "100% Width (One Column)"
+            }
+          ],
+          "default": "50"
+         },
+        {
+          "type": "image_picker",
+          "id": "imageicon",
+          "label": "Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_video",
+          "label": "Hide video & image",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "customer_name",
+          "label": "Customer Name",
+          "default": "Shannon P."
+        },
+         {
+          "type": "text",
+          "id": "customer_namedate",
+          "label": "Customer Date",
+          "default": "Date."
+        },
+        {
+          "type": "textarea",
+          "id": "testimonial_text",
+          "label": "Testimonial Text",
+          "default": "I am SO impressed with your product..."
+        },
+        {
+          "type": "text",
+          "id": "customer_name-pp",
+          "label": "Customer Name PP",
+        },
+        {
+          "type": "text",
+          "id": "testimonial_date",
+          "label": "Testimonial Date",
+          "default": "Sep 25, 2023"
+        },
+        {
+          "type": "text",
+          "id": "customer_name1",
+          "label": "Customer Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "imageicon1",
+          "label": "Image"
+        },
+         {
+          "type": "text",
+          "id": "customer_namedate1",
+          "label": "Customer Date",
+          "default": "Date."
+        },
+        {
+          "type": "textarea",
+          "id": "testimonial_text1",
+          "label": "Testimonial Text",
+          "default": "I am SO impressed with your product..."
+        },
+        {
+          "type": "text",
+          "id": "customer_name-pp1",
+          "label": "Customer Name PP",
+        },
+        {
+          "type": "text",
+          "id": "testimonial_date1",
+          "label": "Testimonial Date",
+          "default": "Sep 25, 2023"
+        }
+      ]
+    },
+    {
+      "type": "tes_image_block",
+      "name": "Image Block",
+      "settings": [
+            {
+              "type": "image_picker",
+              "id": "image_bk1",
+              "label": "Image 1"
+            },
+            {
+              "type": "image_picker",
+              "id": "image_bk2",
+              "label": "Image 2"
+            },
+            {
+              "type": "image_picker",
+              "id": "image_bk3",
+              "label": "Image 3"
+            },
+        ]
+    },
+    {
+      "type": "video_block",
+      "name": "Video Testimonial",
+      "settings": [
+          {
+            "type": "video",
+            "id": "video",
+            "label": "Video from Shopify"
+      },
+      {
+            "type": "video",
+            "id": "video1",
+            "label": "Video from Shopify"
+      },
+      {
+            "type": "video",
+            "id": "video2",
+            "label": "Video from Shopify"
+      },
+      {
+            "type": "video",
+            "id": "video3",
+            "label": "Video from Shopify"
+      },
+      {
+            "type": "video",
+            "id": "video4",
+            "label": "Video from Shopify"
+      },
+      {
+            "type": "video",
+            "id": "video5",
+            "label": "Video from Shopify"
+      },
+      {
+            "type": "video",
+            "id": "video6",
+            "label": "Video from Shopify"
+      },
+      {
+            "type": "video",
+            "id": "video7",
+            "label": "Video from Shopify"
+      },
+      {
+            "type": "video",
+            "id": "video8",
+            "label": "Video from Shopify"
+      },
+      {
+            "type": "video",
+            "id": "video9",
+            "label": "Video from Shopify"
+      },
+         {
+        "type": "header",
+        "content": "Save to display section correctly."
+      },
+      {
+        "type": "header",
+        "content": "Slider Settings"
+      },
+      {
+        "type": "range",
+        "id": "slider_view",
+        "min": 2,
+        "max": 6,
+        "step": 1,
+        "label": "Slides Per View",
+        "default": 5
+      },
+      {
+        "type": "range",
+        "id": "slider_view_mobile",
+        "min": 1,
+        "max": 3,
+        "step": 0.1,
+        "label": "Slides Per View - Mobile",
+        "default": 1.5
+      },
+      {
+        "type": "range",
+        "id": "slider_gap",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Slider Gap",
+        "default": 10
+      },
+      {
+        "type": "range",
+        "id": "slider_gap_mobile",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Slider Gap - Mobile",
+        "default": 10
+      },
+      {
+        "type": "range",
+        "id": "slider_rotate",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "deg",
+        "label": "Slides Rotate",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Slide Settings"
+      },
+      {
+        "type": "range",
+        "id": "card_padding_vertical",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Slide Padding Vertical",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "card_padding_vertical_mobile",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Slide Padding Vertical - Mobile",
+        "default": 20
+      },
+      {
+         "type": "range",
+         "id": "card_padding_horizontal",
+         "min": 0,
+         "max": 100,
+         "step": 2,
+         "unit": "px",
+         "label": "Slide Padding Horizontal",
+         "default": 20
+      },
+      {
+         "type": "range",
+         "id": "card_padding_horizontal_mobile",
+         "min": 0,
+         "max": 100,
+         "step": 2,
+         "unit": "px",
+         "label": "Slide Padding Horizontal - Mobile",
+         "default": 20
+      },
+      {
+         "type": "range",
+         "id": "card_radius",
+         "min": 0,
+         "max": 40,
+         "step": 2,
+         "unit": "px",
+         "label": "Slide Border Radius",
+         "default": 16
+      },
+      {
+         "type": "range",
+         "id": "card_border_thickness",
+         "min": 0,
+         "max": 10,
+         "step": 1,
+         "unit": "px",
+         "label": "Slide Border Thickness",
+         "default": 0
+      },
+      {
+         "type": "checkbox",
+         "id": "card_shadow",
+         "label": "Slide Shadow",
+         "default": false
+      },
+      {
+        "type": "select",
+        "id": "card_ratio",
+        "label": "Media Aspect Ratio",
+        "default": "portrait",
+        "options": [
+          {
+            "label": "Portrait",
+            "value": "portrait"
+          },
+          {
+            "label": "Square",
+            "value": "square"
+          },
+          {
+            "label": "Landscape",
+            "value": "landscape"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "card_ratio_mobile",
+        "label": "Media Aspect Ratio - Mobile",
+        "default": "portrait",
+        "options": [
+          {
+            "label": "Portrait",
+            "value": "portrait"
+          },
+          {
+            "label": "Square",
+            "value": "square"
+          },
+          {
+            "label": "Landscape",
+            "value": "landscape"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "card_overlay",
+        "min": 0,
+        "max": 1,
+        "step": 0.1,
+        "label": "Slide Overlay",
+        "default": 0.2
+      },
+
+      {
+        "type": "header",
+        "content": "Slide Heading Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "title_custom",
+        "label": "Use Custom Font",
+        "default": false
+      },
+      {
+        "type": "font_picker",
+        "id": "title_font",
+        "label": "Slide Heading Font Family",
+        "default": "josefin_sans_n4"
+      },
+      {
+        "type": "range",
+        "id": "title_size",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Slide Heading Size",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "title_size_mobile",
+        "min": 0,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "label": "Slide Heading Size - Mobile",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "title_height",
+        "min": 50,
+        "max": 200,
+        "step": 10,
+        "unit": "%",
+        "label": "Slide Heading Line Height",
+        "default": 100
+      },
+      {
+        "type": "header",
+        "content": "Slide Stars Settings"
+      },
+      {
+        "type": "image_picker",
+        "label": "Stars Icon",
+        "id": "stars_icon",
+        "info": "Replaces the default stars icon"
+      },
+      {
+        "type": "range",
+        "id": "stars_size",
+        "min": 10,
+        "max": 100,
+        "step": 2,
+        "label": "Stars Size",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "stars_size_mobile",
+        "min": 10,
+        "max": 100,
+        "step": 2,
+        "label": "Stars Size - Mobile",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "stars_mt",
+        "min": 10,
+        "max": 100,
+        "step": 2,
+        "label": "Stars Margin Top",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "stars_mt_mobile",
+        "min": 10,
+        "max": 100,
+        "step": 2,
+        "label": "Stars Margin Top - Mobile",
+        "default": 16
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_stars",
+        "label": "Hide Stars"
+      },
+      {
+        "type": "header",
+        "content": "Play Button Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_action",
+        "label": "Use Play Button",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "action_size",
+        "min": 10,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Play Button Size",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "action_size_mobile",
+        "min": 10,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Play Button - Mobile",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "action_icon_size",
+        "min": 10,
+        "max": 50,
+        "step": 2,
+        "unit": "px",
+        "label": "Play Button Size",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "action_icon_size_mobile",
+        "min": 10,
+        "max": 50,
+        "step": 2,
+        "unit": "px",
+        "label": "Play Button Icon Size - Mobile",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "action_border_thickness",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "label": "Play Button Border Thickness",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Mute/Unmute Button Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_sound",
+        "label": "Use Mute/Unmute Button",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "sound_size",
+        "min": 10,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Mute/Unmute Button Size",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "sound_size_mobile",
+        "min": 10,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Mute/Unmute Button Size - Mobile",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "sound_icon_size",
+        "min": 10,
+        "max": 50,
+        "step": 2,
+        "unit": "px",
+        "label": "Mute/Unmute Button Icon Size",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "sound_icon_size_mobile",
+        "min": 10,
+        "max": 50,
+        "step": 2,
+        "unit": "px",
+        "label": "Mute/Unmute Button Icon Size - Mobile",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "sound_border_thickness",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "label": "Mute/Unmute Button Border Thickness",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Arrow Settings"
+      },
+      {
+        "type": "range",
+        "id": "arrow_size",
+        "min": 10,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Arrow Size",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "arrow_size_mobile",
+        "min": 10,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Arrow Size - Mobile",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "arrow_icon_size",
+        "min": 5,
+        "max": 15,
+        "step": 1,
+        "unit": "px",
+        "label": "Arrow Icon Size",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "arrow_icon_size_mobile",
+        "min": 5,
+        "max": 15,
+        "step": 1,
+        "unit": "px",
+        "label": "Arrow Icon Size - Mobile",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "arrow_border_thickness",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "label": "Arrow Border Thickness",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "arrow_radius",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Arrow Roundness",
+        "default": 100
+      },
+      {
+        "type": "select",
+        "id": "arrow_hover_effect",
+        "label": "Arrow Hover Effect",
+        "default": "color",
+        "options": [
+          {
+            "label": "Change Color",
+            "value": "color"
+          },
+          {
+            "label": "Change Size",
+            "value": "scale"
+          },
+          {
+            "label": "Change Arrow",
+            "value": "arrow"
+          },
+          {
+            "label": "None",
+            "value": "none"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "arrow_show_desktop",
+        "label": "Show on Desktop",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "arrow_show_mobile",
+        "label": "Show on Mobile",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Slide Colors"
+      },
+      {
+        "type": "color",
+        "label": "Slide Border Color",
+        "id": "card_border_color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "label": "Slide Shadow Color",
+        "id": "card_shadow_color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "label": "Slide Overlay Color",
+        "id": "card_overlay_color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "label": "Slide Title Color",
+        "id": "title_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Slide Stars Color",
+        "id": "stars_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Play Button Colors"
+      },
+      {
+        "type": "color",
+        "label": "Play Button Color",
+        "id": "action_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Play Button Hover Color",
+        "id": "action_hover_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Play Button Background Color",
+        "id": "action_bg_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Play Button Background Hover Color",
+        "id": "action_bg_hover_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Play Button Border Color",
+        "id": "action_border_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Play Button Border Hover Color",
+        "id": "action_border_hover_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Mute/Unmute Button Colors"
+      },
+      {
+        "type": "color",
+        "label": "Mute/Unmute Button Icon Color",
+        "id": "sound_icon_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Mute/Unmute Button Icon Hover Color",
+        "id": "sound_icon_hover_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Mute/Unmute Button Background Color",
+        "id": "sound_bg_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Mute/Unmute Button Background Hover Color",
+        "id": "sound_bg_hover_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Mute/Unmute Button Border Color",
+        "id": "sound_border_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Mute/Unmute Button Border Hover Color",
+        "id": "sound_border_hover_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Arrow Colors"
+      },
+      {
+        "type": "color",
+        "label": "Arrow Color",
+        "id": "arrow_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Arrow Hover Color",
+        "id": "arrow_hover_color",
+        "default": "#434343"
+      },
+      {
+        "type": "color",
+        "label": "Arrow Background Color",
+        "id": "arrow_bg_color",
+        "default": "#434343"
+      },
+      {
+        "type": "color",
+        "label": "Arrow Background Hover Color",
+        "id": "arrow_bg_hover_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Arrow Border Color",
+        "id": "arrow_border_color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "label": "Arrow Border Hover Color",
+        "id": "arrow_border_hover_color",
+        "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Section Colors"
+      },
+      {
+        "type": "color",
+        "label": "Section background",
+        "id": "background_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color_background",
+        "id": "background_gradient",
+        "label": "Section background gradient"
+      },
+      {
+        "type": "color",
+        "label": "Border",
+        "id": "border_color",
+        "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Section margin (outside)"
+      },
+      {
+        "type": "range",
+        "id": "margin_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Margin top",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "margin_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Margin bottom",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Section padding (inside)"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding top",
+        "default": 36
+      },
+      {
+         "type": "range",
+         "id": "padding_bottom",
+         "min": 0,
+         "max": 100,
+         "step": 4,
+         "unit": "px",
+         "label": "Padding bottom",
+         "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_horizontal",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "unit": "rem",
+        "label": "Padding sides",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "padding_horizontal_mobile",
+        "min": 0,
+        "max": 15,
+        "step": 0.5,
+        "unit": "rem",
+        "label": "Padding sides mobile",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Section Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Full Width",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "content_width",
+        "min": 0,
+        "max": 400,
+        "step": 10,
+        "unit": "rem",
+        "label": "Section content width",
+        "default": 120
+      },
+      {
+        "type": "range",
+        "id": "border_thickness",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Border thickness",
+        "default": 0
+      },
+      {
+        "type": "checkbox",
+        "id": "lazy",
+        "label": "Lazy load",
+        "info": "Lazy load images for speed optimisation",
+        "default": true
+      }
+
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials 3"
+    }
+  ]
+}
+{% endschema %}

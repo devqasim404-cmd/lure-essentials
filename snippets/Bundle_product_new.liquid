@@ -1,0 +1,437 @@
+<div class="bundle-header">
+  <h2>
+    <span>Your Bedtime </span>
+    <span class="bundle-highlight">Game Changer Bundle:</span>
+  </h2>
+</div>
+<div id="bundle-section" class="bundle-wrapper">
+  <div class="bundle-box">
+    <div class="bundle-image-block">
+      <img src="{{ block.settings.image | img_url: '400x' }}" class="bundle-main-img">
+       <button  type="button"  class="bundle-add-btn mobile" {% if have_productt == true %}disabled{% endif %}  data-bundle-btn>
+        Upgrade &amp; Save  {% comment %}{{ bundle_total_price | money }}{% endcomment %}
+      </button>
+    </div>
+    <div class="bundle-info-block">
+      <div class="bundle-title">
+        {{ block.settings.text }}
+      </div>
+      <div class="bundle-products">
+        {% assign bundle_total_price = 0 %}
+        {% assign bundle_total_compare = 0 %}
+        {% for addon_product in block.settings.products %}
+          {% assign variant = addon_product.selected_or_first_available_variant %}
+          {% assign row_price = variant.price | times: 1 %}
+          {% assign row_compare = variant.compare_at_price | times: 1 %}
+          {% assign bundle_total_price = bundle_total_price | plus: row_price %}
+          {% assign bundle_total_compare = bundle_total_compare | plus: row_compare %}
+          <div
+            class="bundle-product-row"
+            data-varient-id="{{ variant.id }}"
+            data-parent="{{ product.id }}"
+            data-price="{{ row_price }}"
+            data-price-compare="{{ row_compare }}"
+          >
+            {% if addon_product.metafields.custom.bundle_product_title.value != blank %}
+             <span class="product-label"> 1 - {{ addon_product.metafields.custom.bundle_product_title.value }} </span>
+            {% else %}
+             <span class="product-label"> {{ block.settings.desc }} </span>
+            {% endif %}
+          {% comment %}
+          <div class="supply-duration">
+            <span class="product-supply">30 Days Supply</span>
+            <span class="product-supply">30 Days Supply</span>
+          </div>{% endcomment %}
+          </div>  
+        {% endfor %}
+      </div>
+      <div class="bundle-price-row">
+        <span class="bundle-price" id="bundlePrice">
+          {{ bundle_total_price | money }}
+        </span>
+        {% if bundle_total_compare > 0 %}
+          <span class="bundle-compare" id="bundleCompare">
+            {{ bundle_total_compare | money }}
+          </span>
+        {% endif %}
+      </div>
+      {% assign have_productt = true %}
+        {% for item in cart.items %}
+          {% assign have_itemmm = item.url | split: '?' | first %}
+            {% if have_itemmm == product.url %}
+            {% assign have_productt = false %}
+            {% endif %}
+         {% endfor %}
+       <button
+  type="button"
+  class="bundle-add-btn desktop"
+  data-bundle-btn
+  {% if have_productt == true %}disabled{% endif %}
+>
+  Upgrade &amp; Save
+</button>
+
+
+    </div>
+  </div>
+</div>
+
+<script>
+  async function fetchCartAndToggleBundleButton(productUrlToCheck) {
+    try {
+      const response = await fetch('/cart.js');
+      const cart = await response.json();
+      const bundleAddBtns = document.querySelectorAll('[data-bundle-btn]');
+      let productInCart = false;
+
+      cart.items.forEach(item => {
+        const baseUrl = item.url.split('?')[0];
+        if (baseUrl === productUrlToCheck) {
+          productInCart = true;
+        }
+      });
+
+      bundleAddBtns.forEach(btn => {
+        if (productInCart) {
+          btn.removeAttribute('disabled');
+        } else {
+          btn.setAttribute('disabled', 'disabled');
+        }
+      });
+    } catch (err) {
+      console.error('Failed to fetch cart', err);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const productUrlToCheck = window.location.pathname;
+
+    // Initial check on page load
+    fetchCartAndToggleBundleButton(productUrlToCheck);
+
+    // On add to cart
+    document.body.addEventListener('click', function (e) {
+      if (e.target.closest('.product-form__cart-submit')) {
+        setTimeout(() => {
+          fetchCartAndToggleBundleButton(productUrlToCheck);
+        }, 1000);
+      }
+    });
+
+    // On remove from cart
+    document.body.addEventListener('click', function (e) {
+      if (e.target.closest('.remove-all-matching')) {
+        setTimeout(() => {
+          fetchCartAndToggleBundleButton(productUrlToCheck);
+        }, 1000);
+      }
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Initialize cart drawer if not already initialized
+    if (!window.cartDrawerInstance) {
+      window.cartDrawerInstance = new theme.Drawers('CartDrawer', 'right', {
+        onDrawerOpen: function () {
+          console.log('[Drawer] Cart drawer opened');
+        },
+        onDrawerClose: function () {
+          console.log('[Drawer] Cart drawer closed');
+        }
+      });
+    }
+
+    document.querySelectorAll('[data-bundle-btn]').forEach(btn => {
+      btn.addEventListener('click', async function () {
+        const currentBtn = this;
+        currentBtn.disabled = true;
+        currentBtn.textContent = "Adding...";
+
+        const variantRows = document.querySelectorAll('.bundle-product-row');
+        const variantData = [];
+
+        variantRows.forEach(row => {
+          const variantId = row.dataset.variantId || row.dataset.varientId;
+          const parent = row.dataset.parent || '';
+          if (variantId) {
+            variantData.push({ variantId, parent });
+          }
+        });
+
+        for (let item of variantData) {
+          console.log(`Adding variant ${item.variantId} with _free_with = ${item.parent}`);
+
+          try {
+            const res = await fetch('/cart/add.js', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify({
+                id: item.variantId,
+                quantity: 1,
+                properties: {
+                  '_free_with': item.parent
+                }
+              })
+            });
+
+            if (!res.ok) throw new Error('Add to cart failed');
+            await res.json();
+
+          } catch (err) {
+            console.error('[Cart Add Error]', err.message || err);
+            currentBtn.textContent = "Error, Try Again";
+            currentBtn.disabled = false;
+            alert('Error adding to cart. Please refresh and try again.');
+            return;
+          }
+        }
+
+        // Update cart UI
+        if (window.theme?.miniCart?.updateElements) {
+          theme.miniCart.updateElements();
+          theme.miniCart.generateCart?.();
+        }
+
+        // Open cart drawer
+        if (window.cartDrawerInstance?.open) {
+          window.cartDrawerInstance.open();
+        } else if (window.theme?.miniCart?.open) {
+          theme.miniCart.open();
+        }
+
+        // Reset button state
+        currentBtn.textContent = "Added!";
+        setTimeout(() => {
+          currentBtn.textContent = "Upgrade & Save";
+          currentBtn.disabled = false;
+        }, 2000);
+      });
+    });
+
+    // Handle unhandled subscription widget errors silently
+    window.addEventListener("unhandledrejection", function (event) {
+      const msg = event.reason?.message || event.reason;
+      if (String(msg).includes("subscription")) {
+        console.warn("[Subscription Widget Error Ignored]", msg);
+        event.preventDefault();
+      }
+    });
+  });
+</script>
+
+
+
+
+<style>
+  span.subtitle {
+    font-size: 16px;
+    margin: 0;
+    font-family:Inter;
+}
+span.subtitle-2 {
+    font-size: 15px;
+    margin: 0;
+    line-height: 2px;
+}
+
+  .supply-duration {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+     .bundle-header {
+       margin-block-end: 3px !important;
+   }
+   /* (same CSS as above, paste your styles here) */
+   .bundle-wrapper { background: {{ block.settings.background }}; border-radius: 12px; padding: 28px 0px; margin:0px 0; box-shadow: 0 2px 16px rgba(109, 29, 177, 0.07); border: 2.12px solid {{ block.settings.text-color }};}
+  .bundle-wrapper{margin-bottom:1rem;}
+   .bundle-header h2 {font-size: 32px; margin-top: 20px;font-weight: 400; margin-bottom: 14px; text-align: left; font-family: 'HarmoniaSansW01'; }
+   .bundle-header .bundle-highlight { color: {{ block.settings.text-color }}; font-weight: 600; letter-spacing: 0.02em; font-family: 'HarmoniaSansW01'; }
+   .bundle-box { display: flex; gap: 24px; align-items: flex-start;    padding: 0 20px;}
+   .bundle-image-block {    width: 30%; display: flex; flex-direction: column; align-items: center; gap: 12px;}
+   .bundle-main-img { border-radius: 8px; margin-bottom: 8px;}
+   .bundle-sub-img { width: 65px; border-radius: 6px;}
+   .bundle-info-block { flex: 1;}
+   .bundle-title {    margin-bottom: 10px;
+       color: #2D2D2D;
+       /* -webkit-text-stroke-width: 0.7px;
+       -webkit-text-stroke-color: #2D2D2D; */
+       font-family: 'HarmoniaSansW01';
+       font-size: 21.068px;
+       font-style: normal;
+       font-weight: 500;
+       line-height: 26.424px;
+       max-width: 314px;
+                 }
+   .bundle-products { margin-bottom: 14px;}
+   .bundle-product-row { display: flex; align-items: center;  font-size: 1rem;     margin-bottom: 15px;gap: 20px;}
+   .product-label {    
+         display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    color: {{ block.settings.text-color }};
+    /* -webkit-text-stroke-width: 0.7px;
+    -webkit-text-stroke-color: {{ block.settings.text-color }}; */
+    font-family: 'HarmoniaSansW01';
+    font-size: 16.949px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21.187px;
+    width: 200px;
+
+                  }
+   .product-label.main-product { color: #a960ea;}
+   .product-supply {     color: #000;
+       font-size: 16.949px;
+       font-style: normal;
+       font-weight: 400;
+       line-height: 21.187px;}
+   .bundle-price-row { display: flex; align-items: center; gap: 14px; font-size: 1.2rem; margin-bottom: 14px;}
+   .bundle-price {     color: #000;
+       -webkit-text-stroke-width: 0.7px;
+       -webkit-text-stroke-color: #000;
+       font-size: 16.949px;
+       font-style: normal;
+       font-weight: 400;
+       line-height: 21.187px;
+   }
+   .bundle-compare {     color: #000;
+       font-size: 16.949px;
+       font-style: normal;
+       font-weight: 400;
+       line-height: 21.187px;
+          text-decoration: line-through;}
+   .bundle-add-btn {     border: none;
+       padding: 13px 34px;
+       margin-top: 6px;
+       cursor: pointer;
+       transition: background 0.15s;
+       outline: none;
+       display: block;
+       border-radius: 5.297px;
+       background: {{ block.settings.btn-bg }};
+       color: #FFF;
+       -webkit-text-stroke-width: 0.7px;
+       -webkit-text-stroke-color: #FFF;
+       font-size: 16.949px;
+       font-style: normal;
+       font-weight: 400;
+       line-height: 25.424px;}
+   .bundle-add-btn:active { background: #9347ce;}
+   .bundle-btn-state { margin-top: 7px; min-height: 24px; color: #24b47e; font-weight: 500; font-size: 0.97rem;}
+
+    .bundle-info-block span.product-label {
+        position: static !important;
+   }
+  /* .desktop{
+       display:block !important;
+     } */
+  .mobile {
+       display:none;
+     }
+   @media (max-width: 700px) {
+     .desktop{
+       display:none;
+     }
+     .mobile {
+       display:block !Important;
+     }
+    
+     .bundle-header h2 {font-size: 20px; margin-top:0; }
+     .bundle-box { flex-direction: row; align-items: center; gap: 12px;}
+     .bundle-image-block { flex-direction: column; justify-content: center; margin: 0 auto;     width: 50%; }
+     .bundle-main-img { width: 180px; }
+     .bundle-sub-img { width: 42px; }
+    .bundle-add-btn {
+        padding: 10px 35px;
+        font-size: 13px;
+        text-align: center;
+        margin: 0 auto;
+    }
+.bundle-info-block {
+    flex: 1;
+    width: 100%;
+}
+.product-label {
+    width: 100%;
+    font-size: 15px;
+          align-items: flex-start;
+  flex-direction: row;
+}
+.product-supply {
+   font-size: 10px;
+}
+.bundle-title {
+    font-size: 16px;
+  max-width:100%;
+      line-height: 22px;
+}
+.bundle-price {
+    font-size: 18px;
+}
+.bundle-compare {
+    font-size: 11px;
+} 
+.bundle-product-row {
+    margin-bottom: 5px;
+}   
+  span.subtitle {
+    font-size: 14px;
+}
+span.subtitle-2 {
+    font-size: 11px;
+}
+    
+   }
+
+
+/* Iphone SE   */
+@media screen and (max-width: 375px) {
+      .bundle-add-btn {
+        padding: 10px 25px;
+    }
+    .bundle-title {
+        font-size: 13px !Important;
+          line-height: 20.424px;
+    }
+      .product-label {
+        font-size: 13px;
+
+    }
+      span.subtitle {
+        font-size: 11px;
+    }
+}
+/* --------- Iphone XR ---------- */  
+@media (max-width: 414px) {
+    .bundle-title {
+      font-size: 15px;
+    }
+      .template-custom-products-2 .single-option-radio label {
+        font-size: 11px !important;
+    }
+}
+/* --------- Iphone 12 pro ---------- */
+@media (max-width: 390px) {
+    .bundle-title {
+        font-size: 14px;
+      line-height: 22.424px;
+    }
+     span.subtitle {
+        font-size: 12px;
+    }
+    .product-label {
+        font-size: 12px;
+    }
+    .bundle-add-btn {
+        padding: 10px 25px;
+    }
+}
+
+  
+</style>

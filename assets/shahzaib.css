@@ -1,0 +1,30 @@
+div._tolstoyBubble_xlfni_7 {
+   z-index: 9999!important;
+}
+
+/* .varient_div .variation-name {
+    font-size: 22px;
+} 
+.varient_div .varient_metafield{
+    font-size: 18px;
+}
+.varient_div .variant-prices{
+    font-size: 22px;
+} */
+ .varient_content {
+    display: flex;
+    flex-direction: column;
+}
+.varient_div .variant-prices .compare-price{
+    /* font-size: 18px; */
+    font-weight: 400;
+}
+.varient_div .you-save{
+    font-size: 14px;
+    color: green;
+    font-weight:400;
+    letter-spacing: 0.5px;
+}
+.varient_div span.label-tag {
+    top: -15px;
+} 

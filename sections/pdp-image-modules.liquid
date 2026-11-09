@@ -1,0 +1,127 @@
+<!-- pdp-image-modules.liquid -->
+{%- comment -%}
+  Full-width image modules read from the product's "Page images" metafield
+  (pdp.page_images, list of files). Renders nothing when the list is empty.
+{%- endcomment -%}
+{%- assign page_images = product.metafields.pdp.page_images.value -%}
+
+{%- if page_images != blank -%}
+<div class="customstyle{{ section.id }} position-relative" data-aos="{{ section.settings.animation }}">
+  {%- render 'style-section' -%}
+  <div class="{{ section.settings.setwidth }}">
+    {%- for media in page_images -%}
+      {%- liquid
+        assign image = media
+        if media.preview_image
+          assign image = media.preview_image
+        endif
+      -%}
+      {%- if image != blank and image.aspect_ratio -%}
+        <div class="section-block">
+          <div class="row">
+            <div class="flex__item flex flex--center-vertical">
+              <div class="flex__item">
+                <noscript>
+                  <img src="{{ image | image_url: width: 600 }}" alt="{{ image.alt | escape }}" class="image-content__image"
+                    loading="lazy"
+                    width="{{ image.width }}"
+                    height="{{ image.height }}">
+                </noscript>
+                <div class="image-content__image-container overflow-hidden">
+                  <div class="image-content__image-wrapper" style="padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+                    {% assign img_url = image | image_url: width: 1 | replace: 'width=1', 'width={width}' %}
+                    <img class="image-content__image scale-in lazyload"
+                      src="{{ image | image_url: width: 1, height: 1 }}"
+                      data-src="{{ img_url }}"
+                      data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 1944, 2048]"
+                      data-aspectratio="{{ image.aspect_ratio }}"
+                      data-sizes="auto"
+                      alt="{{ image.alt | escape }}"
+                      loading="lazy"
+                      width="{{ image.width }}"
+                      height="{{ image.height }}">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "PDP image modules",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the images from the product field \"Page images\" (pdp.page_images), in order. Hidden when the product has none."
+    },
+    {
+      "type": "select",
+      "id": "animation",
+      "options": [
+        { "value": "", "label": "None" },
+        { "value": "fade", "label": "Fade" },
+        { "value": "fade-up", "label": "Fade up" }
+      ],
+      "default": "",
+      "label": "Animation"
+    },
+    {
+      "type": "select",
+      "id": "setwidth",
+      "label": "Container",
+      "default": "container",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-fluid", "label": "Container Fluid" },
+        { "value": "full", "label": "Full" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "bgsection",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "paddingsection",
+      "label": "Padding",
+      "default": "0px 0px 0px 0px",
+      "info": "Padding: Top Right Bottom Left"
+    },
+    {
+      "type": "text",
+      "id": "paddingmobile",
+      "label": "Padding Mobile",
+      "default": "0px 0px 0px 0px",
+      "info": "Padding: Top Right Bottom Left"
+    },
+    {
+      "type": "text",
+      "id": "marginsection",
+      "label": "Margin",
+      "default": "0px 0px 0px 0px",
+      "info": "Margin: Top Right Bottom Left"
+    },
+    {
+      "type": "text",
+      "id": "marginmobile",
+      "label": "Margin Mobile",
+      "default": "0px 0px 0px 0px",
+      "info": "Margin: Top Right Bottom Left"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP image modules"
+    }
+  ]
+}
+{% endschema %}

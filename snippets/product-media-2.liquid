@@ -1,0 +1,1046 @@
+
+{% comment %}
+  Complete product-media.liquid replacement.
+  Includes:
+  - Responsive Swiper product gallery with vertical desktop thumbnails
+  - Horizontal mobile thumbnails
+  - Main gallery navigation and media counter
+  - Images, Shopify-hosted videos, external videos and 3D models
+  - Existing product icon metafields
+  - Optional additional desktop product-image grid
+  - Existing select_reviews metafield carousel
+{% endcomment %}
+
+{%- liquid
+  assign gallery_id = 'ProductGallery-' | append: section.id
+  assign initial_media_id = featured_image.id | default: product.featured_media.id
+  assign testimonialsteps = product.metafields.custom.select_reviews.value
+-%}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+
+<div id="{{ gallery_id }}" class="pm-gallery" data-pm-gallery>
+  <div class="pm-gallery__layout">
+    {% if product.media.size > 1 %}
+      <div class="pm-gallery__thumbs-outer">
+        <div class="swiper pm-gallery__thumbs">
+          <div class="swiper-wrapper">
+            {% for media in product.media %}
+              <div class="swiper-slide pm-gallery__thumb-slide">
+                <button
+                  type="button"
+                  class="pm-gallery__thumb"
+                  data-pm-thumb="{{ forloop.index0 }}"
+                  aria-label="Show media {{ forloop.index }} of {{ product.media.size }}"
+                  aria-pressed="{% if media.id == initial_media_id %}true{% else %}false{% endif %}"
+                >
+                  {% if media.preview_image %}
+                    {{
+                      media.preview_image
+                      | image_url: width: 180
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '80, 120, 180',
+                        alt: media.alt,
+                        class: 'pm-gallery__thumb-image'
+                    }}
+                  {% endif %}
+                  {% if media.media_type == 'video' or media.media_type == 'external_video' %}
+                    <span class="pm-gallery__badge" aria-hidden="true">▶</span>
+                  {% elsif media.media_type == 'model' %}
+                    <span class="pm-gallery__badge" aria-hidden="true">3D</span>
+                  {% endif %}
+                </button>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="pm-gallery__main-outer">
+      <div class="swiper pm-gallery__main">
+        <div class="swiper-wrapper">
+          {% for media in product.media %}
+            <div class="swiper-slide pm-gallery__slide" data-pm-media-id="{{ media.id }}">
+              {% case media.media_type %}
+                {% when 'image' %}
+                  <a
+                    class="pm-gallery__image-link"
+                    href="{{ media | image_url: width: 2000 }}"
+                    data-pm-image-link
+                    aria-label="Open {{ media.alt | default: product.title | escape }}"
+                  >
+                    {{
+                      media
+                      | image_url: width: 1800
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '360, 540, 720, 960, 1200, 1500, 1800',
+                        sizes: '(min-width: 990px) 55vw, 100vw',
+                        alt: media.alt,
+                        class: 'pm-gallery__main-image'
+                    }}
+                  </a>
+                {% when 'video' %}
+                  <div class="pm-gallery__media">
+                    {{ media | video_tag: controls: true, autoplay: false, loop: loop, preload: 'metadata' }}
+                  </div>
+                {% when 'external_video' %}
+                  <div class="pm-gallery__media">
+                    {{ media | external_video_tag }}
+                  </div>
+                {% when 'model' %}
+                  <div class="pm-gallery__media pm-gallery__model">
+                    {{ media | media_tag: image_size: '1200x', toggleable: true }}
+                    <button
+                      class="button button--full-width product__xr-button"
+                      type="button"
+                      aria-label="{{ 'products.product.xr_button_label' | t }}"
+                      data-shopify-xr
+                      data-shopify-model3d-id="{{ media.id }}"
+                      data-shopify-title="{{ product.title | escape }}"
+                      data-shopify-xr-hidden
+                    >
+                      {% render 'icon-3d-model' %}
+                      {{ 'products.product.xr_button' | t }}
+                    </button>
+                  </div>
+                {% else %}
+                  <div class="pm-gallery__media">
+                    {{ media | media_tag }}
+                  </div>
+              {% endcase %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      {% if product.media.size > 1 %}
+        <button type="button" class="pm-gallery__arrow pm-gallery__prev" aria-label="Previous product media">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+        </button>
+        <button type="button" class="pm-gallery__arrow pm-gallery__next" aria-label="Next product media">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </button>
+        <div class="pm-gallery__counter" aria-live="polite">
+          <span data-pm-current>1</span><span aria-hidden="true"> / </span><span>{{ product.media.size }}</span>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if product.metafields.custom.product_icon != blank
+    or product.metafields.custom.product_icon_1 != blank
+    or product.metafields.custom.product_icon_2 != blank
+    or product.metafields.custom.product_icon_3 != blank
+  %}
+    <div class="pm-gallery__feature-icons">
+      {% for i in (0..3) %}
+        {%- liquid
+          assign icon_key = 'product_icon'
+          assign text_key = 'product_icon_text'
+          if i > 0
+            assign icon_key = icon_key | append: '_' | append: i
+            assign text_key = text_key | append: '_' | append: i
+          endif
+          assign feature_icon = product.metafields.custom[icon_key].value
+          assign feature_text = product.metafields.custom[text_key].value
+        -%}
+        {% if feature_icon != blank %}
+          <div class="pm-gallery__feature">
+            {{
+              feature_icon
+              | image_url: width: 240
+              | image_tag: loading: 'lazy', alt: feature_text, class: 'pm-gallery__feature-image'
+            }}
+            {% if feature_text != blank %}<p>{{ feature_text | escape }}</p>{% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<div class="only-desktop">
+  {% render 'product-video-carousel-2', product: product %}
+</div>
+
+
+{% comment %}
+  Review metaobject fields: Title (title), Text (text), Name (name),
+  Icon-image (icon_image). Image is intentionally hidden to match the reference.
+  To show a verified label, append " · [Verified buyer]" to Name ONLY when
+  that buyer has actually been verified, or use a verified_buyer boolean field.
+{% endcomment %}
+{% if testimonialsteps != blank %}
+  <div class="only-desktop">
+  <div id="PMReviews-{{ section.id }}" class="pm-reviews swiper" aria-label="Customer reviews">
+    <div class="swiper-wrapper">
+      {% for step in testimonialsteps %}
+        {%- liquid
+          assign review_title = step.title.value | default: step.title
+          assign review_text = step.text.value | default: step.textt.value | default: step.textt
+          assign review_name = step.name.value | default: step.name
+          assign review_verified = step.verified_buyer.value
+        -%}
+        <article class="swiper-slide pm-reviews__slide">
+          <div class="pm-reviews__stars" aria-label="5 out of 5 stars">★★★★★</div>
+
+          {% if review_title != blank %}
+            <h3 class="pm-reviews__title">“{{ review_title | escape }}”</h3>
+          {% endif %}
+
+          {% if review_text != blank %}
+            <div class="pm-reviews__description">{{ review_text | escape | newline_to_br }}</div>
+          {% endif %}
+
+          {% if review_name != blank %}
+            <p class="pm-reviews__author">
+              {{ review_name | escape }}{% if review_verified == true %}{% unless review_name contains '[Verified buyer]' %}<span class="pm-reviews__verified"> · [Verified buyer]</span>{% endunless %}{% endif %}
+            </p>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+    <div class="pm-reviews__pagination"></div>
+  </div>
+</div>
+{% endif %}
+
+<style>
+  .pm-gallery,
+  .pm-gallery * {
+    box-sizing: border-box;
+  }
+
+  .pm-gallery {
+    --pm-accent: #173d63;
+    --pm-border: #dce5ed;
+    --pm-radius: 24px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* The column includes room for the thumbnail's 2px active ring. */
+  .pm-gallery__layout {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Seven complete 72px thumbnails, six 10px gaps, 16px inset. */
+  .pm-gallery__thumbs-outer {
+    width: 88px;
+    height: 580px;
+    min-width: 0;
+    padding: 4px;
+    overflow: hidden;
+  }
+
+  .pm-gallery__thumbs {
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+    overflow: hidden;
+  }
+
+  .pm-gallery__thumbs .swiper-wrapper {
+    flex-direction: column;
+    gap: 0 !important; /* Swiper's spaceBetween manages spacing. */
+    align-items: flex-start;
+  }
+
+  .pm-gallery__thumbs .swiper-slide {
+    width: 72px !important;
+    height: 72px !important;
+    flex: 0 0 72px;
+    overflow: visible;
+  }
+
+  .pm-gallery__thumb {
+    position: relative;
+    display: block;
+    width: 72px;
+    height: 72px;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--pm-border);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgb(220, 225, 234);
+    box-shadow: none;
+    background: rgb(234, 244, 253);
+    cursor: pointer;
+  }
+
+  .pm-gallery__thumb[aria-pressed="true"] {
+    border: 1px solid rgb(220, 225, 234);
+    box-shadow: rgb(20, 26, 92) 0px 0px 0px 2px;
+    background: rgb(255, 255, 255);
+  }
+
+  .pm-gallery__thumb-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pm-gallery__badge {
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    display: grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    border-radius: 20px;
+    background: #fff;
+    color: var(--pm-accent);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .pm-gallery__main-outer {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: var(--pm-radius);
+    background: #f3f7fa;
+  }
+
+  .pm-gallery__main {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .pm-gallery__slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    background: #f3f7fa;
+  }
+
+  .pm-gallery__image-link {
+    display: block;
+    width: 100%;
+    line-height: 0;
+  }
+
+  .pm-gallery__main-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 800px;
+    object-fit: cover;
+  }
+
+  .pm-gallery__media {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .pm-gallery__media video,
+  .pm-gallery__media iframe,
+  .pm-gallery__media model-viewer {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .pm-gallery__model {
+    padding: 20px;
+  }
+
+  .pm-gallery__arrow {
+    position: absolute;
+    z-index: 4;
+    top: 50%;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    transform: translateY(-50%);
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .94);
+    color: rgb(20, 26, 92);
+    box-shadow: rgba(20, 26, 92, .15) 0px 4px 14px;
+    font-size: 30px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .pm-gallery__prev { left: 16px; }
+  .pm-gallery__next { right: 16px; }
+
+  .pm-gallery__arrow svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .pm-gallery__counter {
+        position: absolute;
+    z-index: 4;
+    right: 16px;
+    bottom: 16px;
+    padding: 5px 12px;
+    border-radius: 30px;
+    background: rgba(20, 26, 92, 0.78);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .pm-gallery__feature-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 18px;
+  }
+
+  .pm-gallery__feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .pm-gallery__feature-image {
+    display: block;
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+  }
+
+  .pm-gallery__feature p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .products-image-other {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+    margin-top: 24px;
+  }
+
+  .products-image-other__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  /* Review card styling matched to the supplied screenshot. */
+  .pm-reviews,
+  .pm-reviews * {
+    box-sizing: border-box;
+  }
+
+  .pm-reviews.swiper {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 20px 0 0;
+    overflow: hidden;
+  }
+
+  .pm-reviews .swiper-wrapper {
+    align-items: stretch;
+  }
+
+  .pm-reviews .pm-reviews__slide {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    padding: 22px 24px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 18px;
+    background: rgb(241, 247, 254);
+    color: rgb(20, 26, 92);
+    text-align: left;
+    box-shadow: none;
+  }
+
+  .pm-reviews .pm-reviews__stars {
+        margin: 0 0 12px;
+    color: rgb(232, 154, 12);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 6px;
+  }
+
+  .pm-reviews .pm-reviews__title {
+    margin: 0 0 12px;
+    padding: 0;
+    color: rgb(20, 26, 92);
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .pm-reviews .pm-reviews__description {
+    margin: 0 0 12px;
+    color: rgb(74, 81, 112);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+  }
+
+  .pm-reviews .pm-reviews__author {
+    margin: 0 0;
+    padding: 0;
+    color: rgb(20, 26, 92);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .pm-reviews .pm-reviews__verified {
+    font-weight: 700;
+  }
+
+  .pm-reviews .pm-reviews__pagination {
+    text-align: center;
+  }
+
+  @media (max-width: 749px) {
+    .pm-gallery { --pm-radius: 24px; }
+
+    .pm-gallery__layout {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pm-gallery__main-outer {
+      order: 1;
+      width: 100%;
+          border-radius: 0;
+    }
+
+
+    .pm-gallery__thumbs-outer {
+      order: 2;
+      width: 100%;
+      height: 88px;
+      max-height: none;
+      padding: 4px;
+      overflow: hidden;
+    }
+
+    .pm-gallery__thumbs {
+      width: 100%;
+      height: 100%;
+      padding: 4px;
+      overflow: hidden;
+    }
+
+    .pm-gallery__thumbs .swiper-wrapper {
+      flex-direction: row;
+      gap: 0 !important;
+      align-items: flex-start;
+    }
+
+    .pm-gallery__thumbs .swiper-slide {
+      width: 72px !important;
+      height: 72px !important;
+      flex: 0 0 72px;
+      overflow: visible;
+    }
+
+    .pm-gallery__thumb {
+      width: 72px;
+      height: 72px;
+    }
+
+    .pm-gallery__main-image {
+      max-height: none;
+    }
+
+    .pm-gallery__arrow {
+      width: 36px;
+      height: 36px;
+      font-size: 25px;
+    }
+
+    .pm-gallery__prev { left: 9px; }
+    .pm-gallery__next { right: 9px; }
+
+    .pm-gallery__counter {
+      right: 9px;
+      bottom: 9px;
+      padding: 6px 9px;
+      font-size: 11px;
+    }
+
+    .pm-gallery__feature-icons {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .pm-gallery__feature {
+      flex: 1 1 40%;
+      align-items: center;
+    }
+
+    .pm-gallery__feature-image {
+      width: 38px;
+      height: 38px;
+    }
+
+    .products-image-other {
+      gap: 12px;
+    }
+
+    .pm-reviews .pm-reviews__slide {
+      padding: 16px 16px 18px;
+      border-radius: 18px;
+    }
+.pm-reviews .pm-reviews__stars {
+    font-size: 16px;
+    letter-spacing: 5px;
+}
+    .pm-reviews .pm-reviews__title {
+      font-size: 17px;
+    }
+
+    .pm-reviews .pm-reviews__description {
+      font-size: 13px;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    function loadSwiper(callback) {
+      if (window.Swiper) {
+        callback();
+        return;
+      }
+
+      var existing = document.querySelector('script[data-pm-swiper-loader]');
+      if (existing) {
+        existing.addEventListener('load', callback, { once: true });
+        return;
+      }
+
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js';
+      script.dataset.pmSwiperLoader = 'true';
+      script.onload = callback;
+      document.head.appendChild(script);
+    }
+
+    function initGallery(root) {
+      if (!root || root.dataset.pmInitialized === 'true' || !window.Swiper) return;
+
+      var mainEl = root.querySelector('.pm-gallery__main');
+      var thumbsEl = root.querySelector('.pm-gallery__thumbs');
+      if (!mainEl) return;
+
+      root.dataset.pmInitialized = 'true';
+
+      var startIndex = 0;
+      var wantedId = {{ initial_media_id | json }};
+      var mediaSlides = mainEl.querySelectorAll('[data-pm-media-id]');
+
+      mediaSlides.forEach(function (slide, index) {
+        if (String(slide.dataset.pmMediaId) === String(wantedId)) startIndex = index;
+      });
+
+      var thumbsSwiper = null;
+
+      if (thumbsEl) {
+        thumbsSwiper = new Swiper(thumbsEl, {
+          direction: 'horizontal', /* Desktop direction set by breakpoint below. */
+          slidesPerView: 'auto',
+          initialSlide: 0, /* Always show first thumbnail fully on load. */
+          spaceBetween: 10,
+          watchSlidesProgress: true,
+          watchOverflow: true,
+          breakpoints: {
+            750: { direction: 'vertical' }
+          }
+        });
+      }
+
+      var mainSwiper = new Swiper(mainEl, {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        initialSlide: startIndex,
+        loop: false,
+        autoHeight: false,
+        watchOverflow: true,
+        navigation: {
+          prevEl: root.querySelector('.pm-gallery__prev'),
+          nextEl: root.querySelector('.pm-gallery__next')
+        },
+        /* Thumbnail selection/scroll is synced below to avoid automatic clipping. */
+        on: {
+          init: function (swiper) { updateGallery(swiper, root); },
+          slideChange: function (swiper) { updateGallery(swiper, root); }
+        }
+      });
+
+      root._pmMainSwiper = mainSwiper;
+      root._pmThumbsSwiper = thumbsSwiper;
+
+      root.querySelectorAll('[data-pm-thumb]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          mainSwiper.slideTo(Number(button.dataset.pmThumb));
+        });
+      });
+
+      root.querySelectorAll('[data-pm-image-link]').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          /* Preserve normal open-image behavior; no preventDefault. */
+        });
+      });
+
+      function updateGallery(swiper, galleryRoot) {
+        var current = galleryRoot.querySelector('[data-pm-current]');
+        if (current) current.textContent = swiper.activeIndex + 1;
+
+        galleryRoot.querySelectorAll('[data-pm-thumb]').forEach(function (button, index) {
+          button.setAttribute('aria-pressed', index === swiper.activeIndex ? 'true' : 'false');
+        });
+
+        if (!thumbsSwiper) return;
+        var activeThumb = thumbsSwiper.slides[swiper.activeIndex];
+        if (!activeThumb) return;
+
+        /* Only scroll when the selected thumbnail is outside the visible area.
+           This keeps thumbnail #1 visible when the main gallery starts on #2. */
+        var view = thumbsEl.getBoundingClientRect();
+        var rect = activeThumb.getBoundingClientRect();
+        var vertical = thumbsSwiper.params.direction === 'vertical';
+        var before = vertical ? rect.top < view.top + 2 : rect.left < view.left + 2;
+        var after = vertical ? rect.bottom > view.bottom - 2 : rect.right > view.right - 2;
+        if (before) {
+          thumbsSwiper.slideTo(swiper.activeIndex, 250);
+        } else if (after) {
+          var count = Math.max(1, Math.floor((thumbsSwiper.size + 10) / 82));
+          thumbsSwiper.slideTo(Math.max(0, swiper.activeIndex - count + 1), 250);
+        }
+      }
+    }
+
+    function initReviews() {
+      if (!window.Swiper) return;
+
+      document.querySelectorAll('.pm-reviews').forEach(function (element) {
+        if (element.dataset.pmReviewsInitialized === 'true') return;
+        element.dataset.pmReviewsInitialized = 'true';
+
+        new Swiper(element, {
+          slidesPerView: 1,
+          spaceBetween: 10,
+          loop: element.querySelectorAll('.swiper-slide').length > 1,
+          pagination: {
+            el: element.querySelector('.pm-reviews__pagination'),
+            clickable: true
+          }
+        });
+      });
+    }
+
+    function initAll(scope) {
+      (scope || document).querySelectorAll('[data-pm-gallery]').forEach(initGallery);
+      initReviews();
+    }
+
+    function start() {
+      loadSwiper(function () { initAll(document); });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', start, { once: true });
+    } else {
+      start();
+    }
+
+    document.addEventListener('shopify:section:load', function (event) {
+      loadSwiper(function () { initAll(event.target); });
+    });
+
+    document.addEventListener('shopify:variant:change', function (event) {
+      var variant = event.detail && event.detail.variant;
+      if (!variant || !variant.featured_media) return;
+
+      document.querySelectorAll('[data-pm-gallery]').forEach(function (root) {
+        var swiper = root._pmMainSwiper;
+        if (!swiper) return;
+
+        var slides = root.querySelectorAll('[data-pm-media-id]');
+        slides.forEach(function (slide, index) {
+          if (String(slide.dataset.pmMediaId) === String(variant.featured_media.id)) {
+            swiper.slideTo(index);
+          }
+        });
+      });
+    });
+  })();
+</script>
+
+
+
+<!-- Mobile-only product gallery adjustments. Desktop styles remain unchanged. -->
+<style>
+  @media screen and (max-width: 749px) {
+    /* Stack the main image above a horizontal thumbnail strip. */
+    .pm-gallery .pm-gallery__layout {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      width: 100%;
+    }
+
+    .pm-gallery .pm-gallery__main-outer {
+      order: 1;
+      width: 100%;
+      max-width: 100%;
+      border-radius: 0 !important;
+      margin: 0;
+    }
+
+    /* Square, edge-to-edge mobile hero image. */
+    .pm-gallery .pm-gallery__main,
+    .pm-gallery .pm-gallery__slide {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+    }
+
+    .pm-gallery .pm-gallery__slide {
+      height: auto;
+    }
+
+    .pm-gallery .pm-gallery__image-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+    }
+
+    .pm-gallery .pm-gallery__main-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Keep the thumbnail rail beneath the hero image. */
+    .pm-gallery .pm-gallery__thumbs-outer {
+      order: 2;
+      width: 100%;
+      height: 64px;
+      max-height: none;
+      padding: 2px 3px;
+      overflow: hidden;
+    }
+
+    .pm-gallery .pm-gallery__thumbs {
+      width: 100%;
+      height: 100%;
+      padding: 2px;
+      overflow: hidden;
+    }
+
+    .pm-gallery .pm-gallery__thumbs .swiper-wrapper {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .pm-gallery .pm-gallery__thumbs .swiper-slide {
+      width: 54px !important;
+      height: 54px !important;
+      flex: 0 0 54px;
+      overflow: visible;
+        margin-right: 6px !important;
+    }
+
+    .pm-gallery .pm-gallery__thumb {
+      display: block;
+      width: 54px;
+      height: 54px;
+      padding: 0;
+      border-radius: 9px;
+    }
+
+    .pm-gallery .pm-gallery__thumb[aria-pressed="true"] {
+      box-shadow: rgb(20, 26, 92) 0 0 0 2px;
+    }
+
+    .pm-gallery .pm-gallery__thumb-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Keep the slide counter inside the lower-right of the hero. */
+    .pm-gallery .pm-gallery__counter {
+      right: 9px;
+      bottom: 9px;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .pm-gallery .pm-gallery__arrow {
+      width: 34px;
+      height: 34px;
+      font-size: 23px;
+      display: none;
+    }
+
+    .pm-gallery .pm-gallery__prev { left: 8px; }
+    .pm-gallery .pm-gallery__next { right: 8px; }
+
+    /* Keep video and 3D media within the same mobile gallery width. */
+    .pm-gallery .pm-gallery__media,
+    .pm-gallery .pm-gallery__media video,
+    .pm-gallery .pm-gallery__media iframe,
+    .pm-gallery .pm-gallery__media model-viewer {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+</style>
+
+
+<style>
+  #pm-image-lightbox {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2147483647 !important;
+    background: rgba(0, 0, 0, 0.97) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    padding: 50px 20px !important;
+    box-sizing: border-box !important;
+    isolation: isolate !important;
+  }
+
+  #pm-image-lightbox[hidden] {
+    display: none !important;
+  }
+
+  #pm-image-lightbox img {
+    position: relative !important;
+    z-index: 1 !important;
+    display: block !important;
+    max-width: 100% !important;
+    max-height: 90vh !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+
+  #pm-image-lightbox .pm-image-lightbox__close {
+    position: absolute !important;
+    top: 15px !important;
+    right: 20px !important;
+    z-index: 2 !important;
+    width: 46px !important;
+    height: 46px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 50% !important;
+    background: white !important;
+    color: black !important;
+    font-size: 32px !important;
+    line-height: 1 !important;
+    cursor: pointer !important;
+  }
+</style>
+
+<div id="pm-image-lightbox" hidden>
+  <button type="button"
+    class="pm-image-lightbox__close"
+    aria-label="Close image">&times;</button>
+  <img src="" alt="">
+</div>
+
+<script>
+(function () {
+  const box = document.getElementById('pm-image-lightbox');
+  if (!box || box.dataset.initialized) return;
+  box.dataset.initialized = 'true';
+
+  // Move overlay directly under body to escape parent stacking contexts.
+  document.body.appendChild(box);
+
+  const preview = box.querySelector('img');
+  const close = box.querySelector('button');
+
+  function closeImage() {
+    box.hidden = true;
+    preview.removeAttribute('src');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', function (event) {
+    const link = event.target.closest('[data-pm-image-link]');
+    if (!link) return;
+
+    event.preventDefault();
+
+    preview.src = link.href;
+    preview.alt =
+      link.querySelector('img')?.alt || 'Product image';
+
+    box.hidden = false;
+    document.body.style.overflow = 'hidden';
+  });
+
+  close.addEventListener('click', closeImage);
+
+  box.addEventListener('click', function (event) {
+    if (event.target === box) closeImage();
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && !box.hidden) closeImage();
+  });
+})();
+</script>

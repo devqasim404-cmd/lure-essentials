@@ -1,0 +1,843 @@
+<!-- product-media.liquid -->
+{%- liquid
+  assign lazy = false
+
+  case media_style
+    when 'media-bottom'
+      assign layout_style = ' photos-thumb-bottom '
+    when 'media-left'
+      assign layout_style = 'photos-thumb-left d-flex flex-lg-row flex-column'
+    when 'media-right'
+      assign layout_style = ' photos-thumb-right d-flex '
+    when 'media-nothumb'
+      assign layout_style = ' photos-nothumb '
+    when 'media-list'
+      assign layout_style = ' photos-thumb-list '
+    when 'media-grid'
+      assign layout_style = ' photos-thumb-grid '
+    when 'media-collage-1'
+      assign layout_style = ' photos-thumb-collage-1 '
+    when 'media-collage-2'
+      assign layout_style = ' photos-thumb-collage-2 '
+  endcase
+
+  assign layout_mobile = ''
+  if media_style == 'media-list' or media_style == 'media-grid' or media_style == 'media-collage-1' or media_style == 'media-collage-2'
+    assign layout_mobile = ' d-md-none '
+  elsif media_style == 'media-nothumb'
+    assign layout_mobile = ' hide '
+  endif
+-%}
+<style>
+          .photos-thumb-left .photos__item--main{
+              position: relative;
+              flex: 1 1 auto;
+          }
+          @media(min-width:750px){
+              .photos-thumb-left .photos__item--thumbs{
+                flex: 0 0 80px;
+                max-width: 80px;
+                order: -1;
+                margin-right: 15px;
+            }
+          }
+          .photos-thumb-left .product-single__thumbnails{
+              margin: -8px 0;
+          }
+          .photos-thumb-left .product-single__thumbnails .product-single__thumbnail-item{
+              padding: 8px 2px;
+          }
+          .photos-thumb-right .photos__item--main{
+              position: relative;
+              flex: 1 1 auto;
+          }
+          .photos-thumb-right .photos__item--thumbs{
+              flex: 0 0 80px;
+              max-width: 80px;
+              order: 1;
+              margin-left: 15px;
+          }
+          .photos-thumb-right .product-single__thumbnails{
+              margin: -8px 0;
+          }
+          .photos-thumb-right .product-single__thumbnails .product-single__thumbnail-item{
+              padding: 8px 2px;
+          }
+          @media(min-width:768px){
+            .photos-thumb-grid,.photos-thumb-collage-1,.photos-thumb-collage-2, .photos-thumb-list  {
+              --g-gutter:16px;
+              --g-hgutter:8px;
+            }
+            .photos-thumb-bottom .product-single__photo{
+              margin:0 0 24px 0;
+            }
+              .product-single__photo{
+                  margin:0 0 var(--g-gutter) 0;
+                  }
+                  .photos-thumb-grid .my-gallery{
+                  display: -ms-flexbox;
+                  display: flex;
+                  -ms-flex-wrap: wrap;
+                  flex-wrap: wrap;
+                  margin-right: calc(0px - var(--g-hgutter));
+                  margin-left: calc(0px - var(--g-hgutter));
+              }
+              .photos-thumb-grid .product-single__photo{
+                  padding-left: var(--g-hgutter);
+                  padding-right: var(--g-hgutter);
+                  margin:0 0 var(--g-gutter) 0;
+                  flex: 0 0 50%;
+                  max-width: 50%;
+              }
+              .photos-thumb-collage-1 .my-gallery{
+                  display: -ms-flexbox;
+                  display: flex;
+                  -ms-flex-wrap: wrap;
+                  flex-wrap: wrap;
+                  margin-right: calc(0px - var(--g-hgutter));
+                  margin-left: calc(0px - var(--g-hgutter));
+              }
+              .photos-thumb-collage-1 .product-single__photo{
+                  padding-left: var(--g-hgutter);
+                  padding-right: var(--g-hgutter);
+                  margin:0 0 var(--g-gutter) 0;
+                  flex: 0 0 50%;
+                  max-width: 50%;
+              }
+              .photos-thumb-collage-1 .product-single__photo:nth-child(1){
+                  flex: 0 0 100%;
+                  max-width: 100%;
+              }
+              .photos-thumb-collage-2 .my-gallery{
+                  display: -ms-flexbox;
+                  display: flex;
+                  -ms-flex-wrap: wrap;
+                  flex-wrap: wrap;
+                  margin-right: calc(0px - var(--g-hgutter));
+                  margin-left: calc(0px - var(--g-hgutter));
+              }
+              .photos-thumb-collage-2 .product-single__photo{
+                  padding-left: var(--g-hgutter);
+                  padding-right: var(--g-hgutter);
+                  margin:0 0 var(--g-gutter) 0;
+                  flex: 0 0 50%;
+                  max-width: 50%;
+              }
+              .photos-thumb-collage-2 .product-single__photo:nth-child(3n+1){
+                  flex: 0 0 100%;
+                  max-width: 100%;
+              }
+          }
+        .photos__item_with_icon {
+      display: flex;
+      gap: 20px;
+        }
+        .icon-image-text-product p {
+      font-size: 12px;
+  }
+        .photos__item.photos__item--main {
+      width: 80%;
+  }
+       .icon-text-image {
+                  display: flex;
+                  gap: 15px;
+                  flex-direction: column;
+                  width: 20%;
+                  justify-content: space-between;
+              }
+</style>
+<div class="photos {{ layout_style }}">
+  <div class="photos__item_with_icon">
+    <div class="photos__item photos__item--main" data-aos="fade">
+      <div class="my-gallery gallery-wrap{{ section.id }} mb-0" itemscope itemtype="http://schema.org/ImageGallery">
+        {%- for media in product.media -%}
+          {%- liquid
+            assign image = media
+          -%}
+          {% case media.media_type %}
+            {% when 'image' %}
+              <figure
+                itemprop="associatedMedia"
+                itemscope
+                itemtype="http://schema.org/ImageObject"
+                class="photo-image {% if image == featured_image %}  slick-current {% endif %} product-single__photo product__photo-container product__photo-container-{{ section.id }} "
+                id="ProductPhoto{{ section.id }}"
+                data-image-id="{{ image.id }}"
+              >
+                <a
+                  href="{{ image | image_url: width: 1400 }}"
+                  itemprop="contentUrl"
+                  data-size="1400x1400"
+                  class="product__photo-wrapper product__photo-wrapper-{{ section.id }} {{ image_size }} "
+                  style="padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;"
+                >
+                  {% assign img_url = image | image_url: width: 1 | replace: 'width=1', 'width={width}' %}
+                  <img
+                    itemprop="thumbnail"
+                    class="lazyload {% unless image == featured_image %} lazypreload{% endunless %}"
+                    src="{{ image | image_url: width: 1, height: 1 }}"
+                    data-src="{{ img_url }}"
+                    data-widths="[180, 240, 360, 480, 720, 960, 1080, 1296, 1512, 1728, 2048]"
+                    data-aspectratio="{{ image.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ image.alt | escape }}"
+                    width="{{ image.width }}"
+                    height="{{ image.height }}"
+                    {% if lazy == true %}
+                      loading="lazy"
+                    {% endif %}
+                    data-phototview="{{ image | image_url: width: 600 }}"
+                  >
+                </a>
+              </figure>
+
+            {%- when 'testmoinal' -%}
+              {% assign testimonialsteps = product.metafields.custom.select_reviews.value %}
+              <div class="testimonial-cardss swiper onlydeskop ">
+                <div class="swiper-wrapper">
+                  {% for step in testimonialsteps %}
+                    <div class="review-card swiper-slide">
+                      <div class="review-header">
+                        <img
+                          src="{{ step.icon_image | img_url: 'master' }}"
+                          alt="{{ step.name }}"
+                          class="review-avatar"
+
+                          loading="lazy">
+                        <div class="review-info">
+                          <span class="review-name">
+                            {{- step.name }}
+                            <svg
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g id="material-symbols:verified">
+                                <path id="Vector" d="M8.6 22.5L6.7 19.3L3.1 18.5L3.45 14.8L1 12L3.45 9.2L3.1 5.5L6.7 4.7L8.6 1.5L12 2.95L15.4 1.5L17.3 4.7L20.9 5.5L20.55 9.2L23 12L20.55 14.8L20.9 18.5L17.3 19.3L15.4 22.5L12 21.05L8.6 22.5ZM10.95 15.55L16.6 9.9L15.2 8.45L10.95 12.7L8.8 10.6L7.4 12L10.95 15.55Z" fill="black"></path>
+                              </g>
+                            </svg>
+                          </span>
+                          <div class="review-stars">
+                            <svg
+                              width="125"
+                              height="26"
+                              viewBox="0 0 125 26"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path d="M6.06763 22.7341L7.76034 15.4163L2.08325 10.4945L9.58325 9.84343L12.4999 2.94238L15.4166 9.84343L22.9166 10.4945L17.2395 15.4163L18.9322 22.7341L12.4999 18.8538L6.06763 22.7341Z" fill="black"/><path d="M31.0679 22.7336L32.7606 15.4159L27.0835 10.494L34.5835 9.84294L37.5002 2.94189L40.4168 9.84294L47.9168 10.494L42.2397 15.4159L43.9325 22.7336L37.5002 18.8534L31.0679 22.7336Z" fill="black"/><path d="M56.0676 22.7336L57.7603 15.4159L52.0833 10.494L59.5833 9.84294L62.4999 2.94189L65.4166 9.84294L72.9166 10.494L67.2395 15.4159L68.9322 22.7336L62.4999 18.8534L56.0676 22.7336Z" fill="black"/><path d="M81.0676 22.7336L82.7603 15.4159L77.0833 10.494L84.5833 9.84294L87.4999 2.94189L90.4166 9.84294L97.9166 10.494L92.2395 15.4159L93.9322 22.7336L87.4999 18.8534L81.0676 22.7336Z" fill="black"/><path d="M106.068 22.7336L107.761 15.4159L102.083 10.494L109.583 9.84294L112.5 2.94189L115.417 9.84294L122.917 10.494L117.24 15.4159L118.932 22.7336L112.5 18.8534L106.068 22.7336Z" fill="black"/>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="review-body">
+                        <p>{{ step.textt }}</p>
+                        <img src="{{ product.featured_image | img_url: 'master' }}" class="custom-te-img" loading="lazy">
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+                <!-- Add Pagination and Navigation -->
+                <div class="swiper-pagination"></div>
+              </div>
+              <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+              <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+              <style>
+                       #shopify-section-{{ section.id }} .review-header {
+                       display: flex;
+                       align-items: center;
+                       padding: 0 10px;
+                       height: 70px;
+                     }
+                     #shopify-section-{{ section.id }} .price.price--large.price--on-sale.price--show-badge {
+                         display: flex;
+                         align-items: center;
+                     }
+                     #shopify-section-{{ section.id }} .review-avatar {
+                       width: 50px;
+                       height: 50px;
+                       border-radius: 50%;
+                       margin-right: 15px;
+                     }
+
+                     #shopify-section-{{ section.id }} .review-info {
+                      display: flex;
+                         justify-content: space-between;
+                         width: 100%;
+                     }
+
+                     #shopify-section-{{ section.id }} .review-name {
+                        font-weight: 500;
+                        margin-right: 5px;
+                        display: flex;
+                        gap: 5px;
+                        align-items: center;
+                        color: #000;
+                        font-size: 20px;
+                    }
+
+                    #shopify-section-{{ section.id }} verified-icon {
+                       color: #1DA1F2; /* Blue check mark color */
+                     }
+
+                     #shopify-section-{{ section.id }} .review-stars {
+                       margin-top: 5px;
+
+                     }
+
+
+                     #shopify-section-{{ section.id }} .star {
+                       font-size: 18px;
+                     }
+
+                     #shopify-section-{{ section.id }} .review-body {
+                       margin-top: 15px;
+                       font-size: 18px;
+                       line-height: 1.5;
+                           padding: 0 10px;
+                           display: flex;
+                           gap: 20px;
+                    align-items: center;
+                       color: #000;
+                     }
+                    img.custom-te-img {
+                    width: 105px;
+                }
+                     #shopify-section-{{ section.id }} .review-card {
+                         background-image: url({% if block.settings.image != blank %}{{ block.settings.image | img_url: 'master' }}{% else %} https://cdn.shopify.com/s/files/1/1652/5029/files/Rectangle_240.png?v=1749224446{% endif %});
+                         background-size: cover;
+                         background-repeat: no-repeat;
+                         border-radius: 25px;
+                         display: inline-flex !important;
+                         flex-direction: column;
+                         padding: 56px 25px 16px 20px;
+                         overflow: hidden;
+                         margin-top: 20px;
+                     }
+                     #shopify-section-{{ section.id }} .testimonial-cardss {
+                         width: 100%;
+                         display: inline-block;
+                         overflow: hidden;
+                     }
+                     #shopify-section-{{ section.id }} .testimonial-cardss {
+                         display: inline-block;
+                         width: 100%;
+                         overflow: hidden;
+                         margin: 0 auto;
+                     }
+                      #shopify-section-{{ section.id }} .testimonial-cardss  .swiper-slide {
+                         height: max-content !important;
+                     }
+
+                       #shopify-section-{{ section.id }} .swiper-wrapper {
+                        height: max-content !important;
+                     }
+
+                     #shopify-section-{{ section.id }} .testimonial-cardss.swiper {
+                         display: inline-block;
+                         width: 100%;
+                         overflow: hidden !important;
+                         margin: 0 auto;
+                     }
+              </style>
+              <script>
+                   var swiper = new Swiper('.swiper', {
+                  slidesPerView: 1,
+                  spaceBetween: 10,
+                  loop: true,
+                  pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                  },
+                  navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                  },
+                  breakpoints: {
+                    640: {
+                      slidesPerView: 1,
+                    },
+                    768: {
+                      slidesPerView: 1,
+                    },
+                    1024: {
+                      slidesPerView: 1,
+                    },
+                  },
+                });
+              </script>
+
+            {% when 'video' %}
+              <div
+                itemprop="associatedMedia"
+                itemscope
+                itemtype="http://schema.org/ImageObject"
+                class="photo-image product-single__photo product-single__video product__photo-container product__photo-container-{{ section.id }} "
+                id="ProductPhoto{{ section.id }}"
+                data-image-id="{{ image.id }}"
+                data-videoid="{{ image.id }}"
+              >
+                <a href="{{ media | image_url: width: 1400 }}" itemprop="contentUrl" data-size="1400x1400">
+                  <deferred-media
+                    class="deferred-media media global-media-settings global-media-settings--no-shadow {{ image_size }}"
+                    style="padding-top: {{ 1 | divided_by: media.aspect_ratio | times: 100 }}%"
+                    data-media-id="{{ media.id }}"
+                  >
+                    <button id="Deferred-Poster-Modal-{{ media.id }}" class="deferred-media__poster" type="button">
+                      <span class="deferred-media__poster-button motion-reduce">
+                        {%- render 'icon-play' -%}
+                      </span>
+                      <img
+                        srcset="
+                          {% if media.preview_image.width >= 288 %}{{ media.preview_image | image_url: width: 288 }} 288w,{% endif %}
+                          {% if media.preview_image.width >= 700 %}{{ media.preview_image | image_url: width: 700 }} 576w,{% endif %}
+                          {% if media.preview_image.width >= 550 %}{{ media.preview_image | image_url: width: 550 }} 550w,{% endif %}
+                          {% if media.preview_image.width >= 1100 %}{{ media.preview_image | image_url: width: 1100 }} 1100w,{% endif %}
+                          {{ media.preview_image | image_url }} {{ media.preview_image.width }}w
+                        "
+                        src="{{ media | image_url: width: 700, height: 700 }}"
+                        sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                        loading="lazy"
+                        width="700"
+                        height="{{ 700 | divided_by: media.preview_image.aspect_ratio }}"
+                        alt="{{ media.preview_image.alt | escape }}"
+                        data-phototview="{{ media | image_url: width: 600 }}"
+                      >
+                    </button>
+                    <template>
+                      {{
+                        media
+                        | media_tag: image_size: '2048x', autoplay: true, loop: loop, controls: true, preload: 'none'
+                      }}
+                    </template>
+                  </deferred-media>
+                </a>
+              </div>
+            {% when 'external_video' %}
+              <div
+                itemprop="associatedMedia"
+                itemscope
+                itemtype="http://schema.org/ImageObject"
+                class="photo-image product-single__photo product-single__video product__photo-container product__photo-container-{{ section.id }} "
+                id="ProductPhoto{{ section.id }}"
+                data-image-id="{{ image.id }}"
+                data-videoid="{{ image.id }}"
+              >
+                <a href="{{ media | image_url: width: 1400 }}" itemprop="contentUrl" data-size="1400x1400">
+                  <deferred-media
+                    class="deferred-media media global-media-settings global-media-settings--no-shadow {{ image_size }}"
+                    style="padding-top: {{ 1 | divided_by: media.aspect_ratio | times: 100 }}%"
+                    data-media-id="{{ media.id }}"
+                  >
+                    <button id="Deferred-Poster-Modal-{{ media.id }}" class="deferred-media__poster" type="button">
+                      <span class="deferred-media__poster-button motion-reduce">
+                        {%- render 'icon-play' -%}
+                      </span>
+                      <img
+                        srcset="
+                          {% if media.preview_image.width >= 288 %}{{ media.preview_image | image_url: width: 288 }} 288w,{% endif %}
+                          {% if media.preview_image.width >= 576 %}{{ media.preview_image | image_url: width: 576 }} 576w,{% endif %}
+                          {% if media.preview_image.width >= 550 %}{{ media.preview_image | image_url: width: 550 }} 550w,{% endif %}
+                          {% if media.preview_image.width >= 1100 %}{{ media.preview_image | image_url: width: 1100 }} 1100w,{% endif %}
+                          {{ media.preview_image | image_url }} {{ media.preview_image.width }}w
+                        "
+                        src="{{ media | image_url: width: 700, height: 700 }}"
+                        sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                        loading="lazy"
+                        width="700"
+                        height="{{ 700 | divided_by: media.preview_image.aspect_ratio }}"
+                        alt="{{ media.preview_image.alt | escape }}"
+                        data-phototview="{{ media | image_url: width: 600 }}"
+                      >
+                    </button>
+                    <template>
+                      {%- assign video_class = 'js-' | append: media.host -%}
+                      {%- if media.host == 'youtube' -%}
+                        {{
+                          media
+                          | external_video_url: autoplay: true, loop: loop, playlist: media.external_id
+                          | external_video_tag: class: video_class, loading: 'lazy'
+                        }}
+                      {%- else -%}
+                        {{
+                          media
+                          | external_video_url: autoplay: true, loop: loop
+                          | external_video_tag: class: video_class, loading: 'lazy'
+                        }}
+                      {%- endif -%}
+                    </template>
+                  </deferred-media>
+                </a>
+              </div>
+            {% when 'model' %}
+              <div
+                itemprop="associatedMedia"
+                itemscope
+                itemtype="http://schema.org/ImageObject"
+                class="product-single__photo product-single__video product__photo-container product__photo-container-{{ section.id }} "
+                id="ProductPhoto{{ section.id }}"
+                data-image-id="{{ image.id }}"
+                data-videoid="{{ image.id }}"
+              >
+                <div class="product-media-modal__model" data-media-id="{{ media.id }}">
+                  <product-model
+                    class="deferred-media media media--transparent global-media-settings global-media-settings--no-shadow {{ image_size }}"
+                    style="padding-top: 100%;"
+                  >
+                    <button id="Deferred-Poster-Modal-{{ media.id }}" class="deferred-media__poster" type="button">
+                      <span class="deferred-media__poster-button motion-reduce">
+                        {%- render 'icon-3d-model' -%}
+                      </span>
+                      <img
+                        srcset="
+                          {% if media.preview_image.width >= 288 %}{{ media.preview_image | image_url: width: 288 }} 288w,{% endif %}
+                          {% if media.preview_image.width >= 576 %}{{ media.preview_image | image_url: width: 576 }} 576w,{% endif %}
+                          {% if media.preview_image.width >= 550 %}{{ media.preview_image | image_url: width: 550 }} 550w,{% endif %}
+                          {% if media.preview_image.width >= 1100 %}{{ media.preview_image | image_url: width: 1100 }} 1100w,{% endif %}
+                          {{ media.preview_image | image_url }} {{ media.preview_image.width }}w
+                        "
+                        src="{{ media | image_url: width: 700, height: 700 }}"
+                        sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                        loading="lazy"
+                        width="700"
+                        height="{{ 700 | divided_by: media.preview_image.aspect_ratio }}"
+                        alt="{{ media.preview_image.alt | escape }}"
+                      >
+                    </button>
+                    <template>
+                      {{ media | media_tag: image_size: '2048x', toggleable: true }}
+                    </template>
+                  </product-model>
+                  <button
+                    class="button button--full-width product__xr-button"
+                    type="button"
+                    aria-label="{{ 'products.product.xr_button_label' | t }}"
+                    data-shopify-xr
+                    data-shopify-model3d-id="{{ media.id }}"
+                    data-shopify-title="title"
+                    data-shopify-xr-hidden
+                  >
+                    {% render 'icon-3d-model' %}
+                    {{ 'products.product.xr_button' | t }}
+                  </button>
+                </div>
+              </div>
+            {% else %}
+              <div
+                itemprop="associatedMedia"
+                itemscope
+                itemtype="http://schema.org/ImageObject"
+                class="product-single__photo product-single__video product__photo-container product__photo-container-{{ section.id }} "
+                id="ProductPhoto{{ section.id }}"
+                style="max-width: {% render 'image-width' with image, image: image, width: 480 %}px;"
+                data-image-id="{{ image.id }}"
+                data-videoid="{{ image.id }}"
+              >
+                {{ media | media_tag }}
+              </div>
+          {% endcase %}
+        {%- endfor -%}
+      </div>
+    </div>
+    {% if product.metafields.custom.product_icon %}
+      <div class="icon-text-image">
+        {% if product.metafields.custom.product_icon %}
+          <div class="icon-image-text-product">
+            <img src="{{ product.metafields.custom.product_icon | img_url: 'master' }}" loading="lazy">
+            <p>{{ product.metafields.custom.product_icon_text }}</p>
+          </div>
+        {% endif %}
+
+        {% if product.metafields.custom.product_icon_1 %}
+          <div class="icon-image-text-product">
+            <img src="{{ product.metafields.custom.product_icon_1 | img_url: 'master' }}" loading="lazy">
+            <p>{{ product.metafields.custom.product_icon_text_1 }}</p>
+          </div>
+        {% endif %}
+
+        {% if product.metafields.custom.product_icon_2 %}
+          <div class="icon-image-text-product">
+            <img src="{{ product.metafields.custom.product_icon_2 | img_url: 'master' }}" loading="lazy">
+            <p>{{ product.metafields.custom.product_icon_text_2 }}</p>
+          </div>
+        {% endif %}
+
+        {% if product.metafields.custom.product_icon_3 %}
+          <div class="icon-image-text-product">
+            <img src="{{ product.metafields.custom.product_icon_3 | img_url: 'master' }}" loading="lazy">
+            <p>{{ product.metafields.custom.product_icon_text_3 }}</p>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+  {%- if product.images.size > 1 -%}
+    <div class="photos__item photos__item--thumbs {{ layout_mobile }}">
+      <div class="product-single__thumbnails product-single__thumbnails-{{ section.id }} product-single__thumbnails--static">
+        {%- for media in product.media -%}
+          {% assign image = media %}
+          <div
+            class="item product-single__thumbnail-item product-single__thumbnail-item-{{ section.id }}{% if image == featured_image %} is-active {% endif %}"
+            data-image-id="{{ image.id }}"
+          >
+            <a
+              href="{{ media | image_url: width: 1200 }}"
+              class="product-single__thumbnail product-single__thumbnail-{{ section.id }}"
+              {% if media.media_type == 'video' %}
+                data-videoid="{{ image.id }}"
+              {% endif %}
+            >
+              <span
+                class="{{ image_size }} position-relative image-wrap"
+                style="padding-top:{% if media.media_type == 'model' %}100% {% else %} {{ 1 | divided_by: media.aspect_ratio | times: 100 }}% {% endif %}"
+              >
+                {% assign img_url = image | image_url: width: 1 | replace: 'width=1', 'width={width}' %}
+                <img
+                  class="lazyload {% unless image == featured_image %} lazypreload {% endunless %}"
+                  src="{{ image | image_url: width: 1, height: 1 }}"
+                  data-src="{{ img_url }}"
+                  data-widths="[180, 240, 360]"
+                  data-aspectratio="{{ image.aspect_ratio }}"
+                  data-sizes="auto"
+                  alt="{{ image.alt | escape }}"
+                  loading="lazy"
+                  width="{{ image.width }}"
+                  height="{{ image.height }}"
+                >
+                {% case media.media_type %}
+                  {% when 'video', 'external_video' %}
+                    <span class="thumbnail__badge thumbnail__badge-video">
+                      {% render 'icon-play' %}
+                    </span>
+                  {% when 'model' %}
+                    <span class="thumbnail__badge">
+                      {% render 'icon-3d-model' %}
+                    </span>
+                {% endcase %}
+              </span>
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <script>
+      {%- liquid
+        capture arrow_left
+        render 'icon-arrow-left'
+        endcapture
+        capture arrow_right
+        render 'icon-arrow-right'
+        endcapture
+        capture arrow_up
+        render 'icon-arrow-up'
+        endcapture
+        capture arrow_down
+        render 'icon-arrow-down'
+        endcapture
+      -%}
+      var sliderArrows = {
+        left: {{ arrow_left | json }},
+        right: {{ arrow_right | json }},
+        up: {{ arrow_up | json }},
+        down: {{ arrow_down | json }}
+      }
+    </script>
+  {%- endif -%}
+</div>
+<div class="products-image-other onlydeskop">
+  {% for media in product.media limit: 6 %}
+    {% if media.media_type == 'image' and forloop.index > 1 %}
+      <img
+        src="{{ media | img_url: 'master' }}"
+        alt="{{ media.alt | escape }}"
+        {% if forloop.index == 2 %}
+          class="bigimage"
+        {% endif %}
+
+        loading="lazy">
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% assign testimonialsteps = product.metafields.custom.select_reviews.value %}
+<div class="testimonial-cardss swiper onlydeskop ">
+  <div class="swiper-wrapper">
+    {% for step in testimonialsteps %}
+      <div class="review-card swiper-slide">
+        <div class="review-header">
+          <img src="{{ step.icon_image | img_url: 'master' }}" alt="{{ step.name }}" class="review-avatar" loading="lazy">
+          <div class="review-info">
+            <span class="review-name">
+              {{- step.name }}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="material-symbols:verified">
+                  <path id="Vector" d="M8.6 22.5L6.7 19.3L3.1 18.5L3.45 14.8L1 12L3.45 9.2L3.1 5.5L6.7 4.7L8.6 1.5L12 2.95L15.4 1.5L17.3 4.7L20.9 5.5L20.55 9.2L23 12L20.55 14.8L20.9 18.5L17.3 19.3L15.4 22.5L12 21.05L8.6 22.5ZM10.95 15.55L16.6 9.9L15.2 8.45L10.95 12.7L8.8 10.6L7.4 12L10.95 15.55Z" fill="black"></path>
+                </g>
+              </svg>
+            </span>
+            <div class="review-stars">
+              <svg width="125" height="26" viewBox="0 0 125 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.06763 22.7341L7.76034 15.4163L2.08325 10.4945L9.58325 9.84343L12.4999 2.94238L15.4166 9.84343L22.9166 10.4945L17.2395 15.4163L18.9322 22.7341L12.4999 18.8538L6.06763 22.7341Z" fill="black"/><path d="M31.0679 22.7336L32.7606 15.4159L27.0835 10.494L34.5835 9.84294L37.5002 2.94189L40.4168 9.84294L47.9168 10.494L42.2397 15.4159L43.9325 22.7336L37.5002 18.8534L31.0679 22.7336Z" fill="black"/><path d="M56.0676 22.7336L57.7603 15.4159L52.0833 10.494L59.5833 9.84294L62.4999 2.94189L65.4166 9.84294L72.9166 10.494L67.2395 15.4159L68.9322 22.7336L62.4999 18.8534L56.0676 22.7336Z" fill="black"/><path d="M81.0676 22.7336L82.7603 15.4159L77.0833 10.494L84.5833 9.84294L87.4999 2.94189L90.4166 9.84294L97.9166 10.494L92.2395 15.4159L93.9322 22.7336L87.4999 18.8534L81.0676 22.7336Z" fill="black"/><path d="M106.068 22.7336L107.761 15.4159L102.083 10.494L109.583 9.84294L112.5 2.94189L115.417 9.84294L122.917 10.494L117.24 15.4159L118.932 22.7336L112.5 18.8534L106.068 22.7336Z" fill="black"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="review-body">
+          <p>{{ step.textt }}</p>
+          <img src="{{ product.featured_image | img_url: 'master' }}" class="custom-te-img" loading="lazy">
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <!-- Add Pagination and Navigation -->
+  <div class="swiper-pagination"></div>
+</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<style>
+         #shopify-section-{{ section.id }} .review-header {
+         display: flex;
+         align-items: center;
+             padding: 0 10px;
+       }
+       #shopify-section-{{ section.id }} .price.price--large.price--on-sale.price--show-badge {
+           display: flex;
+           align-items: center;
+       }
+       #shopify-section-{{ section.id }} .review-avatar {
+         width: 50px;
+         height: 50px;
+         border-radius: 50%;
+         margin-right: 15px;
+       }
+
+       #shopify-section-{{ section.id }} .review-info {
+        display: flex;
+           justify-content: space-between;
+           width: 100%;
+       }
+
+       #shopify-section-{{ section.id }} .review-name {
+          font-weight: 500;
+          margin-right: 5px;
+          display: flex;
+          gap: 5px;
+          align-items: center;
+          color: #000;
+          font-size: 20px;
+      }
+
+      #shopify-section-{{ section.id }} verified-icon {
+         color: #1DA1F2; /* Blue check mark color */
+       }
+
+       #shopify-section-{{ section.id }} .review-stars {
+         margin-top: 5px;
+                        }
+  #shopify-section-{{ section.id }} .review-stars svg{
+    height:auto;
+    width:135px;
+  }
+  .review-body p {
+      font-size: 18px;
+  }
+
+       #shopify-section-{{ section.id }} .star {
+         font-size: 18px;
+       }
+
+
+       #shopify-section-{{ section.id }} .review-body {
+         margin-top: 15px;
+         font-size: 18px;
+         line-height: 1.5;
+             padding: 0 10px;
+             display: flex;
+             gap: 20px;
+      align-items: center;
+         color: #000;
+       }
+      img.custom-te-img {
+      width: 105px;
+  }
+       #shopify-section-{{ section.id }} .review-card {
+           background-image: url({% if block.settings.image != blank %}{{ block.settings.image | img_url: 'master' }}{% else %} https://cdn.shopify.com/s/files/1/1652/5029/files/Rectangle_240.png?v=1749224446{% endif %});
+           background-size: cover;
+           background-repeat: no-repeat;
+           border-radius: 25px;
+           display: inline-flex !important;
+           flex-direction: column;
+           padding: 56px 25px 16px 20px;
+           overflow: hidden;
+           margin-top: 20px;
+       }
+       #shopify-section-{{ section.id }} .testimonial-cardss {
+           width: 100%;
+           display: inline-block;
+           overflow: hidden;
+       }
+       #shopify-section-{{ section.id }} .testimonial-cardss {
+           display: inline-block;
+           width: 100%;
+           overflow: hidden;
+           margin: 0 auto;
+       }
+        #shopify-section-{{ section.id }} .testimonial-cardss  .swiper-slide {
+           height: max-content !important;
+       }
+
+         #shopify-section-{{ section.id }} .swiper-wrapper {
+          height: max-content !important;
+       }
+
+       #shopify-section-{{ section.id }} .testimonial-cardss.swiper {
+           display: inline-block;
+           width: 100%;
+           overflow: hidden !important;
+           margin: 0 auto;
+       }
+   .products-image-other {
+        display: grid;
+        grid-template-columns: repeat(2, 2fr);
+        gap: 25px;
+    }
+</style>
+<script>
+     var swiper = new Swiper('.swiper', {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    loop: true,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+      640: {
+        slidesPerView: 1,
+      },
+      768: {
+        slidesPerView: 1,
+      },
+      1024: {
+        slidesPerView: 1,
+      },
+    },
+  });
+</script>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'image-width' with image: image, width: 480 %}"
+  to: "{% render 'image-width' with image, image: image, width: 480 %}"
+  position: 26000..26063
+{% endcomment %}

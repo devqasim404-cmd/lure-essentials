@@ -1,0 +1,421 @@
+{
+  "sections": {
+    "zp-product-header-content": {
+      "type": "product-header-content-zipifypages",
+      "settings": {}
+    },
+    "main": {
+      "type": "product-template-1",
+      "blocks": {
+        "989bce2f-7961-4267-8e6c-40ff4bb0ed64": {
+          "type": "title",
+          "settings": {
+            "e_label": true
+          }
+        },
+        "judge_me_reviews_preview_badge_zjpieM": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "31b79d7e-a35a-4a94-8cb5-8e518bf8fef6": {
+          "type": "review",
+          "settings": {}
+        },
+        "1affb493-1e14-4893-9876-be8d348ee475": {
+          "type": "shortdesc",
+          "settings": {}
+        },
+        "salepoint_ncCFhx": {
+          "type": "salepoint",
+          "settings": {
+            "icon": "checkmark",
+            "free_word": "Easy-grip plunger for controlled application"
+          }
+        },
+        "salepoint_Bwc8fN": {
+          "type": "salepoint",
+          "settings": {
+            "icon": "checkmark",
+            "free_word": "Ideal for trigger points and deep tissue work"
+          }
+        },
+        "salepoint_qUdxkF": {
+          "type": "salepoint",
+          "settings": {
+            "icon": "checkmark",
+            "free_word": "Perfect for static and pin & stretch techniques"
+          }
+        },
+        "salepoint_ipGeRB": {
+          "type": "salepoint",
+          "settings": {
+            "icon": "checkmark",
+            "free_word": "Trusted by 1,000+ Professionals"
+          }
+        },
+        "salepoint_kbwrWw": {
+          "type": "salepoint",
+          "settings": {
+            "icon": "checkmark",
+            "free_word": "Hassle-Free Returns Guaranteed"
+          }
+        },
+        "c5c11045-e3b5-47e4-80d1-25e86ec844cc": {
+          "type": "price",
+          "settings": {}
+        },
+        "ff32ea77-bcea-43d3-8e38-55894c9d938a": {
+          "type": "separator",
+          "settings": {}
+        },
+        "8288910a-1ad6-47df-b127-118bc1d2ce24": {
+          "type": "buttons",
+          "settings": {
+            "enable_local_pickup": true,
+            "enable_hurrify": true,
+            "enable_payment_button": true,
+            "waitlist": true,
+            "product_selector": "radio",
+            "sw_color_product": true,
+            "color_circle": false,
+            "size_color": "small-38"
+          }
+        },
+        "ab3c624e-4b26-4bb4-b6bc-f283badc9347": {
+          "type": "separator",
+          "settings": {}
+        },
+        "bf089f50-667c-4417-a84a-9478625741a1": {
+          "type": "list-info",
+          "disabled": true,
+          "settings": {
+            "block_style": "hoz",
+            "product_vendor_enable": false,
+            "product_type_enable": false,
+            "variant_sku_enable": true,
+            "variant_available_enable": false
+          }
+        },
+        "be13b3d2-2e01-4728-a83f-6488d1b7d4fa": {
+          "type": "block_banner",
+          "disabled": true,
+          "settings": {
+            "banner_text": "Rewards",
+            "banner_des": "Join to earn 84 points from this item",
+            "banner_icon_svg": "<svg width=\"24\" height=\"24\" viewbox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">     <path d=\"M21.7727 18.8659H2.22729C2.14549 18.8659 2.06992 18.8218 2.02956 18.7506C1.98921 18.6794 1.9903 18.5918 2.03237 18.5217L2.62727 17.5301L2.03237 16.5386C1.98921 16.4666 1.98921 16.3767 2.03237 16.3047L2.62727 15.3131L2.03237 14.3215C1.98921 14.2495 1.98921 14.1596 2.03237 14.0876L2.62727 13.096L2.03237 12.1044C1.98921 12.0324 1.98921 11.9425 2.03237 11.8706L2.62727 10.879L2.03237 9.88737C1.98921 9.81538 1.98921 9.72548 2.03237 9.65349L2.62727 8.6619L2.03237 7.67123C1.9903 7.60095 1.98921 7.51354 2.02956 7.44233C2.06992 7.37112 2.14549 7.32703 2.22729 7.32703H21.7727C21.8547 7.32703 21.9301 7.37113 21.9704 7.44233C22.0108 7.51354 22.0097 7.60095 21.9676 7.67123L21.3727 8.66282L21.9676 9.65441C22.0108 9.72639 22.0108 9.8163 21.9676 9.88829L21.3727 10.8799L21.9676 11.8715C22.0108 11.9435 22.0108 12.0334 21.9676 12.1053L21.3727 13.0969L21.9676 14.0885C22.0108 14.1605 22.0108 14.2504 21.9676 14.3224L21.3727 15.314L21.9676 16.3056C22.0108 16.3776 22.0108 16.4675 21.9676 16.5395L21.3727 17.5311L21.9676 18.5227C22.0097 18.5929 22.0108 18.6803 21.9704 18.7515C21.9301 18.822 21.8547 18.8659 21.7727 18.8659ZM2.62857 18.4116H21.3714L20.9129 17.6473C20.8697 17.5753 20.8697 17.4854 20.9129 17.4134L21.5078 16.4218L20.9129 15.4302C20.8697 15.3582 20.8697 15.2683 20.9129 15.1964L21.5078 14.2048L20.9129 13.2132C20.8697 13.1412 20.8697 13.0513 20.9129 12.9793L21.5078 11.9877L20.9129 10.9961C20.8697 10.9241 20.8697 10.8342 20.9129 10.7622L21.5078 9.77064L20.9129 8.77905C20.8697 8.70706 20.8697 8.61716 20.9129 8.54517L21.3714 7.7809L2.62857 7.78137L3.08713 8.54564C3.13029 8.61762 3.13029 8.70753 3.08713 8.77952L2.49223 9.77111L3.08713 10.7627C3.13029 10.8347 3.13029 10.9246 3.08713 10.9966L2.49223 11.988L3.08713 12.9796C3.13029 13.0516 3.13029 13.1415 3.08713 13.2135L2.49223 14.2051L3.08713 15.1967C3.13029 15.2686 3.13029 15.3586 3.08713 15.4305L2.49223 16.4221L3.08713 17.4137C3.13029 17.4857 3.13029 17.5756 3.08713 17.6476L2.62857 18.4116Z\" fill=\"currentColor\"></path>     <path d=\"M5.86194 10.2532C5.8194 10.2532 5.77624 10.2412 5.73791 10.2163C5.63289 10.1477 5.60328 10.007 5.67169 9.90182C5.67901 9.8906 6.40775 8.76124 6.62295 7.51552C6.6443 7.3918 6.76163 7.30891 6.8855 7.33026C7.00921 7.35161 7.09211 7.46925 7.07076 7.59281C6.83906 8.93342 6.08431 10.1011 6.05236 10.15C6.00889 10.217 5.9361 10.2532 5.86194 10.2532Z\" fill=\"currentColor\"></path>     <path d=\"M7.99639 10.2532C7.92222 10.2532 7.84961 10.2169 7.80598 10.1502C7.77388 10.1011 7.01866 8.93342 6.78743 7.59281C6.76608 7.46909 6.84913 7.35161 6.97269 7.33026C7.09625 7.30876 7.21389 7.39196 7.23524 7.51552C7.4501 8.76124 8.17916 9.89045 8.1865 9.90182C8.25506 10.007 8.22545 10.1477 8.12028 10.2163C8.0821 10.2413 8.03892 10.2532 7.99639 10.2532Z\" fill=\"currentColor\"></path>     <path d=\"M14.8656 15.0462C14.8271 15.0462 14.788 15.0364 14.7522 15.0157C14.6434 14.9529 14.6062 14.814 14.669 14.7053L16.6579 11.2604C16.7206 11.1518 16.8595 11.1144 16.9683 11.1772C17.0771 11.24 17.1143 11.3788 17.0515 11.4876L15.0625 14.9325C15.0206 15.0055 14.9443 15.0462 14.8656 15.0462Z\" fill=\"currentColor\"></path>     <path d=\"M14.8233 12.7745C14.3746 12.7745 14.0095 12.4095 14.0095 11.9607C14.0095 11.512 14.3746 11.1469 14.8233 11.1469C15.2721 11.1469 15.6371 11.512 15.6371 11.9607C15.6373 12.4095 15.2722 12.7745 14.8233 12.7745ZM14.8233 11.6013C14.6251 11.6013 14.4639 11.7625 14.4639 11.9607C14.4639 12.1589 14.6251 12.3202 14.8233 12.3202C15.0215 12.3202 15.1828 12.1589 15.1828 11.9607C15.1828 11.7625 15.0215 11.6013 14.8233 11.6013Z\" fill=\"currentColor\"></path>     <path d=\"M16.8975 15.0462C16.4488 15.0462 16.0837 14.6811 16.0837 14.2324C16.0837 13.7837 16.4488 13.4186 16.8975 13.4186C17.3463 13.4186 17.7113 13.7837 17.7113 14.2324C17.7115 14.6811 17.3463 15.0462 16.8975 15.0462ZM16.8975 13.8729C16.6993 13.8729 16.5381 14.0342 16.5381 14.2324C16.5381 14.4306 16.6993 14.5918 16.8975 14.5918C17.0957 14.5918 17.257 14.4306 17.257 14.2324C17.257 14.0342 17.0957 13.8729 16.8975 13.8729Z\" fill=\"currentColor\"></path>     <path d=\"M15.8608 16.9756C13.7216 16.9756 11.9813 15.2353 11.9813 13.0961C11.9813 10.9569 13.7216 9.21663 15.8608 9.21663C18 9.21663 19.7403 10.9569 19.7403 13.0961C19.7403 15.2353 17.9998 16.9756 15.8608 16.9756ZM15.8608 9.6712C13.9722 9.6712 12.4357 11.2077 12.4357 13.0963C12.4357 14.9849 13.9722 16.5214 15.8608 16.5214C17.7493 16.5214 19.2858 14.9849 19.2858 13.0963C19.2858 11.2078 17.7493 9.6712 15.8608 9.6712Z\" fill=\"currentColor\"></path>     <path d=\"M10.5385 11.333H4.43074C4.30531 11.333 4.20356 11.2312 4.20356 11.1058C4.20356 10.9804 4.30531 10.8786 4.43074 10.8786H10.5385C10.6639 10.8786 10.7657 10.9804 10.7657 11.1058C10.7657 11.2312 10.6639 11.333 10.5385 11.333Z\" fill=\"currentColor\"></path>     <path d=\"M10.5385 13.3234H4.43074C4.30531 13.3234 4.20356 13.2217 4.20356 13.0962C4.20356 12.9706 4.30531 12.869 4.43074 12.869H10.5385C10.6639 12.869 10.7657 12.9708 10.7657 13.0962C10.7657 13.2218 10.6639 13.3234 10.5385 13.3234Z\" fill=\"currentColor\"></path>     <path d=\"M10.5385 15.3138H4.43074C4.30531 15.3138 4.20356 15.2121 4.20356 15.0867C4.20356 14.9611 4.30531 14.8595 4.43074 14.8595H10.5385C10.6639 14.8595 10.7657 14.9612 10.7657 15.0867C10.7657 15.2123 10.6639 15.3138 10.5385 15.3138Z\" fill=\"currentColor\"></path>     <path d=\"M9.25687 7.78128C9.15325 7.78128 9.05961 7.70992 9.03561 7.60459C9.00772 7.48227 9.08422 7.36043 9.20654 7.33238C9.35067 7.2995 9.47438 7.25775 9.57395 7.20851C10.0306 6.98211 10.2181 6.42601 9.99154 5.96933C9.88185 5.74807 9.69253 5.5826 9.45851 5.50375C9.22448 5.4249 8.97363 5.44173 8.75252 5.55158C8.31048 5.77066 7.7017 6.47432 7.12395 7.43385C7.0395 7.57408 6.99182 7.6604 6.98979 7.66398C6.92903 7.77383 6.79082 7.81356 6.68097 7.75295C6.57112 7.69234 6.53123 7.55398 6.592 7.44413C6.59418 7.44023 6.64591 7.34675 6.73457 7.19934C7.10478 6.5845 7.83306 5.50001 8.55073 5.14428C8.88075 4.98052 9.25469 4.95528 9.60387 5.07307C9.9529 5.19071 10.2352 5.43737 10.3989 5.76738C10.7367 6.44875 10.4571 7.27784 9.77575 7.61565C9.64409 7.68094 9.48672 7.73454 9.30786 7.77552C9.29056 7.77941 9.27354 7.78128 9.25687 7.78128Z\" fill=\"currentColor\"></path>     <path d=\"M4.60146 7.78128C4.58463 7.78128 4.56765 7.77941 4.55067 7.77552C4.37179 7.7347 4.21442 7.68094 4.08289 7.61581C3.75272 7.45205 3.50606 7.16969 3.38843 6.82067C3.2708 6.47164 3.29603 6.09753 3.4598 5.76753C3.6234 5.43752 3.90575 5.19086 4.25478 5.07323C4.60396 4.95559 4.97792 4.98083 5.30792 5.14444C6.02543 5.50001 6.75372 6.58462 7.12393 7.19934C7.21274 7.3469 7.26447 7.44023 7.26649 7.44412C7.32711 7.55397 7.28737 7.69218 7.17752 7.75295C7.06767 7.81356 6.92946 7.77383 6.8687 7.66398C6.86667 7.66039 6.81899 7.57407 6.73454 7.43384C6.15663 6.47432 5.54785 5.77069 5.10597 5.55158C4.88471 5.44188 4.63385 5.4249 4.39982 5.50374C4.16579 5.58259 3.97648 5.74806 3.86679 5.96932C3.75694 6.19074 3.74011 6.44144 3.81895 6.67547C3.8978 6.9095 4.06327 7.09881 4.28453 7.20866C4.38394 7.2579 4.50766 7.29966 4.65179 7.33254C4.7741 7.36043 4.85061 7.48227 4.82272 7.60474C4.79872 7.70992 4.70508 7.78128 4.60146 7.78128Z\" fill=\"currentColor\"></path>     </svg>",
+            "banner_txt_color": "#000000",
+            "banner_bg_color": "linear-gradient(233deg, rgba(199, 255, 244, 1), rgba(248, 255, 174, 1) 100%)",
+            "banner_radius": 6
+          }
+        },
+        "73a647c7-afc5-4d87-aaea-1438dd5ecb92": {
+          "type": "icon_with_text",
+          "settings": {
+            "block_style": "ver",
+            "icon_1": "truck",
+            "icon_text_1": "Fast shipping",
+            "icon_2": "lock",
+            "icon_text_2": "Secure payment",
+            "icon_3": "shield",
+            "icon_text_3": "60-Day Money Back Guarantee",
+            "icon_4": "none",
+            "icon_text_4": ""
+          }
+        },
+        "7120c076-9673-4f15-a579-5efa29fefb6f": {
+          "type": "separator",
+          "settings": {}
+        },
+        "11f6643a-6bb6-4db9-a512-9c0eefc8c3b8": {
+          "type": "countdown",
+          "settings": {
+            "title_heading": "🔥 Sale ends in !"
+          }
+        },
+        "tabcustom_RiQNtC": {
+          "type": "tabcustom",
+          "settings": {
+            "title_tab": "Product information",
+            "icon": "checkmark",
+            "answer_content": "<p>Discover a new standard in cupping therapy with GRPS professional cups. Our revolutionary plunger design makes application effortless, while maintaining the strong, consistent suction needed for effective treatment. Each cup features a sturdy grip handle for precise placement and controlled release, making it perfect for both beginners and experienced practitioners.<br/><br/>These versatile cups excel at static cupping and internal pin & stretch techniques, particularly effective for stubborn trigger points, muscle tension, and joint mobility. The octagon-shaped contact surface creates distinctive treatment marks, helping practitioners track and document therapy progress. Perfect for clinical practice or dedicated self-care, GRPS cups deliver professional-grade results with unmatched ease of use.</p>",
+            "page": ""
+          }
+        },
+        "tabcustom_amYFTj": {
+          "type": "tabcustom",
+          "settings": {
+            "title_tab": "Materials",
+            "icon": "shield",
+            "answer_content": "<p>Crafted with our exclusive FlexiPure silicone, EDGE cups represent the gold standard in cupping therapy:</p><ul><li>Medical-grade, body-safe silicone</li><li>Free from BPA, BPS, phthalates, PVC, and latex</li><li>No harmful fillers or additives</li><li>Iconic design for easy placement and monitoring</li><li>Durable, easy-to-clean material</li><li>Professional-grade construction</li></ul>",
+            "page": ""
+          }
+        },
+        "0a71f30d-dba2-4bca-a64d-c3cc2ed17e7d": {
+          "type": "tabcustom",
+          "settings": {
+            "title_tab": "How To Use",
+            "icon": "leaf",
+            "answer_content": "<p>Apply to clean skin. Press plunger to create suction. Leave for 3-5 minutes<br/><br/>Important: For static and internal techniques only. Do not attempt gliding movements. Always avoid lymph nodes and follow included guide for complete instructions.</p>",
+            "page": ""
+          }
+        },
+        "9cd2d8a0-a8b4-46d7-b3a7-b1609af99285": {
+          "type": "fakeviewer",
+          "settings": {
+            "fake_view_min": 24,
+            "fake_view_max": 60,
+            "fake_view_duration": 3,
+            "fake_view_text_prefix": "👀",
+            "fake_view_text_suffix": "customers are viewing this product"
+          }
+        },
+        "2cf20ef7-ba29-4dd5-8c98-df0b96ba3c5b": {
+          "type": "text",
+          "settings": {
+            "text": "🔥  30 sold in last 18 hours",
+            "text_style": "body"
+          }
+        },
+        "1be7473b-00b2-4ad9-a7c0-356b86de67a7": {
+          "type": "shipping",
+          "settings": {}
+        },
+        "83a6f5b6-88e4-4eb3-9899-a085ea9c58bd": {
+          "type": "shippingtime",
+          "disabled": true,
+          "settings": {
+            "shipping_button": "Delivery information",
+            "page_shipping": ""
+          }
+        },
+        "883720d7-3346-4495-85a0-add8b3d7a51f": {
+          "type": "trust-badge",
+          "disabled": true,
+          "settings": {
+            "trust-heading": "Guarantee safe checkout",
+            "width_image": 66
+          }
+        }
+      },
+      "block_order": [
+        "989bce2f-7961-4267-8e6c-40ff4bb0ed64",
+        "judge_me_reviews_preview_badge_zjpieM",
+        "31b79d7e-a35a-4a94-8cb5-8e518bf8fef6",
+        "1affb493-1e14-4893-9876-be8d348ee475",
+        "salepoint_ncCFhx",
+        "salepoint_Bwc8fN",
+        "salepoint_qUdxkF",
+        "salepoint_ipGeRB",
+        "salepoint_kbwrWw",
+        "c5c11045-e3b5-47e4-80d1-25e86ec844cc",
+        "ff32ea77-bcea-43d3-8e38-55894c9d938a",
+        "8288910a-1ad6-47df-b127-118bc1d2ce24",
+        "ab3c624e-4b26-4bb4-b6bc-f283badc9347",
+        "bf089f50-667c-4417-a84a-9478625741a1",
+        "be13b3d2-2e01-4728-a83f-6488d1b7d4fa",
+        "73a647c7-afc5-4d87-aaea-1438dd5ecb92",
+        "7120c076-9673-4f15-a579-5efa29fefb6f",
+        "11f6643a-6bb6-4db9-a512-9c0eefc8c3b8",
+        "tabcustom_RiQNtC",
+        "tabcustom_amYFTj",
+        "0a71f30d-dba2-4bca-a64d-c3cc2ed17e7d",
+        "9cd2d8a0-a8b4-46d7-b3a7-b1609af99285",
+        "2cf20ef7-ba29-4dd5-8c98-df0b96ba3c5b",
+        "1be7473b-00b2-4ad9-a7c0-356b86de67a7",
+        "83a6f5b6-88e4-4eb3-9899-a085ea9c58bd",
+        "883720d7-3346-4495-85a0-add8b3d7a51f"
+      ],
+      "settings": {
+        "setwidth": "container",
+        "media_style": "media-bottom",
+        "media_size": "normal",
+        "image_size": "auto",
+        "enable_video_looping": true,
+        "stock_enable": true,
+        "sizeguide_enable": false,
+        "sizeguide_title": "",
+        "sizeguide_page": "",
+        "crosssell_title": "Cross selling",
+        "upsell_accept": "Add to cart",
+        "upsell_decline": "No, thanks",
+        "upsell_time": 3,
+        "enable": true,
+        "mix_1": "#262626",
+        "mix_2": "#ffffff",
+        "text_cl": "#ffffff",
+        "cart_bg": "#ffffff",
+        "cart_cl": "#000000",
+        "cart_cl_hover": "#ffffff"
+      }
+    },
+    "product-requently": {
+      "type": "product-bundle",
+      "settings": {
+        "animation": "fade-up",
+        "bgsection": "#ffffff",
+        "bundle_title": "Frequently Bought Together",
+        "size_text": "h4",
+        "limit_bundle": 3,
+        "enable_border": true,
+        "btn_add": "Add selected items",
+        "paddingsection": "40px 0px 40px 0px",
+        "paddingmobile": "40px 0px 40px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "product-content": {
+      "type": "product-content",
+      "blocks": {
+        "6889c9ba-caef-4edd-9757-6711505cb095": {
+          "type": "description",
+          "settings": {
+            "title_tab": "Description"
+          }
+        }
+      },
+      "block_order": [
+        "6889c9ba-caef-4edd-9757-6711505cb095"
+      ],
+      "settings": {
+        "animation": "fade-up",
+        "setwidth": "container",
+        "tab_size": "large",
+        "enable_left": false,
+        "paddingsection": "48px 0px 40px 0px",
+        "paddingmobile": "32px 0px 32px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "bcb1cba3-80fc-49a2-a033-40cf0618e9c8": {
+      "type": "faq-accordion",
+      "blocks": {
+        "template--14684877652053__bcb1cba3-80fc-49a2-a033-40cf0618e9c8-16659371170e440ef7-0": {
+          "type": "faq",
+          "settings": {
+            "faq_title": "Is the shipping free?",
+            "faq_des": "<p>Yes. Worldwide shipping is already included in the price. We use DHL express with 3 days delivery time.</p>"
+          }
+        },
+        "template--14684877652053__bcb1cba3-80fc-49a2-a033-40cf0618e9c8-16659371170e440ef7-1": {
+          "type": "faq",
+          "settings": {
+            "faq_title": "When will I receive my item?",
+            "faq_des": "<p>When we have received your order, you will automatically receive an e-mail confirming your order. Orders made before 2 PM (CET) will be picked, packed and shipped the same day. Delivery time is usually 2-4 working days with DHL Express.</p>"
+          }
+        },
+        "template--14684877652053__bcb1cba3-80fc-49a2-a033-40cf0618e9c8-16659371170e440ef7-2": {
+          "type": "faq",
+          "settings": {
+            "faq_title": "Can I change or return my item?",
+            "faq_des": "<p>If you want to change a product into another model, strap color etc., please contact us so we are able to reserve the new item in our stock immediately. You are always entitled to an exchange or refund within 30 days after you have received your package, as long as the item has not been used.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--14684877652053__bcb1cba3-80fc-49a2-a033-40cf0618e9c8-16659371170e440ef7-0",
+        "template--14684877652053__bcb1cba3-80fc-49a2-a033-40cf0618e9c8-16659371170e440ef7-1",
+        "template--14684877652053__bcb1cba3-80fc-49a2-a033-40cf0618e9c8-16659371170e440ef7-2"
+      ],
+      "disabled": true,
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "e_size": "auto",
+        "e_repeat": "no-repeat",
+        "e_pos": "center center",
+        "title_top": "",
+        "title": "FAQs",
+        "des": "Have a question ? We are here to help.",
+        "align-heading": "center",
+        "title_size": "h6",
+        "e_first_open": false,
+        "e_reverse": true,
+        "e_small": true,
+        "left_html": "",
+        "e_right": false,
+        "paddingsection": "80px 0px 0px 0px",
+        "paddingmobile": "60px 0px 60px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "be561305-5bee-4018-a668-c8770086ba5b": {
+      "type": "line",
+      "settings": {
+        "animation": "",
+        "paddingsection": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "bgsection": "#ffffff",
+        "setwidth": "container",
+        "bgborder": "#dddddd",
+        "wborder": "1px"
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "animation": "fade-up",
+        "setwidth": "container-fluid",
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "heading_align": "center",
+        "products_to_show": 10,
+        "spaceBetween": 30,
+        "perviewDesktop": 4,
+        "nowrap": true,
+        "arrows": true,
+        "scrollbar": true,
+        "padding_top": 80,
+        "padding_bottom": 32
+      }
+    },
+    "line_kcGy6J": {
+      "type": "line",
+      "settings": {
+        "animation": "",
+        "paddingsection": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "bgsection": "#ffffff",
+        "setwidth": "container",
+        "bgborder": "#dddddd",
+        "wborder": "1px"
+      }
+    },
+    "product-recent": {
+      "type": "recently-viewed",
+      "settings": {
+        "enable": true,
+        "animation": "fade-up",
+        "setwidth": "container",
+        "title_top": "",
+        "title": "Recently viewed",
+        "des": "",
+        "align-heading": "center",
+        "limit": 6,
+        "paddingsection": "0px 0px 60px 0px",
+        "paddingmobile": "40px 0px 40px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "zp-product-footer-content": {
+      "type": "product-footer-content-zipifypages",
+      "settings": {}
+    }
+  },
+  "order": [
+    "zp-product-header-content",
+    "main",
+    "product-requently",
+    "product-content",
+    "bcb1cba3-80fc-49a2-a033-40cf0618e9c8",
+    "be561305-5bee-4018-a668-c8770086ba5b",
+    "product-recommendations",
+    "line_kcGy6J",
+    "product-recent",
+    "zp-product-footer-content"
+  ]
+}

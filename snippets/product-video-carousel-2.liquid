@@ -1,0 +1,677 @@
+
+
+{% comment %}
+  Product Video Carousel
+  Metafield: custom.video_carousel
+  Supports Shopify video files or video metaobject references.
+{% endcomment %}
+
+{%- liquid
+  assign pvc_items = product.metafields.custom.video_carousel.value
+-%}
+
+{% if pvc_items != blank %}
+<section class="pvc" data-pvc-root aria-label="Product videos">
+
+  <div class="pvc__heading-row">
+    <h2 class="pvc__heading">See it in action</h2>
+    <span class="pvc__hint">Videos play automatically</span>
+  </div>
+
+  <div class="pvc__slider-shell">
+    <div class="pvc__track" data-pvc-track tabindex="0">
+
+      {% for item in pvc_items %}
+        {%- liquid
+          assign pvc_video = item
+
+          if item.media_type != 'video'
+            assign pvc_video = item.video.value
+          endif
+
+          assign pvc_thumbnail = item.thumbnail.value | default: pvc_video.preview_image
+          assign pvc_title = item.title.value | default: pvc_video.alt | default: 'Product video'
+        -%}
+
+        {% if pvc_video != blank and pvc_video.media_type == 'video' %}
+          <div class="pvc__slide">
+
+            <button
+              type="button"
+              class="pvc__card"
+              data-pvc-open
+              aria-label="Play {{ pvc_title | escape }}"
+            >
+              {% if pvc_thumbnail != blank %}
+                {{
+                  pvc_thumbnail
+                  | image_url: width: 560
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '180, 280, 360, 480, 560',
+                    sizes: '(min-width: 990px) 22vw, (min-width: 750px) 30vw, 62vw',
+                    alt: pvc_title,
+                    class: 'pvc__poster'
+                }}
+              {% else %}
+                <span class="pvc__poster-placeholder"></span>
+              {% endif %}
+
+              <span class="pvc__center-play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 5.5c0-.8.9-1.3 1.6-.9l9.1 5.6a2.1 2.1 0 0 1 0 3.6l-9.1 5.6c-.7.4-1.6-.1-1.6-.9z"/>
+                </svg>
+              </span>
+            </button>
+
+            <template data-pvc-player-template>
+              {{
+                pvc_video
+                | video_tag:
+                  controls: true,
+                  autoplay: false,
+                  muted: true,
+                  loop: false,
+                  preload: 'metadata',
+                  playsinline: true,
+                  class: 'pvc__player',
+                  image_size: '900x'
+              }}
+            </template>
+
+          </div>
+        {% endif %}
+      {% endfor %}
+
+    </div>
+
+    <button class="pvc__nav pvc__nav--prev" type="button"
+      data-pvc-prev aria-label="Previous videos" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m15 18-6-6 6-6"/>
+      </svg>
+    </button>
+
+    <button class="pvc__nav pvc__nav--next" type="button"
+      data-pvc-next aria-label="Next videos" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"/>
+      </svg>
+    </button>
+  </div>
+
+  <dialog class="pvc__dialog" data-pvc-dialog aria-label="Product video">
+    <div class="pvc__dialog-content">
+      <button class="pvc__close" type="button" data-pvc-close
+        aria-label="Close video">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round">
+          <path d="M6 6l12 12M18 6 6 18"/>
+        </svg>
+      </button>
+      <div class="pvc__player-mount" data-pvc-player-mount></div>
+    </div>
+  </dialog>
+
+</section>
+
+<style>
+.pvc,
+.pvc * {
+  box-sizing: border-box;
+}
+
+.pvc {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 40px 0 30px;
+  color: rgb(20, 26, 92);
+}
+
+.pvc__heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 16px;
+}
+
+.pvc__heading {
+  margin: 0;
+  color: rgb(20, 26, 92);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.pvc__hint {
+  color: rgb(107, 113, 144);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.pvc__slider-shell {
+  position: relative;
+  min-width: 0;
+}
+
+.pvc__track {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.pvc__track::-webkit-scrollbar {
+  display: none;
+}
+
+.pvc__slide {
+  position: relative;
+  flex: 0 0 calc((100% - 30px) / 4);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.pvc__card {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 160 / 248;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 3px solid #111;
+  border-radius: 14px;
+  background: #e5e8ef;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pvc__poster,
+.pvc__poster-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pvc__poster-placeholder {
+  background: linear-gradient(135deg, #b7bac6, #6a6b7d);
+}
+
+.pvc__center-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border: 2px solid rgba(255,255,255,.9);
+  border-radius: 50%;
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  pointer-events: none;
+}
+
+.pvc__center-play svg {
+  width: 23px;
+  height: 23px;
+}
+
+.pvc__inline-player {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  background: #000;
+  pointer-events: none;
+}
+
+.pvc__card.is-playing .pvc__poster,
+.pvc__card.is-playing .pvc__poster-placeholder,
+.pvc__card.is-playing .pvc__center-play {
+  visibility: hidden;
+}
+
+.pvc__nav {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: #10184b;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,.18);
+  cursor: pointer;
+}
+
+.pvc__nav svg {
+  width: 16px;
+  height: 16px;
+}
+
+.pvc__nav--prev {
+  left: 7px;
+}
+
+.pvc__nav--next {
+  right: 7px;
+}
+
+.pvc__nav[hidden] {
+  display: none !important;
+}
+
+.pvc__dialog {
+  position: fixed;
+  inset: 0;
+  width: min(440px, 92vw);
+  max-width: min(440px, 92vw);
+  max-height: 92dvh;
+  padding: 0;
+  margin: auto;
+  border: 0;
+  border-radius: 14px;
+  overflow: visible;
+  background: #050505;
+  color: #fff;
+}
+
+.pvc__dialog::backdrop {
+  background: rgba(0,0,0,.83);
+}
+
+.pvc__dialog:not([open]) {
+  display: none;
+}
+
+.pvc__dialog-content {
+  position: relative;
+  max-height: 92dvh;
+}
+
+.pvc__player-mount {
+  width: 100%;
+  max-height: 92dvh;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #000;
+}
+
+.pvc__player-mount video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 92dvh;
+  aspect-ratio: 9 / 16;
+  object-fit: contain;
+}
+
+.pvc__close {
+  position: absolute;
+  z-index: 5;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,.7);
+  color: #fff;
+  cursor: pointer;
+}
+
+.pvc__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (hover: hover) {
+  .pvc__nav {
+    opacity: 0;
+    transition: opacity .15s ease;
+  }
+
+  .pvc__slider-shell:hover .pvc__nav,
+  .pvc__nav:focus-visible {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 989px) and (min-width: 750px) {
+  .pvc__slide {
+    flex-basis: calc((100% - 20px) / 3);
+  }
+}
+
+@media (max-width: 749px) {
+  .pvc {
+    margin: 18px 0 24px;
+  }
+
+  .pvc__heading-row {
+    margin-bottom: 12px;
+  }
+
+  .pvc__heading {
+    font-size: 17px;
+  }
+
+  .pvc__hint {
+    font-size: 12px;
+  }
+
+  .pvc__slide {
+    flex: 0 0 calc((100% - 20px) / 2.5);
+  }
+
+  .pvc__center-play {
+    width: 48px;
+    height: 48px;
+  }
+
+  .pvc__nav {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pvc__nav {
+    transition: none;
+  }
+}
+</style>
+
+<script>
+(function () {
+  var script = document.currentScript;
+  var root = script ? script.previousElementSibling : null;
+
+  while (root && !(root.matches && root.matches('[data-pvc-root]'))) {
+    root = root.previousElementSibling;
+  }
+
+  if (!root || root.dataset.pvcInitialized === 'true') return;
+  root.dataset.pvcInitialized = 'true';
+
+  var track = root.querySelector('[data-pvc-track]');
+  var dialog = root.querySelector('[data-pvc-dialog]');
+  var mount = root.querySelector('[data-pvc-player-mount]');
+  var closeButton = root.querySelector('[data-pvc-close]');
+  var prevButton = root.querySelector('[data-pvc-prev]');
+  var nextButton = root.querySelector('[data-pvc-next]');
+  var slides = Array.from(root.querySelectorAll('.pvc__slide'));
+
+  if (!track || !dialog || !mount || !slides.length) return;
+
+  var currentIndex = -1;
+  var currentVideo = null;
+  var sequenceStarted = false;
+  var userPaused = false;
+  var popupOpen = false;
+  var observer = null;
+
+  function updateNavigation() {
+    if (!prevButton || !nextButton) return;
+
+    var maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+
+    prevButton.hidden = maxScroll < 2 || track.scrollLeft < 3;
+    nextButton.hidden = maxScroll < 2 ||
+      track.scrollLeft >= maxScroll - 3;
+  }
+
+  function scrollCards(direction) {
+    var slide = slides[0];
+    if (!slide) return;
+
+    var gap = parseFloat(getComputedStyle(track).gap) || 10;
+
+    track.scrollBy({
+      left: direction * (slide.getBoundingClientRect().width + gap) * 2,
+      behavior: 'smooth'
+    });
+  }
+
+  if (prevButton) {
+    prevButton.addEventListener('click', function () {
+      scrollCards(-1);
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener('click', function () {
+      scrollCards(1);
+    });
+  }
+
+  track.addEventListener('scroll', updateNavigation, { passive: true });
+  window.addEventListener('resize', updateNavigation);
+  updateNavigation();
+
+  function stopInlineVideo() {
+    if (currentVideo) {
+      currentVideo.pause();
+      currentVideo.remove();
+      currentVideo = null;
+    }
+
+    slides.forEach(function (slide) {
+      var card = slide.querySelector('[data-pvc-open]');
+      if (card) card.classList.remove('is-playing');
+    });
+  }
+
+  function playVideo(index) {
+    if (userPaused || document.hidden || popupOpen) return;
+
+    stopInlineVideo();
+
+    currentIndex = index % slides.length;
+
+    var slide = slides[currentIndex];
+    var card = slide.querySelector('[data-pvc-open]');
+    var template = slide.querySelector('[data-pvc-player-template]');
+    var original = template && template.content.querySelector('video');
+
+    if (!card || !original) {
+      if (slides.length > 1) playVideo((currentIndex + 1) % slides.length);
+      return;
+    }
+
+    var video = original.cloneNode(true);
+
+    video.classList.remove('pvc__player');
+    video.classList.add('pvc__inline-player');
+    video.controls = false;
+    video.autoplay = true;
+    video.loop = false;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.playsInline = true;
+    video.preload = 'auto';
+
+    card.appendChild(video);
+    card.classList.add('is-playing');
+    currentVideo = video;
+
+    video.addEventListener('ended', function () {
+      if (currentVideo === video && !userPaused && !popupOpen) {
+        playVideo((currentIndex + 1) % slides.length);
+      }
+    });
+
+    video.addEventListener('error', function () {
+      console.warn('Carousel video failed to load:', video.currentSrc);
+    }, { once: true });
+
+    video.load();
+
+    var promise = video.play();
+
+    if (promise && promise.catch) {
+      promise.catch(function (error) {
+        console.warn('Muted autoplay could not start:', error);
+      });
+    }
+
+    var left = slide.offsetLeft;
+    var right = left + slide.offsetWidth;
+
+    if (left < track.scrollLeft ||
+        right > track.scrollLeft + track.clientWidth) {
+      track.scrollTo({
+        left: Math.max(0, left - 10),
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  function startSequence() {
+    if (sequenceStarted || userPaused || document.hidden) return;
+
+    sequenceStarted = true;
+    playVideo(0);
+  }
+
+  function clearPopup() {
+    var popupVideo = mount.querySelector('video');
+
+    if (popupVideo) popupVideo.pause();
+
+    mount.replaceChildren();
+  }
+
+  root.querySelectorAll('[data-pvc-open]').forEach(function (button, index) {
+    button.addEventListener('click', function () {
+      var slide = button.closest('.pvc__slide');
+      var template = slide && slide.querySelector('[data-pvc-player-template]');
+
+      if (!template) return;
+
+      popupOpen = true;
+
+      if (currentVideo) currentVideo.pause();
+
+      clearPopup();
+      mount.appendChild(template.content.cloneNode(true));
+
+      if (typeof dialog.showModal === 'function') {
+        dialog.showModal();
+      } else {
+        dialog.setAttribute('open', '');
+      }
+
+      var video = mount.querySelector('video');
+
+      if (video) {
+        video.controls = true;
+        video.muted = false;
+        video.playsInline = true;
+
+        var promise = video.play();
+
+        if (promise && promise.catch) {
+          promise.catch(function () {});
+        }
+      }
+
+      currentIndex = index;
+    });
+  });
+
+  function closePopup() {
+    if (dialog.open && typeof dialog.close === 'function') {
+      dialog.close();
+    } else {
+      dialog.removeAttribute('open');
+    }
+
+    clearPopup();
+    popupOpen = false;
+
+    if (!userPaused) {
+      if (currentVideo && !currentVideo.ended) {
+        var promise = currentVideo.play();
+        if (promise && promise.catch) promise.catch(function () {});
+      } else {
+        playVideo((currentIndex + 1) % slides.length);
+      }
+    }
+  }
+
+  if (closeButton) {
+    closeButton.addEventListener('click', closePopup);
+  }
+
+  dialog.addEventListener('click', function (event) {
+    if (event.target === dialog) closePopup();
+  });
+
+  dialog.addEventListener('close', function () {
+    clearPopup();
+    popupOpen = false;
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      if (currentVideo) currentVideo.pause();
+      return;
+    }
+
+    if (sequenceStarted && !userPaused && !popupOpen) {
+      if (currentVideo && !currentVideo.ended) {
+        var promise = currentVideo.play();
+        if (promise && promise.catch) promise.catch(function () {});
+      } else {
+        playVideo((currentIndex + 1) % slides.length);
+      }
+    }
+  });
+
+  if ('IntersectionObserver' in window) {
+    observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
+          startSequence();
+
+          if (observer) observer.disconnect();
+        }
+      });
+    }, { threshold: [0.25] });
+
+    observer.observe(root);
+  } else {
+    window.setTimeout(startSequence, 800);
+  }
+})();
+</script>
+{% endif %}

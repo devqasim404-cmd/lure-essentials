@@ -1,0 +1,143 @@
+{% liquid
+  assign swatches = product.metafields.custom.product_swatches.value
+  assign total_swatches = 0
+  assign active_swatch_title = blank
+
+  if swatches != blank
+    assign total_swatches = swatches.count
+
+    for swatch in swatches
+      assign linked_product = swatch.link.value
+
+      if linked_product != blank and linked_product.id == product.id
+        assign active_swatch_title = swatch.title.value
+        break
+      endif
+    endfor
+  endif
+%}
+
+
+
+{% if swatches != blank %}
+  <div
+    id="{{ block_id }}"
+    class="product-swatches"
+    style="
+      --ps-image-size: {{ block.settings.image_size }}px;
+      --ps-columns: {{ block.settings.desktop_columns }};
+      --ps-mobile-columns: {{ block.settings.mobile_columns }};
+      --ps-gap: {{ block.settings.item_gap }}px;
+      --ps-text-color: {{ block.settings.text_color }};
+      --ps-muted-color: {{ block.settings.muted_color }};
+      --ps-active-color: {{ block.settings.active_color }};
+      --ps-border-color: {{ block.settings.border_color }};
+    "
+    {{ block.shopify_attributes }}
+  >
+    {% if block.settings.show_heading or block.settings.show_count %}
+      <div class="product-swatches__header">
+        {% if block.settings.show_heading %}
+          
+            
+
+<span class="product-swatches__heading">
+  {{ block.settings.heading_label | default: 'Variant' | escape }}:
+  <strong>{{ active_swatch_title | escape }}</strong>
+</span>
+
+
+
+        {% endif %}
+
+        {% if block.settings.show_count %}
+  <span class="product-swatches__count">
+    {{ total_swatches }}
+    {{ block.settings.count_label | default: 'options' | escape }}
+  </span>
+{% endif %}
+      </div>
+    {% endif %}
+
+    <div class="product-swatches__grid">
+      {% for swatch in swatches %}
+        {% liquid
+          assign linked_product = swatch.link.value
+          assign swatch_title = swatch.title.value
+          assign swatch_image = swatch.image.value
+          assign swatch_url = blank
+          assign is_active = false
+
+          if linked_product != blank
+            assign swatch_url = linked_product.url
+
+            if linked_product.id == product.id
+              assign is_active = true
+            endif
+
+            if swatch_title == blank
+              assign swatch_title = linked_product.title
+            endif
+          endif
+
+          if swatch_url == blank
+            assign swatch_url = '#'
+          endif
+        %}
+
+        {% if swatch_title != blank %}
+          <a
+            class="product-swatches__item{% if is_active %} is-active{% endif %}"
+            href="{{ swatch_url }}"
+            {% if is_active %}
+              aria-current="page"
+              aria-pressed="true"
+            {% endif %}
+            aria-label="{{ swatch_title | escape }}"
+            {% if linked_product == blank %}
+              aria-disabled="true"
+            {% endif %}
+          >
+            <span class="product-swatches__image">
+              {% if swatch_image != blank %}
+                {{
+                  swatch_image
+                  | image_url: width: 240
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '60, 90, 120, 180, 240',
+                    alt: swatch_title,
+                    class: 'product-swatches__img'
+                }}
+              {% elsif linked_product != blank and linked_product.featured_image != blank %}
+                {{
+                  linked_product.featured_image
+                  | image_url: width: 240
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '60, 90, 120, 180, 240',
+                    alt: swatch_title,
+                    class: 'product-swatches__img'
+                }}
+              {% else %}
+                <span class="product-swatches__placeholder">
+                  {{ swatch_title | slice: 0, 1 | escape }}
+                </span>
+              {% endif %}
+            </span>
+
+            <span class="product-swatches__name">
+              {{ swatch_title | escape }}
+            </span>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if block.settings.show_description and block.settings.description != blank %}
+      <div class="product-swatches__description">
+        {{ block.settings.description | escape | newline_to_br }}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
