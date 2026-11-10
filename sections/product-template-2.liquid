@@ -530,12 +530,18 @@
                   <div class="custom-product-price__heading">
                     <div class="custom-product-price__heading-row">
                       <span class="custom-product-price__headline"
-                            data-price-savings-heading>
-                        Save up to {{ savings_percent }}% off today
+                            data-price-savings-heading{% if block.settings.savings_heading != blank %} data-fixed-heading{% endif %}>
+                        {%- if block.settings.savings_heading != blank -%}
+                          {{ block.settings.savings_heading | escape }}
+                        {%- else -%}
+                          Save up to {{ savings_percent }}% off today
+                        {%- endif -%}
                       </span>
-                      <span class="custom-product-price__subheading">
-                        with today’s Subscribe &amp; Save offer
-                      </span>
+                      {%- unless block.settings.hide_subheading -%}
+                        <span class="custom-product-price__subheading">
+                          with today’s Subscribe &amp; Save offer
+                        </span>
+                      {%- endunless -%}
                     </div>
                   </div>
 
@@ -3625,12 +3631,24 @@ document.addEventListener('DOMContentLoaded', function () {
       "name": "Subscription Price",
       "limit": 1,
       "settings": [
-        
+
         {
           "type": "text",
           "id": "price_label",
           "label": "Price label",
           "default": "TODAY"
+        },
+        {
+          "type": "text",
+          "id": "savings_heading",
+          "label": "Savings heading",
+          "info": "Leave blank to use the default savings heading."
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_subheading",
+          "label": "Hide \"with today's Subscribe & Save offer\"",
+          "default": false
         }
 
       ]
@@ -5566,7 +5584,10 @@ Changes:
         savingsEl.textContent = formatPrice(noDiscount ? 0 : savings, currencyReference);
         originalEl.toggleAttribute('data-no-discount', noDiscount);
 
-        headingEl.textContent = 'Save up to ' + 55 + '% off today';
+        // A heading set in the block settings stays as written.
+        if (!headingEl.hasAttribute('data-fixed-heading')) {
+          headingEl.textContent = 'Save up to ' + 55 + '% off today';
+        }
 
         // Hide the strike-through original price if there is no discount.
         originalEl.style.display = savings > 0 || noDiscount ? '' : 'none';

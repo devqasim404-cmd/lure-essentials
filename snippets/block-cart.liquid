@@ -186,7 +186,7 @@
             {{ 'cart.general.taxes_and_shipping_at_checkout' | t }}
           </div>
 
-          {% comment %} <div class="shiptection-widget"></div>               {% endcomment %}
+          <div class="shiptection-widget"></div>
           <div class="mini-cart-btns mt-3 d-flex flex-column w-100 gap-2">
             {%- if settings.enable_term -%}
             <checkout-button class="checkbox" name="checkout">
@@ -199,14 +199,17 @@
                     </label>
                   </div>
                 </div>
-                <a name="checkout" class="disabled w-100 btn gradient-theme js-cart-btn-checkout btn-theme d-flex align-items-center justify-content-center " href="/checkout"> {{ 'cart.general.checkout' | t }}</a>
+                <div class="shiptection-price-info"></div>
+                <div class="shiptection-checkout-wrapper-inner mb-2">
+                  <a name="checkout" class="disabled w-100 btn gradient-theme js-cart-btn-checkout btn-theme d-flex align-items-center justify-content-center " href="/checkout"> {{ 'cart.general.checkout' | t }}</a>
+                </div>
               </div>
             </checkout-button>
             {% else %}
-              {% comment %} <div class="shiptection-price-info"></div> {% endcomment %}
-              {% comment %} <div class="shiptection-checkout-wrapper-inner mb-2"> {% endcomment %}
+              <div class="shiptection-price-info"></div>
+              <div class="shiptection-checkout-wrapper-inner mb-2">
                 <a name="checkout" class="w-100 btn gradient-theme js-cart-btn-checkout btn-theme d-flex align-items-center justify-content-center" href="/checkout"> {{ 'cart.general.checkout' | t }}+</a>
-              {% comment %} </div> {% endcomment %}
+              </div>
             {%- endif -%}
             <div>
                 <a class=" btn btn-underline js-cart-btn-cart" href="{{ routes.cart_url }}">{{ 'cart.general.view' | t }}</a>

@@ -265,7 +265,7 @@
 
                 <p class="cart__taxes rte txt-body-70">{{ taxes_shipping_checkout }}</p>
                
-                {% comment %} <style>
+                <style>
                   .shiptection-checkout-without-protection-container {
                     display: block;
                     margin-top: 0.5rem;
@@ -273,12 +273,12 @@
                   .shiptection-info-icon {
                     display: contents;
                   }
-                </style> {% endcomment %}
-                {% comment %} <div class="shiptection-price-info"></div> {% endcomment %}
+                </style>
+                <div class="shiptection-price-info"></div>
                 <button type="submit" name="update" class="btn--secondary update-cart">{{ 'cart.general.update' | t }}</button>
-                {% comment %} <div class="shiptection-checkout-wrapper-inner"> {% endcomment %}
+                <div class="shiptection-checkout-wrapper-inner">
                   <button type="submit" name="checkout" class="btn btn-theme gradient-theme btn-cart-checkout w-100">{{ 'cart.general.checkout' | t }}+</button>
-                {% comment %} </div> {% endcomment %}
+                </div>
                 {%- if shop.enabled_payment_types != empty -%}
                   <p class="small txt-body-70 mt-4 mb-0 text-center">{{ 'cart.general.accept' | t }}</p>
                   <ul id="cart-payment-methods" class="list-inline payment-icons text-center">
