@@ -1,0 +1,178 @@
+{%- comment -%}
+  Bundle page banner (Lure Essentials)
+  ------------------------------------------------------------------
+  Image banner for the "Build your own bundle" page template. Add it in the
+  theme editor ABOVE the Appstle dynamic bundle section.
+
+  Images:
+  - Desktop/tablet (640px and up): the banner image, shown whole.
+  - Phones (639px and below): the "Mobile banner image" if one is chosen,
+    shown whole at its own shape. If none is chosen, phones show the left part
+    of the desktop image, larger, so the text stays readable.
+
+  Clicking the banner scrolls down to the products, stopping just below the
+  sticky header and the discount bar.
+{%- endcomment -%}
+
+{%- liquid
+  assign img = section.settings.image
+  assign img_mobile = section.settings.image_mobile
+  assign alt = section.settings.alt | default: img.alt
+-%}
+
+<style>
+  .lure-bb {
+    box-sizing: border-box;
+    width: calc(100% - 80px);
+    max-width: 1200px;
+    margin: 32px auto 40px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 18px 44px rgba(20, 26, 92, 0.12);
+  }
+  .lure-bb__link { display: block; line-height: 0; }
+  .lure-bb__link:focus-visible { outline: 2px solid #2f8fe8; outline-offset: 4px; }
+  .lure-bb__img { display: block; width: 100%; height: auto; }
+  .lure-bb__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 2000 / 714;
+    padding: 24px;
+    background: #f5faff;
+    border: 1.5px dashed #b7becc;
+    border-radius: 24px;
+    color: #4a5170;
+    font-size: 15px;
+    line-height: 1.5;
+    text-align: center;
+  }
+  @media (max-width: 639px) {
+    .lure-bb {
+      width: calc(100% - 32px);
+      margin: 12px auto 20px;
+      border-radius: 18px;
+    }
+    /* phones without a mobile image: crop to the left ~48% of the desktop image
+       (text block and button), so the words are about twice as big */
+    .lure-bb:not(.lure-bb--has-mobile) .lure-bb__img {
+      aspect-ratio: 960 / 714;
+      height: auto;
+      object-fit: cover;
+      object-position: 0% 50%;
+    }
+  }
+</style>
+
+{%- if img != blank -%}
+  <div class="lure-bb{% if img_mobile != blank %} lure-bb--has-mobile{% endif %}">
+    <a class="lure-bb__link" href="#bundle-products" data-lure-bb-scroll aria-label="{{ alt | escape }}">
+      {%- if img_mobile != blank -%}
+        <picture>
+          <source
+            media="(max-width: 639px)"
+            srcset="{{ img_mobile | image_url: width: 600 }} 600w, {{ img_mobile | image_url: width: 900 }} 900w, {{ img_mobile | image_url: width: 1200 }} 1200w"
+            sizes="calc(100vw - 32px)"
+            width="{{ img_mobile.width }}"
+            height="{{ img_mobile.height }}"
+          >
+          {{
+            img
+            | image_url: width: 2400
+            | image_tag:
+              loading: 'eager',
+              fetchpriority: 'high',
+              widths: '800, 1200, 1600, 2000, 2400',
+              sizes: '(min-width: 1280px) 1200px, calc(100vw - 80px)',
+              alt: alt,
+              class: 'lure-bb__img'
+          }}
+        </picture>
+      {%- else -%}
+        {{
+          img
+          | image_url: width: 2400
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '800, 1200, 1600, 2000, 2400',
+            sizes: '(min-width: 1280px) 1200px, (min-width: 640px) calc(100vw - 80px), calc((100vw - 32px) * 2.1)',
+            alt: alt,
+            class: 'lure-bb__img'
+        }}
+      {%- endif -%}
+    </a>
+  </div>
+
+  <script>
+    (function () {
+      if (window.lureBundleBannerScroll) return;
+      window.lureBundleBannerScroll = true;
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest('[data-lure-bb-scroll]');
+        if (!a) return;
+        e.preventDefault();
+        var root = document.querySelector('#appstleBundlesPageRoot');
+        var target = root && root.querySelector('.ab-product-list-container, .ab-products-list');
+        if (!target) return;
+        // stop below what is stuck to the top: the theme's sticky header and, on
+        // desktop, Appstle's sticky discount bar (on phones the bar sits at the bottom)
+        var offset = 16;
+        var header = document.querySelector('header.site-header--sticky');
+        if (header) offset += header.offsetHeight;
+        var bar = root.querySelector('.ab-tiered-discount-progress-step-container');
+        if (bar) {
+          var s = getComputedStyle(bar);
+          if ((s.position === 'sticky' || s.position === 'fixed') && s.bottom !== '0px') offset += bar.offsetHeight;
+        }
+        var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: Math.max(0, top), behavior: reduce ? 'auto' : 'smooth' });
+      });
+    })();
+  </script>
+{%- elsif request.design_mode -%}
+  <div class="lure-bb" style="box-shadow: none">
+    <div class="lure-bb__placeholder">Bundle page banner: choose a banner image in this section's settings.</div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Bundle page banner",
+  "class": "lure-bundle-banner-section",
+  "disabled_on": {
+    "groups": ["header", "footer", "aside"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Banner for the \"Build your own bundle\" page. Place it above the Appstle bundle section."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner image (desktop)",
+      "info": "Wide image, about 2000 × 714 px or larger. Used on tablets and desktops, and on phones when no mobile image is chosen."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile banner image (optional)",
+      "info": "Shown on phones (below 640px wide), whole, at its own shape. About 1080 px wide; e.g. 1080 × 1080 or 1080 × 1350. Leave empty to show the left part of the desktop image instead."
+    },
+    {
+      "type": "text",
+      "id": "alt",
+      "label": "Image description (alt text)",
+      "default": "Early Black Friday Deals: Mix, Match & Save. Buy 2 get 20% off, buy 3 get 25% off, buy 4 or more get 30% off.",
+      "info": "Read out by screen readers. Describe the text in the image."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle page banner"
+    }
+  ]
+}
+{% endschema %}

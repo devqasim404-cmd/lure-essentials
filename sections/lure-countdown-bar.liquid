@@ -1,0 +1,486 @@
+{%- comment -%}
+  Countdown bar (Lure Essentials)
+  ------------------------------------------------------------------
+  Promo bar with a heading, a sub-line and a live countdown timer.
+  Can be added to the Header group (shows on every page) and/or to any
+  template (e.g. the Build your own bundle page). Each copy has its own settings.
+
+  Two timer modes (all times in the STORE's time zone, Settings → General):
+  - Fixed end date: counts down to the end date/time once.
+  - Repeat every N days: counts down to the next reset, then starts again.
+    Resets are counted from the "Repeat start" date, so every shopper sees the
+    same timer. It stops repeating at the end date (leave that empty to repeat
+    with no end).
+  When the time is finally up, the bar either hides or shows an "ended" message.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign tz = 'now' | date: '%z'
+  assign now_epoch = 'now' | date: '%s' | plus: 0
+
+  assign end_time = s.end_time | strip | default: '23:59'
+  assign end_str = s.end_date | strip | append: ' ' | append: end_time | append: ':00 ' | append: tz
+  assign stop_epoch = end_str | date: '%s' | plus: 0
+  if s.end_date == blank
+    assign stop_epoch = 0
+  endif
+
+  assign mode = s.timer_mode | default: 'fixed'
+  assign start_epoch = 0
+  assign cycle = s.repeat_days | default: 3 | times: 86400
+  if mode == 'repeat'
+    assign start_time = s.repeat_start_time | strip | default: '00:00'
+    assign start_str = s.repeat_start_date | strip | append: ' ' | append: start_time | append: ':00 ' | append: tz
+    assign start_epoch = start_str | date: '%s' | plus: 0
+    if s.repeat_start_date == blank
+      assign start_epoch = 0
+    endif
+    assign end_epoch = 0
+    if start_epoch > 0
+      if now_epoch < start_epoch
+        assign end_epoch = start_epoch
+      else
+        assign cycles_done = now_epoch | minus: start_epoch | divided_by: cycle | plus: 1
+        assign end_epoch = cycles_done | times: cycle | plus: start_epoch
+      endif
+      if stop_epoch > 0 and end_epoch > stop_epoch
+        assign end_epoch = stop_epoch
+      endif
+    endif
+  else
+    assign end_epoch = stop_epoch
+  endif
+
+  assign remaining = end_epoch | minus: now_epoch
+  if remaining < 0
+    assign remaining = 0
+  endif
+  assign d = remaining | divided_by: 86400
+  assign h = remaining | modulo: 86400 | divided_by: 3600
+  if s.show_days == false
+    assign h = remaining | divided_by: 3600
+  endif
+  assign m = remaining | modulo: 3600 | divided_by: 60
+  assign sec = remaining | modulo: 60
+  assign uid = 'lure-cd-' | append: section.id
+  assign ended = false
+  if end_epoch > 0 and remaining == 0
+    assign ended = true
+  endif
+-%}
+
+<style>
+  #{{ uid }} {
+    --cd-bg: {{ s.background }};
+    --cd-heading: {{ s.heading_color }};
+    --cd-text: {{ s.text_color }};
+    --cd-highlight: {{ s.highlight_color }};
+    --cd-timer-bg: {{ s.timer_background }};
+    --cd-digits: {{ s.timer_digits_color }};
+    background: var(--cd-bg);
+    {%- if s.background_gradient != blank %}
+      background: {{ s.background_gradient }};
+    {%- endif %}
+  }
+  .lure-cd {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: inherit;
+  }
+  .lure-cd[hidden], .lure-cd [hidden] { display: none !important; }
+  .lure-cd__live { display: contents; }
+  .lure-cd__inner {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 56px;
+    color: inherit;
+    text-decoration: none;
+  }
+  .lure-cd__text { text-align: center; min-width: 0; }
+  .lure-cd__heading {
+    margin: 0;
+    color: var(--cd-heading);
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .lure-cd__sub {
+    margin: 3px 0 0;
+    color: var(--cd-text);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .lure-cd__sub strong, .lure-cd__sub b { color: var(--cd-highlight); font-weight: 800; }
+  .lure-cd__sub a { color: inherit; }
+  .lure-cd__timer {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    flex: none;
+    padding: 6px 12px;
+    background: var(--cd-timer-bg);
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.18);
+    color: var(--cd-digits);
+  }
+  .lure-cd__unit { display: flex; flex-direction: column; align-items: center; min-width: 40px; }
+  .lure-cd__num {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .lure-cd__label {
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    opacity: 0.75;
+  }
+  .lure-cd__sep { font-size: 22px; font-weight: 800; line-height: 1.1; opacity: 0.45; }
+  .lure-cd__arrow {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    width: 32px;
+    height: 32px;
+    margin-top: -16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    color: var(--cd-heading);
+    opacity: 0.85;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  a.lure-cd__inner:hover .lure-cd__arrow { transform: translateX(3px); opacity: 1; }
+  a.lure-cd__inner:focus-visible { outline: 2px solid #2f8fe8; outline-offset: -4px; }
+  .lure-cd__ended { margin: 0; color: var(--cd-heading); font-size: 15px; font-weight: 700; text-align: center; }
+  .lure-cd__warn {
+    margin: 0;
+    padding: 10px;
+    background: #fff4e5;
+    color: #7a3b00;
+    font-size: 13px;
+    text-align: center;
+  }
+  @media (max-width: 749px) {
+    .lure-cd__inner { flex-direction: column; gap: 8px; padding: 10px 44px; }
+    .lure-cd__heading { font-size: 15px; }
+    .lure-cd__sub { font-size: 12.5px; }
+    .lure-cd__timer { padding: 4px 10px; }
+    .lure-cd__unit { min-width: 34px; }
+    .lure-cd__num { font-size: 20px; }
+    .lure-cd__sep { font-size: 18px; }
+    .lure-cd__arrow { right: 10px; width: 28px; height: 28px; margin-top: -14px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lure-cd__arrow { transition: none; }
+  }
+</style>
+
+{%- if end_epoch <= 0 -%}
+  {%- if request.design_mode -%}
+    <p class="lure-cd__warn">
+      {%- if mode == 'repeat' -%}
+        Countdown bar: enter the repeat start date as YYYY-MM-DD (for example 2026-11-13) and the time as HH:MM.
+      {%- else -%}
+        Countdown bar: enter the end date as YYYY-MM-DD (for example 2026-11-27) and the time as HH:MM.
+      {%- endif -%}
+    </p>
+  {%- endif -%}
+{%- else -%}
+  <div
+    id="{{ uid }}"
+    class="lure-cd"
+    data-lure-countdown
+    data-end="{{ end_epoch }}"
+    data-mode="{{ mode }}"
+    data-start="{{ start_epoch }}"
+    data-cycle="{{ cycle }}"
+    data-stop="{{ stop_epoch }}"
+    data-on-end="{{ s.on_end }}"
+    data-show-days="{{ s.show_days }}"
+    {% if ended and s.on_end == 'hide' and request.design_mode == false %}hidden{% endif %}
+  >
+    {%- if s.link != blank -%}
+      <a class="lure-cd__inner" href="{{ s.link }}">
+    {%- else -%}
+      <div class="lure-cd__inner">
+    {%- endif -%}
+
+      <div class="lure-cd__live"{% if ended %} hidden{% endif %}>
+        <div class="lure-cd__text">
+          {%- if s.heading != blank -%}
+            <p class="lure-cd__heading">{{ s.heading | escape }}</p>
+          {%- endif -%}
+          {%- if s.subheading != blank -%}
+            <p class="lure-cd__sub">{{ s.subheading }}</p>
+          {%- endif -%}
+        </div>
+
+        <div
+          class="lure-cd__timer"
+          role="timer"
+          aria-live="off"
+          aria-label="Countdown to {{ end_epoch | date: '%B %-d at %-I:%M %p' }}"
+        >
+          <div class="lure-cd__unit" data-unit="days"{% if s.show_days == false or d == 0 %} hidden{% endif %}>
+            <span class="lure-cd__num" data-days>{{ d | prepend: '0' | slice: -2, 2 }}</span>
+            <span class="lure-cd__label">DAYS</span>
+          </div>
+          <span class="lure-cd__sep" aria-hidden="true" data-unit="days"{% if s.show_days == false or d == 0 %} hidden{% endif %}>:</span>
+          <div class="lure-cd__unit">
+            <span class="lure-cd__num" data-hours>{{ h | prepend: '0' | slice: -2, 2 }}</span>
+            <span class="lure-cd__label">HRS</span>
+          </div>
+          <span class="lure-cd__sep" aria-hidden="true">:</span>
+          <div class="lure-cd__unit">
+            <span class="lure-cd__num" data-minutes>{{ m | prepend: '0' | slice: -2, 2 }}</span>
+            <span class="lure-cd__label">MIN</span>
+          </div>
+          <span class="lure-cd__sep" aria-hidden="true">:</span>
+          <div class="lure-cd__unit">
+            <span class="lure-cd__num" data-seconds>{{ sec | prepend: '0' | slice: -2, 2 }}</span>
+            <span class="lure-cd__label">SEC</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="lure-cd__ended" data-ended-message{% unless ended and s.on_end == 'message' %} hidden{% endunless %}>
+        {{ s.ended_text | escape }}
+      </p>
+
+      {%- if s.link != blank -%}
+        <span class="lure-cd__arrow" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+    {%- else -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <script>
+    (function () {
+      if (window.lureCountdownInit) { window.lureCountdownInit(); return; }
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function num(el, a) { return parseInt(el.getAttribute(a), 10) || 0; }
+      function tick(el) {
+        var now = Date.now();
+        var end = num(el, 'data-end') * 1000;
+        if (el.getAttribute('data-mode') === 'repeat') {
+          // next reset = start + whole cycles; same for every shopper
+          var start = num(el, 'data-start') * 1000, cycle = num(el, 'data-cycle') * 1000, stop = num(el, 'data-stop') * 1000;
+          if (start && cycle) {
+            end = now < start ? start : start + (Math.floor((now - start) / cycle) + 1) * cycle;
+            if (stop && end > stop) end = stop;
+          }
+        }
+        var left = Math.max(0, Math.floor((end - now) / 1000));
+        var d = Math.floor(left / 86400), h = Math.floor((left % 86400) / 3600);
+        var m = Math.floor((left % 3600) / 60), s = left % 60;
+        var showDays = el.getAttribute('data-show-days') === 'true';
+        if (!showDays) h += d * 24;
+        el.querySelectorAll('[data-unit="days"]').forEach(function (u) { u.hidden = !showDays || d === 0; });
+        var q = function (sel, v) { var n = el.querySelector(sel); if (n) n.textContent = pad(v); };
+        q('[data-days]', d); q('[data-hours]', h); q('[data-minutes]', m); q('[data-seconds]', s);
+        if (left === 0) {
+          var live = el.querySelector('.lure-cd__live');
+          if (live) live.hidden = true;
+          if (el.getAttribute('data-on-end') === 'message') {
+            var msg = el.querySelector('[data-ended-message]');
+            if (msg) msg.hidden = false;
+          } else if (!window.Shopify || !window.Shopify.designMode) {
+            el.hidden = true;
+          }
+          return false;
+        }
+        return true;
+      }
+      window.lureCountdownInit = function () {
+        document.querySelectorAll('[data-lure-countdown]').forEach(function (el) {
+          if (el._lureCd) clearInterval(el._lureCd);
+          if (tick(el)) el._lureCd = setInterval(function () { if (!tick(el)) clearInterval(el._lureCd); }, 1000);
+        });
+      };
+      window.lureCountdownInit();
+      document.addEventListener('shopify:section:load', window.lureCountdownInit);
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Countdown bar",
+  "class": "lure-countdown-bar-section",
+  "enabled_on": {
+    "templates": ["*"],
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Timer"
+    },
+    {
+      "type": "select",
+      "id": "timer_mode",
+      "label": "Timer mode",
+      "options": [
+        { "value": "fixed", "label": "Count down to the end date" },
+        { "value": "repeat", "label": "Repeat every few days" }
+      ],
+      "default": "fixed"
+    },
+    {
+      "type": "range",
+      "id": "repeat_days",
+      "label": "Repeat every",
+      "min": 1,
+      "max": 14,
+      "step": 1,
+      "unit": "d",
+      "default": 3,
+      "info": "Repeat mode only."
+    },
+    {
+      "type": "text",
+      "id": "repeat_start_date",
+      "label": "Repeat start date",
+      "default": "2026-11-13",
+      "info": "Repeat mode only. Format YYYY-MM-DD. Resets happen every few days counted from this date, so all shoppers see the same timer."
+    },
+    {
+      "type": "text",
+      "id": "repeat_start_time",
+      "label": "Repeat start time",
+      "default": "00:00",
+      "info": "Repeat mode only. 24-hour HH:MM. Resets happen at this time of day."
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End date",
+      "default": "2026-11-27",
+      "info": "Format YYYY-MM-DD. Fixed mode: the deadline. Repeat mode: when it stops repeating (leave empty to repeat with no end)."
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "End time",
+      "default": "23:59",
+      "info": "24-hour format HH:MM, e.g. 23:59."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_days",
+      "label": "Show days",
+      "default": true,
+      "info": "Off: days are added to the hours (e.g. 53 HRS). Days are hidden automatically on the last day."
+    },
+    {
+      "type": "select",
+      "id": "on_end",
+      "label": "When the timer ends",
+      "options": [
+        { "value": "hide", "label": "Hide the bar" },
+        { "value": "message", "label": "Show the ended message" }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "text",
+      "id": "ended_text",
+      "label": "Ended message",
+      "default": "This offer has ended. Thanks for shopping with us!"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "✦ Early Black Friday ✦"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Sub-line",
+      "default": "Save up to <strong>30% OFF<\/strong> when you build a bundle",
+      "info": "Bold words use the highlight colour."
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link",
+      "info": "Optional. Makes the whole bar clickable and shows an arrow."
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "#8E1A2A"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient",
+      "default": "linear-gradient(90deg, #6E1120 0%, #9C1729 50%, #6E1120 100%)",
+      "info": "Overrides the background colour. Clear it for a flat colour."
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#F6DFA6"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Sub-line",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight (bold words)",
+      "default": "#F6DFA6"
+    },
+    {
+      "type": "color",
+      "id": "timer_background",
+      "label": "Timer background",
+      "default": "#FFF8EA"
+    },
+    {
+      "type": "color",
+      "id": "timer_digits_color",
+      "label": "Timer numbers",
+      "default": "#7A1424"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown bar"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lure Essentials homepage — redesign mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#141a5c; --body:#4a5170; --muted:#6b7190; --line:#e8ddd2;
+    --cream:#fbf6f1; --cream2:#f6ece2; --berry:#8e1a2a; --wine:#5e0f1c;
+    --gold:#c9973b; --gold2:#e9cd8e; --white:#fff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  .live{display:block;width:100%;height:auto}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 48px}
+  .serif{font-family:Fraunces,Georgia,serif;font-optical-sizing:auto}
+  .eyebrow{display:flex;align-items:center;gap:12px;margin:0 0 18px;font:600 12.5px/1 'DM Sans';letter-spacing:.18em;text-transform:uppercase;color:var(--berry)}
+  .eyebrow:before{content:"";width:28px;height:1.5px;background:var(--gold)}
+  .h2{margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:58px;line-height:1.02;letter-spacing:-.02em;color:var(--ink)}
+  .h2 em{font-style:italic;color:var(--berry)}
+  .lede{margin:0;font-size:17px;line-height:1.6;color:var(--body)}
+  .ulink{display:inline-flex;align-items:center;gap:8px;font:600 15px 'DM Sans';color:var(--ink);text-decoration:none;padding-bottom:4px;border-bottom:1.5px solid var(--ink)}
+
+  /* ===== 1. SHOP BY NEED ===== */
+  .need{background:var(--cream);padding:110px 0 120px}
+  .need-head{display:grid;grid-template-columns:1.3fr 1fr;gap:64px;align-items:end;margin-bottom:56px}
+  .need-head .lede{max-width:420px;margin-bottom:18px}
+  .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+  .tile{position:relative;display:flex;flex-direction:column;border-radius:22px;overflow:hidden;text-decoration:none;color:var(--ink);aspect-ratio:4/5}
+  .tile .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:70px 34px 150px}
+  .tile .ph img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;transform:rotate(-4deg)}
+  .tile:nth-child(2) .ph img{transform:rotate(3deg)}
+  .t1{background:#f3e3ea}.t2{background:#e7e3f5}.t3{background:#dcecf6}
+  .tile .num{position:absolute;top:24px;left:26px;font:500 14px 'DM Sans';letter-spacing:.12em;color:rgba(20,26,92,.55)}
+  .tile .count{position:absolute;top:22px;right:24px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.7);font:600 12px 'DM Sans';color:var(--ink)}
+  .tile .cap{position:relative;margin-top:auto;padding:0 28px 28px}
+  .tile h3{margin:0 0 14px;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:34px;line-height:1.05;letter-spacing:-.015em}
+  .tile h3 em{font-style:italic;color:var(--berry)}
+  .tile .go{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 20px;border-radius:999px;background:var(--ink);color:#fff;font:600 14px 'DM Sans'}
+
+  /* ===== 2. MOST LOVED ===== */
+  .loved{padding:110px 0}
+  .row-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:44px}
+  .arrows{display:flex;gap:10px}
+  .arw{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;border:1.5px solid var(--ink);color:var(--ink);font-size:20px}
+  .arw.on{background:var(--ink);color:#fff}
+  .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+  .pc{text-decoration:none;color:var(--ink)}
+  .pc .im{position:relative;aspect-ratio:1/1.08;border-radius:20px;background:var(--cream2);overflow:hidden}
+  .pc .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:22px;mix-blend-mode:multiply}
+  .chip{position:absolute;top:14px;left:14px;padding:6px 12px;border-radius:999px;font:700 11.5px/1 'DM Sans';letter-spacing:.03em}
+  .chip.gold{background:linear-gradient(#ffd15c,#f2a916);color:#3d2600}
+  .chip.berry{background:var(--berry);color:#fff}
+  .chip.white{background:#fff;color:var(--berry)}
+  .plus{position:absolute;right:14px;bottom:14px;display:flex;align-items:center;gap:8px;height:44px;padding:0 16px 0 14px;border-radius:999px;background:var(--ink);color:#fff;font:600 13.5px 'DM Sans';box-shadow:0 10px 22px rgba(20,26,92,.25)}
+  .plus b{font-size:20px;font-weight:500;line-height:1}
+  .pc .meta{padding:18px 4px 0}
+  .pc .rt{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+  .st{color:#e89a0c;letter-spacing:1.5px}
+  .pc h4{margin:8px 0 6px;font:600 17px/1.35 'DM Sans';color:var(--ink)}
+  .pc .pr{font:600 17px Poppins,sans-serif;color:var(--ink)}
+  .pc .pr s{margin-left:8px;font:400 14px 'DM Sans';color:var(--muted)}
+  .pc .pr .sv{margin-left:8px;font:700 12.5px 'DM Sans';color:#a13a0b}
+
+  /* ===== 3. RITUAL ===== */
+  .ritual{background:var(--cream);padding:120px 0;overflow:hidden}
+  .rit{display:grid;grid-template-columns:1fr 1.05fr;gap:96px;align-items:center}
+  .arch{position:relative}
+  .arch .frame{aspect-ratio:4/5;border-radius:999px 999px 24px 24px;overflow:hidden;box-shadow:0 30px 60px rgba(94,15,28,.16)}
+  .arch .frame img{width:100%;height:100%;object-fit:cover;object-position:38% 50%}
+  .seal{position:absolute;top:34px;right:-34px;width:132px;height:132px;border-radius:50%;background:var(--berry);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px rgba(94,15,28,.3)}
+  .seal svg{position:absolute;inset:0;width:100%;height:100%}
+  .seal b{font-family:Fraunces,serif;font-style:italic;font-weight:500;font-size:30px;line-height:1}
+  .rate-card{position:absolute;left:-28px;bottom:48px;display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:16px;background:#fff;box-shadow:0 18px 40px rgba(20,26,92,.14)}
+  .rate-card .n{font:500 34px/1 Fraunces,serif;color:var(--ink)}
+  .rate-card small{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+  .steps{list-style:none;margin:44px 0 40px;padding:0}
+  .steps li{display:grid;grid-template-columns:76px 1fr;gap:8px;padding:24px 0;border-top:1px solid var(--line)}
+  .steps li:last-child{border-bottom:1px solid var(--line)}
+  .steps .k{font:italic 500 40px/1 Fraunces,serif;color:var(--berry)}
+  .steps h4{margin:2px 0 6px;font:600 19px/1.3 'DM Sans';color:var(--ink)}
+  .steps p{margin:0;font-size:15.5px;line-height:1.55;color:var(--body)}
+  .btn{display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 30px;border-radius:999px;background:var(--ink);color:#fff;font:600 16px 'DM Sans';text-decoration:none}
+
+  /* ===== 4. BUNDLE ===== */
+  .bundle{padding:110px 0}
+  .bb{position:relative;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:40px;border-radius:28px;overflow:hidden;padding:72px 0 72px 72px;color:#fff;
+      background:
+        radial-gradient(2px 2px at 12% 18%,#f2c35b 50%,transparent 51%),
+        radial-gradient(1.5px 1.5px at 34% 82%,#f2c35b 50%,transparent 51%),
+        radial-gradient(2px 2px at 48% 12%,rgba(255,255,255,.8) 50%,transparent 51%),
+        radial-gradient(1.5px 1.5px at 58% 64%,#f2c35b 50%,transparent 51%),
+        radial-gradient(2.5px 2.5px at 92% 14%,#f2c35b 50%,transparent 51%),
+        radial-gradient(1.5px 1.5px at 86% 88%,rgba(255,255,255,.7) 50%,transparent 51%),
+        radial-gradient(60% 90% at 85% 50%,rgba(242,195,91,.22),transparent 70%),
+        radial-gradient(120% 140% at 0% 0%,#a52234 0%,#8e1a2a 42%,#5e0f1c 100%)}
+  .bb .tagline{font:600 12.5px 'DM Sans';letter-spacing:.2em;text-transform:uppercase;color:var(--gold2)}
+  .bb h2{margin:16px 0 18px;font:500 60px/1.0 Fraunces,serif;letter-spacing:-.02em}
+  .bb h2 em{font-style:italic;color:#f2c35b}
+  .bb p{margin:0 0 30px;max-width:440px;font-size:17px;line-height:1.6;color:rgba(255,255,255,.82)}
+  .tix{display:flex;gap:12px;margin-bottom:36px}
+  .tk{position:relative;display:flex;flex-direction:column;align-items:center;min-width:118px;padding:14px 18px;background:#fbf0dc;color:var(--wine);border-radius:8px;
+      -webkit-mask:radial-gradient(circle 8px at 0 50%,transparent 97%,#000) left/51% 100% no-repeat,radial-gradient(circle 8px at 100% 50%,transparent 97%,#000) right/51% 100% no-repeat;
+              mask:radial-gradient(circle 8px at 0 50%,transparent 97%,#000) left/51% 100% no-repeat,radial-gradient(circle 8px at 100% 50%,transparent 97%,#000) right/51% 100% no-repeat}
+  .tk.hot{background:linear-gradient(#ffd978,#e9b43c);color:#3d2600}
+  .tk b{font:600 28px/1 Fraunces,serif}
+  .tk span{margin-top:4px;font:600 12px 'DM Sans';letter-spacing:.04em;text-transform:uppercase;opacity:.75}
+  .btn.light{background:#fff;color:var(--berry)}
+  .bb-art{position:relative;padding-right:56px}
+  .bb-art img{width:100%;border-radius:18px;transform:rotate(3deg);box-shadow:0 28px 60px rgba(0,0,0,.35)}
+  .bb-art .seal{top:-26px;left:-30px;right:auto;width:118px;height:118px;background:linear-gradient(#ffd978,#e9b43c);color:#3d2600}
+  .bb-art .seal b{font-size:30px;font-style:normal;font-weight:600}
+
+  /* ===== 5. REVIEWS ===== */
+  .reviews{padding:110px 0 120px}
+  .rv-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:48px}
+  .score{display:flex;align-items:center;gap:18px}
+  .score .n{font:500 72px/1 Fraunces,serif;color:var(--ink)}
+  .score .st{font-size:20px}
+  .score small{display:block;margin-top:6px;font-size:14px;color:var(--muted)}
+  .rv-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:24px}
+  .feat{display:grid;grid-template-columns:.9fr 1.1fr;border-radius:24px;overflow:hidden;background:var(--cream)}
+  .feat .ph{min-height:100%}
+  .feat .ph img{width:100%;height:100%;object-fit:cover;object-position:60% 50%}
+  .feat .tx{display:flex;flex-direction:column;padding:44px 40px}
+  .qm{font:italic 500 110px/.6 Fraunces,serif;color:var(--gold);height:44px}
+  .feat q{display:block;margin:10px 0 28px;font:italic 500 25px/1.38 Fraunces,serif;color:var(--ink);quotes:none}
+  .who{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:20px;border-top:1px solid var(--line)}
+  .who b{display:block;font-size:15px}
+  .ver{font-size:12.5px;font-weight:600;color:#137a3e}
+  .pl{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--berry);text-decoration:none}
+  .pl img{width:46px;height:46px;border-radius:12px;background:#fff;object-fit:contain;padding:3px}
+  .side{display:grid;gap:24px}
+  .mini{display:flex;flex-direction:column;padding:30px;border-radius:24px;border:1px solid var(--line);background:#fff}
+  .mini q{display:block;margin:14px 0 22px;font:500 16.5px/1.6 'DM Sans';color:var(--ink);quotes:"\201C" "\201D"}
+
+  /* ===== 6. PROMISE STRIP ===== */
+  .promise{background:var(--cream);border-top:1px solid var(--line)}
+  .pr-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+  .pr-grid div{display:flex;flex-direction:column;justify-content:flex-end;gap:10px;padding:44px 24px;text-align:center;border-left:1px solid var(--line)}
+  .pr-grid div:first-child{border-left:0}
+  .pr-grid b{display:block;font:500 32px/1.05 Fraunces,serif;color:var(--ink)}
+  .pr-grid b em{font-style:italic;color:var(--berry)}
+  .pr-grid span{display:block;font:600 12px 'DM Sans';letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+  .m-only{display:none}
+
+  /* ===================== PHONE ===================== */
+  @media (max-width:767px){
+    .d-only{display:none}
+    .m-only{display:block}
+    .wrap{padding:0 20px}
+    .h2{font-size:38px}
+    .lede{font-size:15.5px}
+    .eyebrow{margin-bottom:14px;font-size:11.5px}
+    .need{padding:64px 0 72px}
+    .need-head{grid-template-columns:1fr;gap:16px;margin-bottom:32px}
+    .need-head .lede{margin:0}
+    .tiles{display:flex;overflow:hidden;gap:14px;margin:0 -20px;padding:0 20px}
+    .tile{flex:0 0 78%;aspect-ratio:4/5}
+    .tile .ph{padding:50px 40px 160px}
+    .who b{white-space:nowrap}
+    .ver{white-space:nowrap}
+    .tile h3{font-size:28px}
+    .tile .go{height:40px;font-size:13.5px}
+    .loved{padding:64px 0}
+    .row-head{margin-bottom:28px}
+    .arrows{display:none}
+    .cards{display:flex;overflow:hidden;gap:14px;margin:0 -20px;padding:0 20px}
+    .pc{flex:0 0 64%}
+    .plus{height:40px;padding:0 13px 0 12px;font-size:12.5px}
+    .pc h4{font-size:15.5px}
+    .ritual{padding:72px 0}
+    .rit{grid-template-columns:1fr;gap:44px}
+    .arch{margin:0 18px}
+    .seal{width:104px;height:104px;right:-14px;top:10px}
+    .seal b{font-size:24px}
+    .rate-card{left:-14px;bottom:26px;padding:12px 16px}
+    .rate-card .n{font-size:28px}
+    .steps{margin:28px 0 30px}
+    .steps li{grid-template-columns:58px 1fr;padding:20px 0}
+    .steps .k{font-size:32px}
+    .steps h4{font-size:17px}
+    .steps p{font-size:14.5px}
+    .btn{width:100%;justify-content:center;height:54px}
+    .bundle{padding:64px 0}
+    .bb{grid-template-columns:1fr;padding:44px 24px 0;border-radius:24px;gap:30px}
+    .bb h2{font-size:42px}
+    .bb p{font-size:15.5px;margin-bottom:24px}
+    .tix{gap:8px;margin-bottom:26px}
+    .tk{flex:1;min-width:0;padding:12px 6px}
+    .tk b{font-size:23px}
+    .tk span{font-size:10.5px}
+    .bb-art{padding:0 10px 0}
+    .bb-art img{transform:rotate(2deg) translateY(30px)}
+    .bb-art .seal{width:92px;height:92px;top:-18px;left:-4px}
+    .bb-art .seal b{font-size:23px}
+    .reviews{padding:64px 0 72px}
+    .rv-head{flex-direction:column;align-items:flex-start;gap:22px;margin-bottom:30px}
+    .score .n{font-size:56px}
+    .rv-grid{grid-template-columns:1fr;gap:16px}
+    .feat{grid-template-columns:1fr}
+    .feat .ph{height:280px}
+    .feat .tx{padding:30px 24px}
+    .feat q{font-size:21px}
+    .side{display:flex;overflow:hidden;gap:14px;margin:0 -20px;padding:0 20px}
+    .mini{flex:0 0 84%;padding:24px}
+    .pr-grid{grid-template-columns:1fr 1fr}
+    .pr-grid div{padding:30px 14px;border-left:0}
+    .pr-grid div:nth-child(2n){border-left:1px solid var(--line)}
+    .pr-grid div:nth-child(n+3){border-top:1px solid var(--line)}
+    .pr-grid b{font-size:24px}
+    .pr-grid span{font-size:10.5px}
+  }
+</style>
+</head>
+<body>
+
+<!-- LIVE: announcement bar, header, countdown, hero, trust strip, press logos (unchanged) -->
+<picture>
+  <source media="(max-width:767px)" srcset="hp/live-top-mobile.png">
+  <img class="live" src="hp/live-top-desktop.png" alt="Current header and hero">
+</picture>
+
+<!-- ===== 1. SHOP BY NEED ===== -->
+<section class="need">
+  <div class="wrap">
+    <div class="need-head">
+      <div>
+        <p class="eyebrow">Shop by concern</p>
+        <h2 class="h2">Small rituals.<br><em>Powerful</em> difference.</h2>
+      </div>
+      <div>
+        <p class="lede">From tired eyes to tired feet, we've got comfort wrapped up.</p>
+        <a class="ulink" href="#">Shop all →</a>
+      </div>
+    </div>
+    <div class="tiles">
+      <a class="tile t1" href="#"><span class="num">01</span><div class="ph"><img src="hp/immune.jpg" alt=""></div><div class="cap"><h3>Seasonal <em>wellness</em></h3><span class="go">Shop now →</span></div></a>
+      <a class="tile t2" href="#"><span class="num">02</span><div class="ph"><img src="hp/goodnight.jpg" alt=""></div><div class="cap"><h3>Sleep &amp; <em>relaxation</em></h3><span class="go">Shop now →</span></div></a>
+      <a class="tile t3" href="#"><span class="num">03</span><div class="ph"><img src="hp/chill.jpg" alt=""></div><div class="cap"><h3>Tired &amp; <em>dry eyes</em></h3><span class="go">Shop now →</span></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2. MOST LOVED ===== -->
+<section class="loved">
+  <div class="wrap">
+    <div class="row-head">
+      <div>
+        <p class="eyebrow">Shop the favorites</p>
+        <h2 class="h2">Best <em>sellers</em></h2>
+      </div>
+      <div class="arrows"><span class="arw">←</span><span class="arw on">→</span></div>
+    </div>
+    <div class="cards">
+      <a class="pc" href="#"><div class="im"><img src="hp/steam.jpg" alt=""><span class="plus">Choose options</span></div><div class="meta"><h4>Eye Serenity Steam Eye Mask</h4><div class="pr">$29.99</div></div></a>
+      <a class="pc" href="#"><div class="im"><img src="hp/worry.jpg" alt=""><span class="plus"><b>+</b> Add</span></div><div class="meta"><h4>Worry-Free Foot Pads</h4><div class="pr">$29.99</div></div></a>
+      <a class="pc" href="#"><div class="im"><img src="hp/detox.jpg" alt=""><span class="plus">Choose options</span></div><div class="meta"><h4>Deep Cleansing Detox Foot Pads</h4><div class="pr">$29.99</div></div></a>
+      <a class="pc" href="#"><div class="im"><span class="chip berry">Sale</span><img src="hp/lymph.jpg" alt=""><span class="plus">Choose options</span></div><div class="meta"><h4>Lymphatic Cream – Immune Defense</h4><div class="pr">$35.00<s>$39.00</s></div></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 3. RITUAL ===== -->
+<section class="ritual">
+  <div class="wrap">
+    <div class="rit">
+      <div class="arch">
+        <div class="frame"><img src="hp/life-eyes.jpg" alt=""></div>
+        <div class="seal">
+          <svg viewBox="0 0 132 132"><defs><path id="c" d="M66,66 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/></defs><text font-family="DM Sans" font-size="10.5" font-weight="700" letter-spacing="3.2" fill="#f2d58a"><textPath href="#c">ANCIENT WISDOM · MODERN WELLNESS · </textPath></text></svg>
+          <b>2014</b>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow">Easy bedtime ritual</p>
+        <h2 class="h2">Self-care<br>made <em>simple.</em></h2>
+        <ol class="steps">
+          <li><span class="k">01</span><div><h4>Steam Eye Mask</h4><p>No microwave or hot water needed. Just open and apply for up to 60 minutes of soothing warmth.</p></div></li>
+          <li><span class="k">02</span><div><h4>Good Night Foot Pads</h4><p>Simply peel, stick to the soles of your feet, and sleep.</p></div></li>
+          <li><span class="k">03</span><div><h4>In the morning</h4><p>The pads work for 6-8 hours overnight, then you remove and discard them in the morning.</p></div></li>
+        </ol>
+        <a class="btn" href="#">Shop Good Night Foot Pads →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4. BUNDLE ===== -->
+<section class="bundle">
+  <div class="wrap">
+    <div class="bb">
+      <div>
+        <span class="tagline">Early Black Friday</span>
+        <h2>Mix, match<br>&amp; <em>save.</em></h2>
+        <p>Save up to 30% off when you build a bundle.</p>
+        <div class="tix">
+          <div class="tk"><b>20%</b><span>2 items</span></div>
+          <div class="tk"><b>25%</b><span>3 items</span></div>
+          <div class="tk hot"><b>30%</b><span>4+ items</span></div>
+        </div>
+        <a class="btn light" href="#">Build your bundle →</a>
+      </div>
+      <div class="bb-art">
+        <img src="hp/bundle.jpg" alt="">
+        <div class="seal">
+          <svg viewBox="0 0 132 132"><defs><path id="c2" d="M66,66 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/></defs><text font-family="DM Sans" font-size="10.5" font-weight="700" letter-spacing="3.6" fill="#5e0f1c"><textPath href="#c2">UP TO 30% OFF · UP TO 30% OFF · </textPath></text></svg>
+          <b>30%</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5. REVIEWS ===== -->
+<section class="reviews" style="padding-top:0">
+  <div class="wrap">
+    <div class="rv-head">
+      <div>
+        <p class="eyebrow">Reviews</p>
+        <h2 class="h2">Wellness you can<br><em>actually feel.</em></h2>
+      </div>
+    </div>
+    <div class="rv-grid">
+      <div class="feat">
+        <div class="ph"><img src="hp/life-wanda.jpg" alt=""></div>
+        <div class="tx">
+          <span class="st">★★★★★</span>
+          <span class="qm" style="margin-top:18px">“</span>
+          <q>My daughter brought me this product. After the first night I felt a difference. It really helps with sleep, energy level and my legs feel so much better.</q>
+          <div class="who"><div><b>Wanda K</b></div><a class="pl" href="#"><img src="hp/detox.jpg" alt="">Detox Foot Pads</a></div>
+        </div>
+      </div>
+      <div class="side">
+        <div class="mini"><span class="st">★★★★★</span><q>After long days of staring at my phone and computer, my eyes feel strained and tired. This mask provides instant relief. The gentle warmth and soothing steam instantly relax and comfort my eyes, melting away the tension. It's like a mini spa treatment for my overworked peepers.</q><div class="who"><div><b>Tatiana</b></div><a class="pl" href="#"><img src="hp/steam.jpg" alt="">Steam Eye Mask</a></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6. PROMISE STRIP ===== -->
+<section class="promise">
+  <div class="wrap">
+    <div class="pr-grid">
+      <div><span>For your wellness</span><b>Since <em>2014</em></b></div>
+      <div><b><em>Female</em> founded</b></div>
+      <div><span>Born in</span><b>New <em>Jersey</em></b></div>
+      <div><b><em>Small</em> business</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE: footer (unchanged) -->
+<picture>
+  <source media="(max-width:767px)" srcset="hp/live-footer-mobile.png">
+  <img class="live" src="hp/live-footer-desktop.png" alt="Current footer">
+</picture>
+
+</body>
+</html>
