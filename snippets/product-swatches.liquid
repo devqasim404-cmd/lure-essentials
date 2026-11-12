@@ -2,16 +2,28 @@
   assign swatches = product.metafields.custom.product_swatches.value
   assign total_swatches = 0
   assign active_swatch_title = blank
+  assign active_found = false
+  assign active_badge_label = blank
+  assign active_badge_style = blank
+  assign swatches_have_badges = false
 
   if swatches != blank
     assign total_swatches = swatches.count
 
     for swatch in swatches
       assign linked_product = swatch.link.value
+      # Optional swatch fields: badge_label (text) and badge_style (e.g. Bestseller, Favorite).
+      assign badge_label = swatch.badge_label.value | default: swatch.badge_style.value
 
-      if linked_product != blank and linked_product.id == product.id
+      if badge_label != blank
+        assign swatches_have_badges = true
+      endif
+
+      if active_found == false and linked_product != blank and linked_product.id == product.id
+        assign active_found = true
         assign active_swatch_title = swatch.title.value
-        break
+        assign active_badge_label = badge_label
+        assign active_badge_style = swatch.badge_style.value | handleize
       endif
     endfor
   endif
@@ -44,6 +56,13 @@
 <span class="product-swatches__heading">
   {{ block.settings.heading_label | default: 'Variant' | escape }}:
   <strong>{{ active_swatch_title | escape }}</strong>
+  {%- if active_badge_label != blank -%}
+    <span class="product-swatches__heading-badge product-swatches__heading-badge--{{ active_badge_style | default: 'default' }}">
+      <span class="product-swatches__heading-dot" aria-hidden="true">·</span>
+      {% render 'swatch-badge-icon', style: active_badge_style %}
+      {{- active_badge_label | escape -}}
+    </span>
+  {%- endif -%}
 </span>
 
 
@@ -59,14 +78,21 @@
       </div>
     {% endif %}
 
-    <div class="product-swatches__grid">
+    <div class="product-swatches__grid{% if swatches_have_badges %} has-badges{% endif %}">
       {% for swatch in swatches %}
         {% liquid
           assign linked_product = swatch.link.value
           assign swatch_title = swatch.title.value
           assign swatch_image = swatch.image.value
+          assign badge_label = swatch.badge_label.value | default: swatch.badge_style.value
+          assign badge_style = swatch.badge_style.value | handleize
           assign swatch_url = blank
           assign is_active = false
+          # Unavailable: the linked product can't be shown on the storefront (draft, archived,
+          # not published to the online store, or no product set), so there is no page to open.
+          assign is_unavailable = false
+          # Sold out: the product page exists but nothing is in stock; the swatch still links there.
+          assign is_sold_out = false
 
           if linked_product != blank
             assign swatch_url = linked_product.url
@@ -75,29 +101,41 @@
               assign is_active = true
             endif
 
+            if linked_product.available == false and is_active == false
+              assign is_sold_out = true
+            endif
+
             if swatch_title == blank
               assign swatch_title = linked_product.title
             endif
+          else
+            assign is_unavailable = true
           endif
 
-          if swatch_url == blank
-            assign swatch_url = '#'
+          if is_unavailable
+            assign swatch_tag = 'span'
+          else
+            assign swatch_tag = 'a'
           endif
         %}
 
         {% if swatch_title != blank %}
-          <a
-            class="product-swatches__item{% if is_active %} is-active{% endif %}"
-            href="{{ swatch_url }}"
+          <{{ swatch_tag }}
+            class="product-swatches__item{% if is_active %} is-active{% endif %}{% if is_unavailable %} is-unavailable{% endif %}{% if is_sold_out %} is-sold-out{% endif %}"
+            {% unless is_unavailable %}
+              href="{{ swatch_url }}"
+            {% endunless %}
             {% if is_active %}
               aria-current="page"
               aria-pressed="true"
             {% endif %}
-            aria-label="{{ swatch_title | escape }}"
-            {% if linked_product == blank %}
+            aria-label="{{ swatch_title | escape }}{% if badge_label != blank %}, {{ badge_label | escape }}{% endif %}{% if is_unavailable %}, currently unavailable{% elsif is_sold_out %}, sold out{% endif %}"
+            {% if is_unavailable %}
               aria-disabled="true"
+              title="Currently unavailable"
             {% endif %}
           >
+            <span class="product-swatches__media">
             <span class="product-swatches__image">
               {% if swatch_image != blank %}
                 {{
@@ -125,11 +163,23 @@
                 </span>
               {% endif %}
             </span>
+              {%- if badge_label != blank -%}
+                <span class="product-swatches__badge product-swatches__badge--{{ badge_style | default: 'default' }}" aria-hidden="true">
+                  {% render 'swatch-badge-icon', style: badge_style %}
+                  <span class="product-swatches__badge-text">{{ badge_label | escape }}</span>
+                </span>
+              {%- endif -%}
+            </span>
 
             <span class="product-swatches__name">
               {{ swatch_title | escape }}
             </span>
-          </a>
+            {%- if is_unavailable -%}
+              <span class="product-swatches__status" aria-hidden="true">Unavailable</span>
+            {%- elsif is_sold_out -%}
+              <span class="product-swatches__status" aria-hidden="true">Sold out</span>
+            {%- endif -%}
+          </{{ swatch_tag }}>
         {% endif %}
       {% endfor %}
     </div>
