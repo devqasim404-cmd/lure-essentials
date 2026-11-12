@@ -25,6 +25,31 @@
 
 {%- comment -%} price {%- endcomment -%}
 {% capture price %}
+  {%- liquid
+    # Optional product field custom.offer_price (Money or Decimal). When it is set and lower
+    # than the product price, the card shows the price struck through with the offer beside it.
+    assign offer_cents = 0
+    assign offer_field = product.metafields.custom.offer_price
+    if offer_field != blank
+      if offer_field.type == 'money'
+        # Money field: format as plain amount (e.g. 19.99), then convert to cents.
+        assign offer_cents = offer_field.value | money_without_currency | remove: ',' | times: 100 | round
+      else
+        # Decimal field holds the amount directly (e.g. 19.99).
+        assign offer_cents = offer_field.value | times: 100 | round
+      endif
+    endif
+  -%}
+
+  {%- if offer_cents > 0 and offer_cents < product.price -%}
+  {%- comment -%} Same markup as the compare-at sale price below, so spacing and alignment match. {%- endcomment -%}
+  <div class="product-card__price  product-card__pricesale ">
+  <span class="visually-hidden">{{ 'products.product.sale_price' | t }}</span>
+  {{ offer_cents | money }}
+  <s class="product-card__regular-price">{{ product.price | money }}</s>
+  <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+  </div>
+  {%- else -%}
   <div class="product-card__price {% if product.compare_at_price > product.price %} product-card__pricesale {% endif %}">
   {%- if product.compare_at_price > product.price -%}
   {%- if product.price_varies -%}
@@ -46,6 +71,7 @@
   {%- endif -%}
   {%- endif -%}
   </div>
+  {%- endif -%}
 {% endcapture %}
 {% capture review %}
   {%- if settings.enable_review -%}
