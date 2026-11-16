@@ -5489,17 +5489,74 @@ Changes:
           '.volume-original-price-v2'
         );
 
+        // Number of items in the selected pack. Appstle writes the pack size
+        // (free items included, e.g. 3 for "Buy 2 Get 1 FREE") into the product
+        // form's quantity field, so read it from there. The tile label is only a
+        // fallback: it can say anything ("Buy 2 + 1", "Buy Two"...).
+        const quantityInput = document.querySelector(
+          'form[action*="/cart/add"] input[name="quantity"]'
+        );
+        const formQuantity = quantityInput ? parseInt(quantityInput.value, 10) : NaN;
+
         const quantityMatch = title
           ? title.textContent.match(/Buy\s+(\d+)/i)
           : null;
 
         return {
-          quantity: quantityMatch ? Number(quantityMatch[1]) : 1,
+          quantity: formQuantity > 0
+            ? formQuantity
+            : (quantityMatch ? Number(quantityMatch[1]) : 1),
           unitPrice: priceEl ? parsePrice(priceEl.textContent) : null,
           unitOriginal: originalPriceEl
             ? parsePrice(originalPriceEl.textContent)
             : null
         };
+      }
+
+      // Appstle shows bundle prices per item, rounded to the cent, so
+      // "per item x quantity" can be a few cents off the real total (e.g. $80 off
+      // 6 pads = $99.94, but 6 x $16.66 = $99.96). When the bundle's tier settings
+      // are on the page, work out the exact total from them instead. The result is
+      // only used if it matches the per-item price Appstle shows, so a bundle set
+      // up any other way keeps the old "per item x quantity" maths.
+      function getExactBundleTotal(bundle) {
+        try {
+          const selected = document.querySelector('.ab-volume-discount-item-selected-v2');
+          const widget = selected && selected.closest('[data-appstle-bundles-widget-unique-ref]');
+          const rules = window._ABConfig && window._ABConfig.bundle_rules;
+          if (!widget || !Array.isArray(rules) || bundle.unitPrice === null) return null;
+
+          const ref = widget.getAttribute('data-appstle-bundles-widget-unique-ref');
+          const rule = rules.find(function (r) { return r && r.uniqueRef === ref; });
+          if (!rule || !rule.tieredDiscount) return null;
+
+          const tiers = typeof rule.tieredDiscount === 'string'
+            ? JSON.parse(rule.tieredDiscount)
+            : rule.tieredDiscount;
+          const tier = (tiers || []).find(function (t) {
+            return t.discountBasedOn === 'QUANTITY' && Number(t.value) === bundle.quantity;
+          });
+          if (!tier) return null;
+
+          const rate = Number(window.Shopify && Shopify.currency && Shopify.currency.rate) || 1;
+          const unitFull = bundle.unitOriginal !== null ? bundle.unitOriginal : bundle.unitPrice;
+          const fullTotal = unitFull * bundle.quantity;
+          const discount = Number(tier.discount) || 0;
+
+          let total = null;
+          if (tier.discountType === 'FIXED_AMOUNT') {
+            total = fullTotal - discount * rate;
+          } else if (tier.discountType === 'PERCENTAGE') {
+            total = fullTotal * (1 - discount / 100);
+          }
+          if (total === null || total < 0) return null;
+
+          total = Math.round(total * 100) / 100;
+          const perItem = Math.round((total / bundle.quantity) * 100) / 100;
+          return Math.abs(perItem - bundle.unitPrice) < 0.006 ? total : null;
+        } catch (e) {
+          return null;
+        }
       }
 
       function getSelectedSubscriptionPrice() {
@@ -5535,7 +5592,10 @@ Changes:
         // Bundle prices are shown per item, so multiply by the chosen quantity.
         if (bundle) {
           if (currentPrice === null && bundle.unitPrice !== null) {
-            currentPrice = bundle.unitPrice * bundle.quantity;
+            const exactTotal = getExactBundleTotal(bundle);
+            currentPrice = exactTotal !== null
+              ? exactTotal
+              : bundle.unitPrice * bundle.quantity;
           }
 
           if (bundle.unitOriginal !== null) {
@@ -5595,9 +5655,15 @@ Changes:
 
       let updateTimer;
 
+      let lateUpdateTimer;
+
       function scheduleUpdate() {
         window.clearTimeout(updateTimer);
         updateTimer = window.setTimeout(updatePrice, 150);
+        // Appstle sets the quantity field a moment after the tile changes, and
+        // changing a field's value doesn't trigger the observer below, so check again.
+        window.clearTimeout(lateUpdateTimer);
+        lateUpdateTimer = window.setTimeout(updatePrice, 700);
       }
 
       // Listen for bundle selection, subscription selection and delivery frequency.
