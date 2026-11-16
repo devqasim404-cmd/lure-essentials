@@ -186,7 +186,7 @@
             {{ 'cart.general.taxes_and_shipping_at_checkout' | t }}
           </div>
 
-          <div class="shiptection-widget"></div>
+          {% comment %} <div class="shiptection-widget"></div> {% endcomment %}
           <div class="mini-cart-btns mt-3 d-flex flex-column w-100 gap-2">
             {%- if settings.enable_term -%}
             <checkout-button class="checkbox" name="checkout">

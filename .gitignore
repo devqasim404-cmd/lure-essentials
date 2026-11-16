@@ -6,3 +6,7 @@ previews/
 previews/*
 test/
 test/*
+.env
+node_modules/
+.DS_Store
+.shopify/
