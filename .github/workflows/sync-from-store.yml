@@ -15,7 +15,7 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    environment: prod
+    environment: prod        # remove if you use repository secrets
     env:
       SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
       SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
@@ -28,20 +28,15 @@ jobs:
           node-version: 20
       - run: npm install -g @shopify/cli@3
 
-      - name: Pull theme editor changes
-        run: |
-          shopify theme pull --live --nodelete \
-            --only "config/settings_data.json" \
-            --only "templates/*.json" \
-            --only "templates/customers/*.json" \
-            --only "sections/*.json"
+      - name: Pull everything from live theme
+        run: shopify theme pull --live --nodelete
 
       - name: Open PR with store changes
         uses: peter-evans/create-pull-request@v6
         with:
           branch: store-sync
           base: main
-          commit-message: "[store-sync] Theme editor changes from live store"
-          title: "Store sync: theme editor changes"
-          body: "Automated sync of theme editor changes (settings_data.json, templates, sections JSON) from the live store."
+          commit-message: "[store-sync] Changes from live store"
+          title: "Store sync: changes from live store"
+          body: "Automated sync from the live theme: theme editor settings, app-generated files, and any code edited in the admin."
           delete-branch: true
