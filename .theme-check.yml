@@ -1,0 +1,21 @@
+extends: theme-check:recommended
+
+# Translations added by apps (GemPages etc.) aren't in every locale file
+MatchingTranslations:
+  enabled: false
+
+# Noise from app-generated code; revisit during performance work
+RemoteAsset:
+  enabled: false
+AssetPreload:
+  enabled: false
+UndefinedObject:
+  enabled: false
+
+# Don't lint files owned by page-builder apps
+ignore:
+  - layout/theme.gempages.*.liquid
+  - layout/theme.zipifypages.liquid
+  - snippets/*zipifypages*
+  - snippets/*gempages*
+  - sections/*gempages*
