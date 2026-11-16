@@ -1,0 +1,40 @@
+{
+    "sections": {
+        "lure_bundle_banner": {
+            "type": "lure-bundle-banner",
+            "settings": {
+                "alt": "Early Black Friday Deals: Mix, Match & Save. Buy 2 get 20% off, buy 3 get 25% off, buy 4 or more get 30% off."
+            }
+        },
+        "main": {
+            "type": "main-page",
+            "settings": {}
+        },
+        "17945130760eb4d88d": {
+            "type": "apps",
+            "blocks": {
+                "appstle_bundles_appstle_bundle_dynamic_pricing_custom_page_iCMKj4": {
+                    "type": "shopify:\/\/apps\/appstle-bundles\/blocks\/appstle-bundle-dynamic-pricing-custom-page\/8909921b-2d24-4d68-9b12-9d045d3dcb0a",
+                    "settings": {}
+                }
+            },
+            "block_order": [
+                "appstle_bundles_appstle_bundle_dynamic_pricing_custom_page_iCMKj4"
+            ],
+            "settings": {
+                "animation": "",
+                "setwidth": "container",
+                "paddingsection": "0px 0px 0px 0px",
+                "paddingmobile": "60px 0px 60px 0px",
+                "marginsection": "0px 0px 0px 0px",
+                "marginmobile": "0px 0px 0px 0px",
+                "bgsection": "#ffffff"
+            }
+        }
+    },
+    "order": [
+        "lure_bundle_banner",
+        "main",
+        "17945130760eb4d88d"
+    ]
+}
