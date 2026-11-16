@@ -1,0 +1,45 @@
+name: Sync from live store
+on:
+  schedule:
+    - cron: "0 * * * *"   # hourly; adjust as needed
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: theme-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+      SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install -g @shopify/cli@3
+
+      - name: Pull theme editor changes
+        run: |
+          shopify theme pull --live --nodelete \
+            --only "config/settings_data.json" \
+            --only "templates/*.json" \
+            --only "templates/customers/*.json" \
+            --only "sections/*.json"
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "store-sync-bot"
+          git config user.email "store-sync-bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No store changes."
+          else
+            git commit -m "[store-sync] Theme editor changes from live store"
+            git push
+          fi

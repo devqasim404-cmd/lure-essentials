@@ -1,0 +1,44 @@
+name: Deploy to live theme
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      include_json:
+        description: "Also push template/settings JSON (overwrites theme editor changes)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: theme-sync
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: "!contains(github.event.head_commit.message, '[store-sync]')"
+    runs-on: ubuntu-latest
+    env:
+      SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+      SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install -g @shopify/cli@3
+
+      - name: Theme check
+        run: shopify theme check --fail-level error
+
+      - name: Push code only
+        if: ${{ !inputs.include_json }}
+        run: |
+          shopify theme push --live --allow-live --nodelete \
+            --ignore "config/settings_data.json" \
+            --ignore "templates/*.json" \
+            --ignore "templates/customers/*.json" \
+            --ignore "sections/*.json"
+
+      - name: Push everything (manual only)
+        if: ${{ inputs.include_json }}
+        run: shopify theme push --live --allow-live --nodelete
