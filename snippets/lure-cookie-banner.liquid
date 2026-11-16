@@ -6,19 +6,19 @@
   - Desktop/tablet: small card at the bottom (right, left or centre).
   - Phones: slim card along the bottom, Accept + Decline side by side.
 {%- endcomment -%}
-{%- unless settings.lure_pc_enable == false -%}
+{%- if settings.lure_pc_enable -%}
 <style>
   #shopify-pc__banner {
-    --lpc-bg: {{ settings.lure_pc_bg | default: '#ffffff' }};
-    --lpc-border: {{ settings.lure_pc_border | default: '#dce1ea' }};
-    --lpc-title: {{ settings.lure_pc_title | default: '#141a5c' }};
-    --lpc-text: {{ settings.lure_pc_text | default: '#4a5170' }};
-    --lpc-link: {{ settings.lure_pc_link | default: '#1769c2' }};
-    --lpc-accept-bg: {{ settings.lure_pc_accept_bg | default: '#141a5c' }};
-    --lpc-accept-text: {{ settings.lure_pc_accept_text | default: '#ffffff' }};
-    --lpc-decline: {{ settings.lure_pc_decline | default: '#141a5c' }};
-    --lpc-manage: {{ settings.lure_pc_manage | default: '#6b7190' }};
-    --lpc-radius: {{ settings.lure_pc_radius | default: 14 }}px;
+    --lpc-bg: {{ settings.lure_pc_bg }};
+    --lpc-border: {{ settings.lure_pc_border }};
+    --lpc-title: {{ settings.lure_pc_title }};
+    --lpc-text: {{ settings.lure_pc_text }};
+    --lpc-link: {{ settings.lure_pc_link }};
+    --lpc-accept-bg: {{ settings.lure_pc_accept_bg }};
+    --lpc-accept-text: {{ settings.lure_pc_accept_text }};
+    --lpc-decline: {{ settings.lure_pc_decline }};
+    --lpc-manage: {{ settings.lure_pc_manage }};
+    --lpc-radius: {{ settings.lure_pc_radius }}px;
   }
   #shopify-pc__banner.shopify-pc__banner__dialog {
     top: auto !important;
@@ -135,11 +135,11 @@
       margin: 0 !important;
       padding: 14px 16px 12px !important;
     }
-    {%- unless settings.lure_pc_hide_title_mobile == false %}
+    {%- if settings.lure_pc_hide_title_mobile %}
     #shopify-pc__banner #shopify-pc__banner__body-title { display: none !important; }
-    {%- endunless %}
+    {%- endif %}
     #shopify-pc__banner .shopify-pc__banner__body { margin-bottom: 10px !important; }
     #shopify-pc__banner .shopify-pc__banner__body p { font-size: 12.5px !important; }
   }
 </style>
-{%- endunless -%}
+{%- endif -%}
