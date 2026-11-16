@@ -5961,6 +5961,168 @@ form.dynamic_button_wb_form {
 }
 
 /* ========================================
+   SWATCH BADGES
+   From the swatch entry fields badge_label and badge_style.
+   Styles: bestseller (gold, star), favorite (pink, heart); anything else uses the active colour.
+======================================== */
+
+.product-swatches__media {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--ps-image-size, 60px);
+}
+
+.product-swatches__badge {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: calc(var(--ps-image-size, 60px) + 24px);
+  padding: 3px 9px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: var(--ps-active-color, #141a5c);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(20, 26, 92, 0.18);
+  transform: translate(-50%, 45%);
+  pointer-events: none;
+}
+
+.product-swatches__badge-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-swatches__badge--bestseller,
+.product-swatches__badge--best-seller {
+  background: linear-gradient(180deg, #ffd45c 0%, #f5ac1c 100%);
+  color: #3b2600;
+}
+
+.product-swatches__badge--favorite,
+.product-swatches__badge--favourite {
+  background: #e0457b;
+  color: #fff;
+}
+
+.swatch-badge-icon {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+}
+
+/* Room under the image so a badge never covers the swatch name */
+.product-swatches__grid.has-badges .product-swatches__item {
+  gap: 16px;
+}
+
+.product-swatches__heading-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 2px;
+  font-weight: 700;
+  color: var(--ps-active-color, #141a5c);
+}
+
+.product-swatches__heading-dot {
+  margin-right: 2px;
+  color: var(--ps-muted-color, #6b7190);
+  font-weight: 400;
+}
+
+.product-swatches__heading-badge--bestseller,
+.product-swatches__heading-badge--best-seller {
+  color: #9a6400;
+}
+
+.product-swatches__heading-badge--bestseller .swatch-badge-icon,
+.product-swatches__heading-badge--best-seller .swatch-badge-icon {
+  color: #f0a500;
+}
+
+.product-swatches__heading-badge--favorite,
+.product-swatches__heading-badge--favourite {
+  color: #d0386d;
+}
+
+@media screen and (max-width: 749px) {
+  /* Badges are wider than the image; keep the first and last ones from being clipped while scrolling */
+  .product-swatches__grid.has-badges {
+    padding-inline: 12px;
+    scroll-padding-inline: 12px;
+  }
+}
+
+/* ========================================
+   UNAVAILABLE / SOLD OUT SWATCHES
+   is-unavailable: no product page to open (not a link).
+   is-sold-out: page exists but out of stock (still a link).
+======================================== */
+
+.product-swatches__item.is-unavailable {
+  cursor: not-allowed;
+}
+
+.product-swatches__item.is-unavailable .product-swatches__image,
+.product-swatches__item.is-sold-out .product-swatches__image {
+  position: relative;
+}
+
+.product-swatches__item.is-unavailable .product-swatches__img,
+.product-swatches__item.is-unavailable .product-swatches__placeholder,
+.product-swatches__item.is-sold-out .product-swatches__img,
+.product-swatches__item.is-sold-out .product-swatches__placeholder {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+
+/* Diagonal line across the swatch image */
+.product-swatches__item.is-unavailable .product-swatches__image::after,
+.product-swatches__item.is-sold-out .product-swatches__image::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  width: 120%;
+  height: 2px;
+  background: var(--ps-muted-color, #6b7190);
+  transform: rotate(-45deg);
+  pointer-events: none;
+}
+
+/* No hover highlight on swatches that can't be opened */
+.product-swatches__item.is-unavailable:hover .product-swatches__image {
+  border-color: var(--ps-border-color, #dce1ea);
+}
+
+.product-swatches__item.is-unavailable .product-swatches__name,
+.product-swatches__item.is-sold-out .product-swatches__name {
+  color: var(--ps-muted-color, #6b7190);
+}
+
+.product-swatches__status {
+  display: block;
+  margin-top: -6px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ps-muted-color, #6b7190);
+}
+
+/* ========================================
    MOBILE: HORIZONTAL SCROLLING
 ======================================== */
 
