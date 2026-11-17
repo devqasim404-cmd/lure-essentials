@@ -152,11 +152,6 @@
         >
         <div class="product-single__meta small--text-center desktop-div">
           {%- for block in section.blocks -%}
-            {%- comment -%} HSA/FSA badge: after the title and rating, before the first content block {%- endcomment -%}
-            {%- unless hsa_badge_done or block.type == 'title' or block.type == '@app' or block.type == 'review' -%}
-              {%- assign hsa_badge_done = true -%}
-              {% render 'hsa-fsa', product: product, s: section.settings, style: 'badge' %}
-            {%- endunless -%}
             {%- case block.type -%}
               {%- when '@app' -%}
                 {% render block %}
@@ -1028,7 +1023,6 @@
                     {% render 'notifySoldoutProduct', product: product %}
                   {% endif %}
                 </div>
-                {% render 'hsa-fsa', product: product, s: section.settings, style: 'callout', section_id: section.id %}
 
                 {%- if block.settings.enable_local_pickup -%}
                   <link rel="preload" href="{{ 'component-pickup-availability.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -1145,6 +1139,10 @@
     margin-bottom: 6px;
   }
                 </style>
+              {%- when 'hsa_fsa_badge' -%}
+                {% render 'hsa-fsa', product: product, block: block, style: 'badge' %}
+              {%- when 'hsa_fsa_callout' -%}
+                {% render 'hsa-fsa', product: product, block: block, style: 'callout' %}
               {%- when 'share' -%}
                 <div class="product-block">
                   {% render 'social-sharing',
@@ -3451,81 +3449,110 @@ document.addEventListener('DOMContentLoaded', function () {
       "id": "cart_cl_hover",
       "label": "CTA Button Text Hover",
       "default": "#fff"
-    },
-    {
-      "type": "header",
-      "content": "HSA/FSA eligibility",
-      "info": "Shows on products with the tag below. Add the tag to each eligible product in Shopify admin."
-    },
-    {
-      "type": "checkbox",
-      "id": "hsa_fsa_enable",
-      "label": "Show HSA/FSA badge and callout",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "hsa_fsa_tag",
-      "label": "Product tag",
-      "default": "hsa-fsa-eligible"
-    },
-    {
-      "type": "checkbox",
-      "id": "hsa_fsa_show_badge",
-      "label": "Show badge under rating",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "hsa_fsa_badge_text",
-      "label": "Badge text",
-      "default": "HSA/FSA Eligible"
-    },
-    {
-      "type": "checkbox",
-      "id": "hsa_fsa_show_callout",
-      "label": "Show callout under buy buttons",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "hsa_fsa_heading",
-      "label": "Callout heading",
-      "default": "Pay with your HSA or FSA card"
-    },
-    {
-      "type": "text",
-      "id": "hsa_fsa_text",
-      "label": "Callout text",
-      "default": "Use pre-tax dollars from your work health account."
-    },
-    {
-      "type": "text",
-      "id": "hsa_fsa_link_label",
-      "label": "Link label",
-      "info": "Leave blank to hide the link.",
-      "default": "How it works"
-    },
-    {
-      "type": "url",
-      "id": "hsa_fsa_link_url",
-      "label": "Link to a page",
-      "info": "Optional. If set, the link opens this page instead of the popup below."
-    },
-    {
-      "type": "text",
-      "id": "hsa_fsa_popup_heading",
-      "label": "Popup heading",
-      "default": "Paying with your HSA or FSA card"
-    },
-    {
-      "type": "richtext",
-      "id": "hsa_fsa_popup_content",
-      "label": "Popup content",
-      "default": "<p>1. Add this product to your cart and go to checkout.</p><p>2. Enter your HSA or FSA card like any other debit or credit card.</p><p>3. Keep your order confirmation as your receipt. Check with your plan administrator if you're not sure what your plan covers.</p>"
     }
   ],
   "blocks": [
+    {
+      "type": "hsa_fsa_badge",
+      "name": "HSA/FSA badge",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows only on products with the tag below. Add the tag to each eligible product in Shopify admin."
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Product tag",
+          "default": "hsa-fsa-eligible"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Badge text",
+          "default": "HSA/FSA Eligible"
+        }
+      ]
+    },
+    {
+      "type": "hsa_fsa_callout",
+      "name": "HSA/FSA message box",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows only on products with the tag below. Add the tag to each eligible product in Shopify admin."
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Product tag",
+          "default": "hsa-fsa-eligible"
+        },
+        {
+          "type": "header",
+          "content": "Icon"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Show icon",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image",
+          "info": "Optional. Leave empty to use the default card icon. Square image, at least 108 x 108 px."
+        },
+        {
+          "type": "header",
+          "content": "Text"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Pay with your HSA or FSA card"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Use pre-tax dollars from your work health account."
+        },
+        {
+          "type": "header",
+          "content": "Link"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label",
+          "info": "Leave blank to hide the link.",
+          "default": "How it works"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link to a page",
+          "info": "Optional. If set, the link opens this page instead of the popup below."
+        },
+        {
+          "type": "text",
+          "id": "popup_heading",
+          "label": "Popup heading",
+          "default": "Paying with your HSA or FSA card"
+        },
+        {
+          "type": "richtext",
+          "id": "popup_content",
+          "label": "Popup content",
+          "default": "<p>1. Add this product to your cart and go to checkout.</p><p>2. Enter your HSA or FSA card like any other debit or credit card.</p><p>3. Keep your order confirmation as your receipt. Check with your plan administrator if you're not sure what your plan covers.</p>"
+        }
+      ]
+    },
     {
       "type": "@app"
     },
