@@ -1,80 +1,96 @@
 {%- comment -%}
-  HSA/FSA eligibility badge and checkout callout.
-  Shown only on products that have the tag set in the section's
-  "HSA/FSA eligibility" settings (default "hsa-fsa-eligible").
-  All text is edited in the theme editor (Product overview section settings).
+  HSA/FSA badge and message box, rendered by the "HSA/FSA badge" and
+  "HSA/FSA message box" blocks of the Product overview section
+  (product-template-1 / product-template-2). Add the blocks in the theme editor
+  and drag them where you want them; they only show on products that have the
+  block's product tag (default "hsa-fsa-eligible").
 
   Usage:
-    {% render 'hsa-fsa', product: product, s: section.settings, style: 'badge' %}
-    {% render 'hsa-fsa', product: product, s: section.settings, style: 'callout', section_id: section.id %}
+    {% render 'hsa-fsa', product: product, block: block, style: 'badge' %}
+    {% render 'hsa-fsa', product: product, block: block, style: 'callout' %}
 {%- endcomment -%}
 {%- liquid
-  assign hsa_tag = s.hsa_fsa_tag | strip
+  assign s = block.settings
+  assign hsa_tag = s.tag | strip
   assign hsa_show = false
-  if s.hsa_fsa_enable and hsa_tag != blank and product.tags contains hsa_tag
-    if style == 'callout' and s.hsa_fsa_show_callout
+  if hsa_tag != blank and product.tags contains hsa_tag
+    if style == 'callout'
       assign hsa_show = true
-    elsif style == 'badge' and s.hsa_fsa_show_badge and s.hsa_fsa_badge_text != blank
+    elsif s.text != blank
       assign hsa_show = true
     endif
   endif
 -%}
 {%- if hsa_show -%}
-  {%- capture hsa_icon -%}
-    <svg class="hsa-fsa__icon" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
-      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/>
-      <path d="M12 9v6M9 12h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    </svg>
-  {%- endcapture -%}
   {{ 'hsa-fsa.css' | asset_url | stylesheet_tag }}
 
   {%- if style == 'callout' -%}
-    <div class="hsa-fsa-callout product-block">
-      <span class="hsa-fsa-callout__icon">{{ hsa_icon }}</span>
+    {%- liquid
+      assign hsa_has_link = false
+      assign hsa_has_popup = false
+      if s.link_label != blank
+        if s.link_url != blank
+          assign hsa_has_link = true
+        elsif s.popup_content != blank
+          assign hsa_has_popup = true
+        endif
+      endif
+    -%}
+    <div class="hsa-fsa-callout product-block" {{ block.shopify_attributes }}>
+      {%- if s.show_icon -%}
+        <span class="hsa-fsa-callout__icon">
+          {%- if s.icon_image != blank -%}
+            {{ s.icon_image | image_url: width: 108 | image_tag: width: 32, height: 32, alt: '', loading: 'lazy', class: 'hsa-fsa-callout__img' }}
+          {%- else -%}
+            <svg class="hsa-fsa__icon" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
+              <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M12 9v6M9 12h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          {%- endif -%}
+        </span>
+      {%- endif -%}
       <div class="hsa-fsa-callout__text">
-        {%- if s.hsa_fsa_heading != blank -%}
-          <p class="hsa-fsa-callout__heading">{{ s.hsa_fsa_heading | escape }}</p>
+        {%- if s.heading != blank -%}
+          <p class="hsa-fsa-callout__heading">{{ s.heading | escape }}</p>
         {%- endif -%}
-        {%- if s.hsa_fsa_text != blank -%}
-          <p class="hsa-fsa-callout__body">{{ s.hsa_fsa_text | escape }}</p>
+        {%- if s.text != blank -%}
+          <p class="hsa-fsa-callout__body">{{ s.text | escape }}</p>
         {%- endif -%}
       </div>
-      {%- if s.hsa_fsa_link_label != blank -%}
-        {%- if s.hsa_fsa_link_url != blank -%}
-          <a href="{{ s.hsa_fsa_link_url }}" class="hsa-fsa-callout__link">{{ s.hsa_fsa_link_label | escape }}</a>
-        {%- elsif s.hsa_fsa_popup_content != blank -%}
-          <button
-            type="button"
-            class="hsa-fsa-callout__link"
-            aria-haspopup="dialog"
-            onclick="document.getElementById('HsaFsaDialog-{{ section_id }}').showModal()"
-          >
-            {{ s.hsa_fsa_link_label | escape }}
-          </button>
-        {%- endif -%}
+      {%- if hsa_has_link -%}
+        <a href="{{ s.link_url }}" class="hsa-fsa-callout__link">{{ s.link_label | escape }}</a>
+      {%- elsif hsa_has_popup -%}
+        <button
+          type="button"
+          class="hsa-fsa-callout__link"
+          aria-haspopup="dialog"
+          onclick="document.getElementById('HsaFsaDialog-{{ block.id }}').showModal()"
+        >
+          {{ s.link_label | escape }}
+        </button>
       {%- endif -%}
     </div>
 
-    {%- if s.hsa_fsa_link_label != blank and s.hsa_fsa_link_url == blank and s.hsa_fsa_popup_content != blank -%}
+    {%- if hsa_has_popup -%}
       <dialog
-        id="HsaFsaDialog-{{ section_id }}"
+        id="HsaFsaDialog-{{ block.id }}"
         class="hsa-fsa-dialog"
-        {% if s.hsa_fsa_popup_heading != blank %}aria-labelledby="HsaFsaDialogTitle-{{ section_id }}"{% else %}aria-label="{{ s.hsa_fsa_link_label | escape }}"{% endif %}
+        {% if s.popup_heading != blank %}aria-labelledby="HsaFsaDialogTitle-{{ block.id }}"{% else %}aria-label="{{ s.link_label | escape }}"{% endif %}
       >
-        {%- if s.hsa_fsa_popup_heading != blank -%}
-          <h2 id="HsaFsaDialogTitle-{{ section_id }}" class="hsa-fsa-dialog__heading">
-            {{ s.hsa_fsa_popup_heading | escape }}
+        {%- if s.popup_heading != blank -%}
+          <h2 id="HsaFsaDialogTitle-{{ block.id }}" class="hsa-fsa-dialog__heading">
+            {{ s.popup_heading | escape }}
           </h2>
         {%- endif -%}
-        <div class="hsa-fsa-dialog__content">{{ s.hsa_fsa_popup_content }}</div>
+        <div class="hsa-fsa-dialog__content">{{ s.popup_content }}</div>
         <form method="dialog">
           <button type="submit" class="hsa-fsa-dialog__close">{{ 'products.hsa_fsa.close' | t }}</button>
         </form>
       </dialog>
     {%- endif -%}
   {%- else -%}
-    <div class="hsa-fsa-badge-wrap product-block">
-      <span class="hsa-fsa-badge">{{ hsa_icon }}{{ s.hsa_fsa_badge_text | escape }}</span>
+    <div class="hsa-fsa-badge-wrap product-block" {{ block.shopify_attributes }}>
+      <span class="hsa-fsa-badge">{{ s.text | escape }}</span>
     </div>
   {%- endif -%}
 {%- endif -%}

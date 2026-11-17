@@ -6,7 +6,6 @@
 .hsa-fsa-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
   padding: 4px 12px;
   border: 1px solid #a8dcbb;
   border-radius: 999px;
@@ -15,11 +14,6 @@
   font-size: 15px;
   font-weight: 600;
   line-height: 1.3;
-}
-.hsa-fsa-badge .hsa-fsa__icon {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
 }
 
 .hsa-fsa-callout {
@@ -139,4 +133,12 @@
 }
 a.hsa-fsa-callout__link {
   display: inline-block;
+}
+
+/* Custom icon image picked in the theme editor */
+.hsa-fsa-callout__img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
