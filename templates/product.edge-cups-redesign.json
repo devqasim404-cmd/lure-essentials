@@ -177,7 +177,6 @@
         "hsa_fsa_callout_kpCtPG",
         "guarantee_badge_main",
         "accordion_tabcusto",
-        "accordion_tabcusto",
         "accordion_0a71f30d"
       ],
       "settings": {
@@ -233,16 +232,6 @@
     },
     "pdp_image_modules": {
       "type": "pdp-image-modules",
-      "settings": {
-        "animation": "",
-        "setwidth": "container",
-        "bgsection": "#ffffff",
-        "paddingsection": "0px 0px 0px 0px",
-        "paddingmobile": "0px 0px 0px 0px",
-        "marginsection": "0px 0px 0px 0px",
-        "marginmobile": "0px 0px 0px 0px",
-        "image_source": "blocks"
-      },
       "blocks": {
         "image_1": {
           "type": "image",
@@ -266,7 +255,17 @@
         "image_2",
         "image_3",
         "image_4"
-      ]
+      ],
+      "settings": {
+        "image_source": "blocks",
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
     },
     "product-content": {
       "type": "product-content",
