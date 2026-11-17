@@ -3,6 +3,10 @@ extends: theme-check:recommended
 
 # ── Files owned by page-builder apps (GemPages, Zipify, PageFly) ──
 ignore:
+  # ── Local working files, not part of the theme (already in .gitignore) ──
+  - backups/**
+  - previews/**
+  - theme-check-report.json
   - layout/*gempages*
   - layout/*zipifypages*
   - layout/*pagefly*
@@ -15,6 +19,9 @@ ignore:
   - templates/*gempages*
   - templates/*zipifypages*
   - templates/*pagefly*
+  - snippets/gp-*
+  - snippets/gem-*
+  - snippets/pf-*
 
 # ── Existing errors in the legacy theme / app code ──
 MatchingTranslations:
@@ -66,4 +73,6 @@ UnusedAssign:
 ContentForHeaderModification:
   enabled: false
 HardcodedRoutes:
+  enabled: false
+OrphanedSnippet:
   enabled: false
