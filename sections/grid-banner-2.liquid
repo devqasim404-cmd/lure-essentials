@@ -13,7 +13,7 @@
          position:relative;
        }
       </style>
-      <div class="col-md-3{{ block.shopify_attributes }} data-aos="{{ section.settings.animation }}" data-aos-delay="{{ forloop.index | times: 100 }}">
+      <div class="col-md-3" {{ block.shopify_attributes }} data-aos="{{ section.settings.animation }}" data-aos-delay="{{ forloop.index | times: 100 }}">
       <div class="banner-{{ block.id }}" style="padding:{{ block.settings.paddingblock }}">
         <figure class="position-relative m-0 hv-image-saturate text-{{ block.settings.text_align }} {% if section.settings.no_gutter %}m-0{% endif %} d-flex {{ block.settings.reverse }}">
           {%- if block.settings.image != blank -%}
@@ -21,7 +21,7 @@
           <img src="{{ block.settings.image | image_url: width: 1, height: 1 }}" class="lazyload transition" data-src="{{ block.settings.image | image_url: width: 1920 }}"
             loading="lazy"
                 width="{{ block.settings.image.width }}"
-                height="{{ block.settings.image.height }}" ">
+                height="{{ block.settings.image.height }}">
           {%- if block.settings.button_link != blank -%}</a> {%- endif -%}
           {%- else -%}
           {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
