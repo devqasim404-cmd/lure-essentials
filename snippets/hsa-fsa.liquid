@@ -1,0 +1,55 @@
+{%- comment -%}
+  HSA/FSA eligibility badge and checkout callout.
+  Shown only on products tagged "hsa-fsa-eligible" (eye masks, EDGE cups).
+
+  Usage:
+    {% render 'hsa-fsa', product: product, style: 'badge' %}    -> pill under the rating
+    {% render 'hsa-fsa', product: product, style: 'callout', section_id: section.id %}  -> card under the buy buttons
+{%- endcomment -%}
+{%- if product.tags contains 'hsa-fsa-eligible' -%}
+  {%- capture hsa_icon -%}
+    <svg class="hsa-fsa__icon" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
+      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M12 9v6M9 12h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+  {%- endcapture -%}
+
+  {%- if style == 'callout' -%}
+    {{ 'hsa-fsa.css' | asset_url | stylesheet_tag }}
+    <div class="hsa-fsa-callout product-block">
+      <span class="hsa-fsa-callout__icon">{{ hsa_icon }}</span>
+      <div class="hsa-fsa-callout__text">
+        <p class="hsa-fsa-callout__heading">{{ 'products.hsa_fsa.callout_heading' | t }}</p>
+        <p class="hsa-fsa-callout__body">{{ 'products.hsa_fsa.callout_text' | t }}</p>
+      </div>
+      <button
+        type="button"
+        class="hsa-fsa-callout__link"
+        aria-haspopup="dialog"
+        onclick="document.getElementById('HsaFsaDialog-{{ section_id }}').showModal()"
+      >
+        {{ 'products.hsa_fsa.how_it_works' | t }}
+      </button>
+    </div>
+
+    <dialog id="HsaFsaDialog-{{ section_id }}" class="hsa-fsa-dialog" aria-labelledby="HsaFsaDialogTitle-{{ section_id }}">
+      <h2 id="HsaFsaDialogTitle-{{ section_id }}" class="hsa-fsa-dialog__heading">
+        {{ 'products.hsa_fsa.dialog_heading' | t }}
+      </h2>
+      <ol class="hsa-fsa-dialog__steps">
+        <li>{{ 'products.hsa_fsa.dialog_step_1' | t }}</li>
+        <li>{{ 'products.hsa_fsa.dialog_step_2' | t }}</li>
+        <li>{{ 'products.hsa_fsa.dialog_step_3' | t }}</li>
+      </ol>
+      <p class="hsa-fsa-dialog__note">{{ 'products.hsa_fsa.dialog_note' | t }}</p>
+      <form method="dialog">
+        <button type="submit" class="hsa-fsa-dialog__close">{{ 'products.hsa_fsa.close' | t }}</button>
+      </form>
+    </dialog>
+  {%- else -%}
+    {{ 'hsa-fsa.css' | asset_url | stylesheet_tag }}
+    <div class="hsa-fsa-badge-wrap product-block">
+      <span class="hsa-fsa-badge">{{ hsa_icon }}{{ 'products.hsa_fsa.badge' | t }}</span>
+    </div>
+  {%- endif -%}
+{%- endif -%}

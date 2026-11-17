@@ -195,6 +195,11 @@
         >
         <div class="product-single__meta small--text-center desktop-div">
           {%- for block in section.blocks -%}
+            {%- comment -%} HSA/FSA badge: after the title and rating, before the first content block {%- endcomment -%}
+            {%- unless hsa_badge_done or block.type == 'title' or block.type == '@app' or block.type == 'review' -%}
+              {%- assign hsa_badge_done = true -%}
+              {% render 'hsa-fsa', product: product, style: 'badge' %}
+            {%- endunless -%}
             {%- case block.type -%}
               {%- when '@app' -%}
                 {% render block %}
@@ -1223,6 +1228,7 @@
                     {% render 'notifySoldoutProduct', product: product %}
                   {% endif %}
                 </div>
+                {% render 'hsa-fsa', product: product, style: 'callout', section_id: section.id %}
 
                 {%- if block.settings.enable_local_pickup -%}
                   <link rel="preload" href="{{ 'component-pickup-availability.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
