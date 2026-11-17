@@ -795,11 +795,10 @@
       loadSwiper(function () { initAll(event.target); });
     });
 
-    document.addEventListener('shopify:variant:change', function (event) {
-      var variant = event.detail && event.detail.variant;
+    function showVariantMedia(variant, scope) {
       if (!variant || !variant.featured_media) return;
 
-      document.querySelectorAll('[data-pm-gallery]').forEach(function (root) {
+      (scope || document).querySelectorAll('[data-pm-gallery]').forEach(function (root) {
         var swiper = root._pmMainSwiper;
         if (!swiper) return;
 
@@ -810,7 +809,28 @@
           }
         });
       });
+    }
+
+    document.addEventListener('shopify:variant:change', function (event) {
+      showVariantMedia(event.detail && event.detail.variant);
     });
+
+    /* The theme's variant picker (theme.js, incl. the Variant swatches block) fires a
+       jQuery "variantChange" event on the product section, not shopify:variant:change.
+       jQuery loads deferred, so bind once the DOM is ready. */
+    function bindThemeVariantChange() {
+      if (!window.jQuery || window.__pmVariantChangeBound) return;
+      window.__pmVariantChangeBound = true;
+      window.jQuery(document).on('variantChange', '[data-section-type="product"]', function (event) {
+        showVariantMedia(event.variant, event.currentTarget);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bindThemeVariantChange, { once: true });
+    } else {
+      bindThemeVariantChange();
+    }
   })();
 </script>
 
