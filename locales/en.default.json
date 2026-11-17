@@ -344,6 +344,9 @@
     }
   },
   "products": {
+    "hsa_fsa": {
+      "close": "Close"
+    },
     "product": {
       "hurrify": "Hurrify, {{ number }} item(s) left in stock!",
       "sold_out": "Sold Out",
