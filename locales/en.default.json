@@ -350,6 +350,9 @@
     "product": {
       "hurrify": "Hurrify, {{ number }} item(s) left in stock!",
       "sold_out": "Sold Out",
+      "variant_swatches": {
+        "options": "options"
+      },
       "waitlist": "Join Waitlist",
       "available": "Available",
       "unavailable": "Unavailable",
