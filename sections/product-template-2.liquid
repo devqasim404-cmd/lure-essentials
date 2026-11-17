@@ -1,4 +1,48 @@
 <!-- product-template-1.liquid -->
+{%- if product.tags contains 'badge-style-bf' -%}
+<style>
+  /* Black Friday bundle badge: only on products tagged "badge-style-bf".
+     One cranberry/gold badge across the last two bundle tiles: the other tile
+     badges are hidden, and the last tile's badge is stretched over both tiles.
+     The badge text is the last tier's badge text in Appstle.
+     The selected tile gets a cranberry outline. Remove the tag to go back to normal. */
+  body .appstle-volume-discount .ab-volume-discount-rule-content-v2 .ab-volume-discount-item-container-v2:not(:last-child) .ab-volume-discount-most-popular-badge-section {
+    display: none !important;
+  }
+  body .appstle-volume-discount .ab-volume-discount-rule-content-v2 .ab-volume-discount-item-container-v2:last-child .ab-volume-discount-most-popular-badge-section {
+    top: -12px !important;
+    right: -1px !important;
+    left: calc(-100% - var(--ab-card-gap, 12px) - 3px) !important;
+    z-index: 2 !important;
+    /* the badge overlaps the Buy 2 tile: let clicks pass through to the tile underneath */
+    pointer-events: none !important;
+  }
+  body .appstle-volume-discount .ab-volume-discount-rule-content-v2 .ab-volume-discount-item-container-v2:last-child .ab-volume-discount-most-popular-badge-container {
+    padding: 5px 14px !important;
+    border: 1px solid #d9a53a !important;
+    border-radius: 999px !important;
+    background: linear-gradient(90deg, #7a1424 0%, #a3182a 50%, #7a1424 100%) !important;
+    color: #f6dfa6 !important;
+  }
+  body .appstle-volume-discount .ab-volume-discount-rule-content-v2 .ab-volume-discount-item-container-v2:last-child .ab-volume-discount-most-popular-badge-label {
+    color: #f6dfa6 !important;
+    letter-spacing: 0.06em !important;
+  }
+  body .appstle-volume-discount .ab-volume-discount-rule-content-v2 .ab-volume-discount-item-container-v2.ab-volume-discount-item-selected-v2 {
+    border-color: #8e1a2a !important;
+    background: #fffaf3 !important;
+    box-shadow: inset 0 0 0 1px #8e1a2a !important;
+  }
+  @media (max-width: 480px) {
+    body .appstle-volume-discount .ab-volume-discount-rule-content-v2 .ab-volume-discount-item-container-v2:last-child .ab-volume-discount-most-popular-badge-section {
+      left: calc(-100% - 6px - 3px) !important;
+    }
+    body .appstle-volume-discount .ab-volume-discount-rule-content-v2 .ab-volume-discount-item-container-v2:last-child .ab-volume-discount-most-popular-badge-container {
+      padding: 4px 10px !important;
+    }
+  }
+</style>
+{%- endif -%}
   <link
   rel="stylesheet"
   href="{{ 'photoswipe.css' | asset_url }}"
