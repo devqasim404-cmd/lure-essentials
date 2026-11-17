@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "zp-product-header-content": {
@@ -17,6 +26,13 @@
           "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {}
         },
+        "hsa_fsa_badge_MPaYjU": {
+          "type": "hsa_fsa_badge",
+          "settings": {
+            "tag": "hsa-fsa-eligible",
+            "text": "HSA/FSA Eligible"
+          }
+        },
         "31b79d7e-a35a-4a94-8cb5-8e518bf8fef6": {
           "type": "review",
           "disabled": true,
@@ -29,7 +45,9 @@
         "subscription_price_TFNRPV": {
           "type": "subscription_price",
           "settings": {
-            "price_label": "TODAY"
+            "price_label": "TODAY",
+            "savings_heading": "",
+            "hide_subheading": false
           }
         },
         "shipping_notice_PW8Rzc": {
@@ -151,6 +169,7 @@
         },
         "73a647c7-afc5-4d87-aaea-1438dd5ecb92": {
           "type": "icon_with_text",
+          "disabled": true,
           "settings": {
             "block_style": "ver",
             "icon_1": "lock",
@@ -161,55 +180,20 @@
             "icon_text_3": "90-Day Money Back Guarantee",
             "icon_4": "none",
             "icon_text_4": ""
-          },
-          "disabled": true
-        },
-        "custom_product_accordion_zyeeHY": {
-          "type": "custom_product_accordion",
-          "settings": {
-            "heading": "Why You'll Love It",
-            "content_type": "text",
-            "open_by_default": false,
-            "step_1_title": "Tear open",
-            "step_1_description": "a sealed mask — no prep",
-            "step_2_title": "Loop it on",
-            "step_2_description": "— ear loops keep it in place",
-            "step_3_title": "Feel the cold",
-            "step_3_description": "for 60+ minutes",
-            "description": "",
-            "metafield_source": "product_information"
           }
         },
-        "custom_product_accordion_FbNepw": {
-          "type": "custom_product_accordion",
+        "hsa_fsa_callout_kpCtPG": {
+          "type": "hsa_fsa_callout",
           "settings": {
-            "heading": "Ingredients",
-            "content_type": "text",
-            "open_by_default": false,
-            "step_1_title": "Tear open",
-            "step_1_description": "a sealed mask — no prep",
-            "step_2_title": "Loop it on",
-            "step_2_description": "— ear loops keep it in place",
-            "step_3_title": "Feel the cold",
-            "step_3_description": "for 60+ minutes",
-            "description": "Water, Activated Carbon (Charcoal), Hydrated Minerals, Ferrous (Iron) Powder, Inorganic Salts.",
-            "metafield_source": "ingredients"
-          }
-        },
-        "custom_product_accordion_eq4gKV": {
-          "type": "custom_product_accordion",
-          "settings": {
-            "heading": "How To Use",
-            "content_type": "text",
-            "open_by_default": false,
-            "step_1_title": "Tear open",
-            "step_1_description": "a sealed mask — no prep",
-            "step_2_title": "Loop it on",
-            "step_2_description": "— ear loops keep it in place",
-            "step_3_title": "Feel the cold",
-            "step_3_description": "for 60+ minutes",
-            "description": "Easy as 1-2-3:\n1. Remove mask from pouch and unfold (use immediately after opening)\n2. Locate ear loops on back center of mask, unfold and tear along perforations\n3. Position white side over eyes, secure loops over ears, and relax\nImportant: Masks are single use only. Do not reheat. Discard after use.",
-            "metafield_source": "how_to_use"
+            "tag": "hsa-fsa-eligible",
+            "show_icon": false,
+            "icon_image": "shopify://shop_images/Minimalist_White_L_Logo.png",
+            "heading": "Pay with your HSA or FSA card",
+            "text": "Use pre-tax dollars from your work health account.",
+            "link_label": "How it works",
+            "link_url": "",
+            "popup_heading": "Paying with your HSA or FSA card",
+            "popup_content": "<p>1. Add this product to your cart and go to checkout.</p><p>2. Enter your HSA or FSA card like any other debit or credit card.</p><p>3. Keep your order confirmation as your receipt. Check with your plan administrator if you're not sure what your plan covers.</p>"
           }
         },
         "guarantee_badge_main": {
@@ -219,11 +203,60 @@
             "heading": "90-Day Money Back Guarantee",
             "text": "If you're not satisfied with your purchase, you may return any unopened products within 90 days of delivery for a refund."
           }
+        },
+        "custom_product_accordion_zyeeHY": {
+          "type": "custom_product_accordion",
+          "settings": {
+            "heading": "Why You'll Love It",
+            "content_type": "text",
+            "metafield_source": "product_information",
+            "open_by_default": false,
+            "step_1_title": "Tear open",
+            "step_1_description": "a sealed mask — no prep",
+            "step_2_title": "Loop it on",
+            "step_2_description": "— ear loops keep it in place",
+            "step_3_title": "Feel the cold",
+            "step_3_description": "for 60+ minutes",
+            "description": ""
+          }
+        },
+        "custom_product_accordion_FbNepw": {
+          "type": "custom_product_accordion",
+          "settings": {
+            "heading": "Ingredients",
+            "content_type": "text",
+            "metafield_source": "ingredients",
+            "open_by_default": false,
+            "step_1_title": "Tear open",
+            "step_1_description": "a sealed mask — no prep",
+            "step_2_title": "Loop it on",
+            "step_2_description": "— ear loops keep it in place",
+            "step_3_title": "Feel the cold",
+            "step_3_description": "for 60+ minutes",
+            "description": "Water, Activated Carbon (Charcoal), Hydrated Minerals, Ferrous (Iron) Powder, Inorganic Salts."
+          }
+        },
+        "custom_product_accordion_eq4gKV": {
+          "type": "custom_product_accordion",
+          "settings": {
+            "heading": "How To Use",
+            "content_type": "text",
+            "metafield_source": "how_to_use",
+            "open_by_default": false,
+            "step_1_title": "Tear open",
+            "step_1_description": "a sealed mask — no prep",
+            "step_2_title": "Loop it on",
+            "step_2_description": "— ear loops keep it in place",
+            "step_3_title": "Feel the cold",
+            "step_3_description": "for 60+ minutes",
+            "description": "Easy as 1-2-3:\n1. Remove mask from pouch and unfold (use immediately after opening)\n2. Locate ear loops on back center of mask, unfold and tear along perforations\n3. Position white side over eyes, secure loops over ears, and relax\nImportant: Masks are single use only. Do not reheat. Discard after use."
+          }
         }
       },
       "block_order": [
         "989bce2f-7961-4267-8e6c-40ff4bb0ed64",
         "judge_me_reviews_preview_badge_nTzAKc",
+        "hsa_fsa_badge_MPaYjU",
         "31b79d7e-a35a-4a94-8cb5-8e518bf8fef6",
         "1affb493-1e14-4893-9876-be8d348ee475",
         "subscription_price_TFNRPV",
@@ -239,6 +272,7 @@
         "bf089f50-667c-4417-a84a-9478625741a1",
         "be13b3d2-2e01-4728-a83f-6488d1b7d4fa",
         "73a647c7-afc5-4d87-aaea-1438dd5ecb92",
+        "hsa_fsa_callout_kpCtPG",
         "guarantee_badge_main",
         "custom_product_accordion_zyeeHY",
         "custom_product_accordion_FbNepw",
@@ -295,6 +329,18 @@
         "marginmobile": "0px 0px 0px 0px"
       }
     },
+    "pdp_image_modules": {
+      "type": "pdp-image-modules",
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
     "product-content": {
       "type": "product-content",
       "blocks": {
@@ -315,6 +361,31 @@
         "enable_left": false,
         "paddingsection": "48px 0px 20px 0px",
         "paddingmobile": "32px 0px 32px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "pdp_faq": {
+      "type": "pdp-faq",
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "e_size": "auto",
+        "e_repeat": "no-repeat",
+        "e_pos": "center center",
+        "title_top": "",
+        "title": "Frequently Asked Questions",
+        "des": "Have a question ? We are here to help.",
+        "align-heading": "center",
+        "title_size": "h6",
+        "e_first_open": false,
+        "e_reverse": true,
+        "e_small": true,
+        "left_html": "",
+        "e_right": false,
+        "paddingsection": "40px 0px 0px 0px",
+        "paddingmobile": "60px 0px 60px 0px",
         "marginsection": "0px 0px 0px 0px",
         "marginmobile": "0px 0px 0px 0px"
       }
@@ -407,43 +478,6 @@
     "zp-product-footer-content": {
       "type": "product-footer-content-zipifypages",
       "settings": {}
-    },
-    "pdp_image_modules": {
-      "type": "pdp-image-modules",
-      "settings": {
-        "animation": "",
-        "setwidth": "container",
-        "bgsection": "#ffffff",
-        "paddingsection": "0px 0px 0px 0px",
-        "paddingmobile": "0px 0px 0px 0px",
-        "marginsection": "0px 0px 0px 0px",
-        "marginmobile": "0px 0px 0px 0px"
-      }
-    },
-    "pdp_faq": {
-      "type": "pdp-faq",
-      "settings": {
-        "animation": "",
-        "setwidth": "container",
-        "bgsection": "#ffffff",
-        "e_size": "auto",
-        "e_repeat": "no-repeat",
-        "e_pos": "center center",
-        "title_top": "",
-        "title": "Frequently Asked Questions",
-        "des": "Have a question ? We are here to help.",
-        "align-heading": "center",
-        "title_size": "h6",
-        "e_first_open": false,
-        "e_reverse": true,
-        "e_small": true,
-        "left_html": "",
-        "e_right": false,
-        "paddingsection": "40px 0px 0px 0px",
-        "paddingmobile": "60px 0px 60px 0px",
-        "marginsection": "0px 0px 0px 0px",
-        "marginmobile": "0px 0px 0px 0px"
-      }
     }
   },
   "order": [
