@@ -418,8 +418,10 @@
                   </div>
                 {% endif %}
               {%- when 'shortdesc' -%}
-                <div class="product-block rte product-short__description txt-body-70">
-                  {% if product.metafields.info.shortdesc != blank %}
+                <div class="product-block rte product-short__description txt-body-70" {{ block.shopify_attributes }}>
+                  {% if block.settings.content != blank %}
+                    {{ block.settings.content }}
+                  {% elsif product.metafields.info.shortdesc != blank %}
                     {{ product.metafields.info.shortdesc }}
                   {% else %}
                     {{ product.description | strip_html | truncatewords: 20 }}
@@ -586,18 +588,18 @@
                           Save up to {{ savings_percent }}% off today
                         {%- endif -%}
                       </span>
-                      {%- unless block.settings.hide_subheading -%}
+                      {%- if block.settings.hide_subheading == false and block.settings.subheading_text != blank -%}
                         <span class="custom-product-price__subheading">
-                          with today’s Subscribe &amp; Save offer
+                          {{ block.settings.subheading_text | escape }}
                         </span>
-                      {%- endunless -%}
+                      {%- endif -%}
                     </div>
                   </div>
 
                   <div class="custom-product-price__card">
 
                     <div class="custom-product-price__item">
-                      <span class="custom-product-price__caption">Today’s Price</span>
+                      <span class="custom-product-price__caption">{{ block.settings.current_price_label | escape }}</span>
 
                       <span
                         id="ProductPrice-{{ section.id }}"
@@ -611,7 +613,7 @@
                     </div>
 
                     <div class="custom-product-price__item custom-product-price__item--middle">
-                      <span class="custom-product-price__caption">Original Price</span>
+                      <span class="custom-product-price__caption">{{ block.settings.original_price_label | escape }}</span>
 
                       <s
                         id="ComparePrice-{{ section.id }}"
@@ -624,7 +626,7 @@
 
                     <div class="custom-product-price__item">
                       <span class="custom-product-price__caption custom-product-price__caption--savings">
-                        Savings
+                        {{ block.settings.savings_label | escape }}
                       </span>
 
                       <span class="custom-product-price__savings" data-savings-amount>
@@ -3798,13 +3800,42 @@ document.addEventListener('DOMContentLoaded', function () {
           "type": "text",
           "id": "savings_heading",
           "label": "Savings heading",
-          "info": "Leave blank to use the default savings heading."
+          "info": "e.g. Save up to 55% off today. Leave blank to use the default heading (\"Save up to 55% off today\")."
         },
         {
           "type": "checkbox",
           "id": "hide_subheading",
-          "label": "Hide \"with today's Subscribe & Save offer\"",
+          "label": "Hide subheading",
           "default": false
+        },
+        {
+          "type": "text",
+          "id": "subheading_text",
+          "label": "Subheading",
+          "default": "with today’s Subscribe & Save offer"
+        },
+        {
+          "type": "header",
+          "content": "Price box labels"
+        },
+        {
+          "type": "text",
+          "id": "current_price_label",
+          "label": "Current price label",
+          "default": "Today’s Price"
+        },
+        {
+          "type": "text",
+          "id": "original_price_label",
+          "label": "Original price label",
+          "info": "The original price is the variant's compare-at price, set in the product admin.",
+          "default": "Original Price"
+        },
+        {
+          "type": "text",
+          "id": "savings_label",
+          "label": "Savings label",
+          "default": "Savings"
         }
 
       ]
@@ -4239,6 +4270,12 @@ document.addEventListener('DOMContentLoaded', function () {
         {
           "type": "header",
           "content": "Short description"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Text",
+          "info": "Shown when filled in. Leave blank to use the product field below, or the start of the product description."
         },
         {
           "type": "paragraph",
