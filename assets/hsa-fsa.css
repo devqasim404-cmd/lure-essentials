@@ -128,3 +128,15 @@
     margin-left: 56px;
   }
 }
+
+/* Popup content comes from a theme editor rich text setting */
+.hsa-fsa-dialog__content {
+  margin: 0 0 16px;
+  text-align: left;
+}
+.hsa-fsa-dialog__content p {
+  margin: 0 0 8px;
+}
+a.hsa-fsa-callout__link {
+  display: inline-block;
+}

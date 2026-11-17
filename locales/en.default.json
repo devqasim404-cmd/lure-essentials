@@ -345,15 +345,6 @@
   },
   "products": {
     "hsa_fsa": {
-      "badge": "HSA/FSA Eligible",
-      "callout_heading": "Pay with your HSA or FSA card",
-      "callout_text": "Use pre-tax dollars from your work health account.",
-      "how_it_works": "How it works",
-      "dialog_heading": "Paying with your HSA or FSA card",
-      "dialog_step_1": "Add this product to your cart and go to checkout.",
-      "dialog_step_2": "Enter your HSA or FSA debit card like any other credit or debit card.",
-      "dialog_step_3": "The purchase is paid with pre-tax dollars from your work health account. Keep your order confirmation as your receipt.",
-      "dialog_note": "Check with your plan administrator if you're not sure what your plan covers.",
       "close": "Close"
     },
     "product": {

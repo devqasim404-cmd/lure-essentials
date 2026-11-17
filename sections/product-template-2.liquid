@@ -198,7 +198,7 @@
             {%- comment -%} HSA/FSA badge: after the title and rating, before the first content block {%- endcomment -%}
             {%- unless hsa_badge_done or block.type == 'title' or block.type == '@app' or block.type == 'review' -%}
               {%- assign hsa_badge_done = true -%}
-              {% render 'hsa-fsa', product: product, style: 'badge' %}
+              {% render 'hsa-fsa', product: product, s: section.settings, style: 'badge' %}
             {%- endunless -%}
             {%- case block.type -%}
               {%- when '@app' -%}
@@ -1228,7 +1228,7 @@
                     {% render 'notifySoldoutProduct', product: product %}
                   {% endif %}
                 </div>
-                {% render 'hsa-fsa', product: product, style: 'callout', section_id: section.id %}
+                {% render 'hsa-fsa', product: product, s: section.settings, style: 'callout', section_id: section.id %}
 
                 {%- if block.settings.enable_local_pickup -%}
                   <link rel="preload" href="{{ 'component-pickup-availability.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -3615,6 +3615,78 @@ document.addEventListener('DOMContentLoaded', function () {
       "id": "cart_cl_hover",
       "label": "CTA Button Text Hover",
       "default": "#fff"
+    },
+    {
+      "type": "header",
+      "content": "HSA/FSA eligibility",
+      "info": "Shows on products with the tag below. Add the tag to each eligible product in Shopify admin."
+    },
+    {
+      "type": "checkbox",
+      "id": "hsa_fsa_enable",
+      "label": "Show HSA/FSA badge and callout",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "hsa_fsa_tag",
+      "label": "Product tag",
+      "default": "hsa-fsa-eligible"
+    },
+    {
+      "type": "checkbox",
+      "id": "hsa_fsa_show_badge",
+      "label": "Show badge under rating",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "hsa_fsa_badge_text",
+      "label": "Badge text",
+      "default": "HSA/FSA Eligible"
+    },
+    {
+      "type": "checkbox",
+      "id": "hsa_fsa_show_callout",
+      "label": "Show callout under buy buttons",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "hsa_fsa_heading",
+      "label": "Callout heading",
+      "default": "Pay with your HSA or FSA card"
+    },
+    {
+      "type": "text",
+      "id": "hsa_fsa_text",
+      "label": "Callout text",
+      "default": "Use pre-tax dollars from your work health account."
+    },
+    {
+      "type": "text",
+      "id": "hsa_fsa_link_label",
+      "label": "Link label",
+      "info": "Leave blank to hide the link.",
+      "default": "How it works"
+    },
+    {
+      "type": "url",
+      "id": "hsa_fsa_link_url",
+      "label": "Link to a page",
+      "info": "Optional. If set, the link opens this page instead of the popup below."
+    },
+    {
+      "type": "text",
+      "id": "hsa_fsa_popup_heading",
+      "label": "Popup heading",
+      "default": "Paying with your HSA or FSA card"
+    },
+    {
+      "type": "richtext",
+      "id": "hsa_fsa_popup_content",
+      "label": "Popup content",
+      "default": "<p>1. Add this product to your cart and go to checkout.</p><p>2. Enter your HSA or FSA card like any other debit or credit card.</p><p>3. Keep your order confirmation as your receipt. Check with your plan administrator if you're not sure what your plan covers.</p>"
     }
   ],
   "blocks": [
