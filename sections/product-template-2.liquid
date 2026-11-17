@@ -648,6 +648,8 @@
                     product: product,
                     block: block
                   %}
+                {%- when 'variant_swatches' -%}
+                  {% render 'variant-swatches', product: product, block: block, section_id: section.id %}
               {%- when 'salepoint' -%}
                 <div class="product-block salepoint d-flex align-items-center">
                   {% case block.settings.icon %}
@@ -4061,7 +4063,86 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   ]
 },
-   
+{
+  "type": "variant_swatches",
+  "name": "Variant swatches",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows this product's variants as swatches. Turn on \"Hide variant selector\" in the Buy buttons block so options aren't shown twice."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_images",
+      "label": "Show variant images",
+      "info": "Uses each variant's image, or the product image if a variant has none.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_count",
+      "label": "Show option count",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price under each swatch",
+      "default": false
+    },
+    {
+      "type": "textarea",
+      "id": "badges",
+      "label": "Badges",
+      "info": "Optional. One per line as Value | Badge, e.g. Blue | Bestseller. Bestseller and Favorite get their own colour and icon."
+    },
+    {
+      "type": "range",
+      "id": "image_size",
+      "label": "Swatch size",
+      "min": 40,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 75
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "label": "Space between swatches",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "active_color",
+      "label": "Selected colour",
+      "default": "#141A5C"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border colour",
+      "default": "#DCE1EA"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text colour",
+      "default": "#141A5C"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text colour",
+      "default": "#6B7190"
+    }
+  ]
+},
 {
   "type": "product_swatches",
   "name": "Product swatches",
@@ -6172,6 +6253,92 @@ form.dynamic_button_wb_form {
 /* ========================================
    DESCRIPTION
 ======================================== */
+
+/* ========================================
+   VARIANT SWATCHES (variant_swatches block)
+   Same look as product swatches; the selected state comes from the checked radio.
+======================================== */
+
+.variant-swatches__group {
+  min-width: 0;
+  margin: 0 0 16px;
+  padding: 0;
+  border: 0;
+}
+
+.variant-swatches__group:last-child {
+  margin-bottom: 0;
+}
+
+.variant-swatches__legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 0;
+}
+
+.variant-swatches__legend + .product-swatches__grid {
+  clear: both;
+}
+
+.variant-swatches__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+  opacity: 0;
+}
+
+.variant-swatches__input:checked + .product-swatches__item .product-swatches__image {
+  border-color: #fff;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px var(--ps-active-color, #141a5c);
+}
+
+.variant-swatches__input:checked + .product-swatches__item .product-swatches__name {
+  font-weight: 700;
+}
+
+.variant-swatches__input:focus-visible + .product-swatches__item {
+  outline: 2px solid var(--ps-active-color, #141a5c);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.variant-swatches__item--text {
+  flex: 0 0 auto;
+  width: auto;
+  max-width: none;
+  padding: 10px 16px;
+  border: 1px solid var(--ps-border-color, #dce1ea);
+  border-radius: 999px;
+}
+
+.variant-swatches__item--text:hover,
+.variant-swatches__input:checked + .variant-swatches__item--text {
+  border-color: var(--ps-active-color, #141a5c);
+}
+
+.variant-swatches__input:checked + .variant-swatches__item--text {
+  box-shadow: inset 0 0 0 1px var(--ps-active-color, #141a5c);
+}
+
+.variant-swatches__text-badge {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ps-muted-color, #6b7190);
+}
+
+.variant-swatches__price {
+  font-size: 12px;
+  color: var(--ps-muted-color, #6b7190);
+}
 
 .product-swatches__description {
   margin-top: 4px;

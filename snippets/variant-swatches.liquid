@@ -1,0 +1,131 @@
+{%- comment -%}
+  Variant swatches: one swatch per value of each product option, built from the
+  product's own variants (no metafields). The inputs use the theme's option-radio
+  classes, so theme.js updates the price, images, URL and the add-to-cart variant.
+  Turn on "Hide variant selector" in the Buy buttons block so options aren't shown twice.
+
+  Accepts:
+  - product {Object}
+  - block {Object}
+  - section_id {String}
+{%- endcomment -%}
+{%- unless product.has_only_default_variant -%}
+  {%- liquid
+    assign current_variant = product.selected_or_first_available_variant
+    assign badge_lines = block.settings.badges | newline_to_br | split: '<br />'
+  -%}
+  <div
+    class="product-swatches variant-swatches"
+    style="
+      --ps-image-size: {{ block.settings.image_size }}px;
+      --ps-gap: {{ block.settings.item_gap }}px;
+      --ps-text-color: {{ block.settings.text_color }};
+      --ps-muted-color: {{ block.settings.muted_color }};
+      --ps-active-color: {{ block.settings.active_color }};
+      --ps-border-color: {{ block.settings.border_color }};
+    "
+    {{ block.shopify_attributes }}
+  >
+    {%- for option in product.options_with_values -%}
+      {%- assign option_index = forloop.index -%}
+      {%- assign option_key = 'option' | append: option_index -%}
+      {%- assign option_handle = option.name | handleize -%}
+      <fieldset class="variant-swatches__group">
+        <legend class="product-swatches__header variant-swatches__legend">
+          <span class="product-swatches__heading">
+            {{ option.name | escape }}:
+            <strong class="js-swatch-display--{{ option_index }}">{{ current_variant[option_key] | escape }}</strong>
+          </span>
+          {%- if block.settings.show_count -%}
+            <span class="product-swatches__count">
+              {{ option.values.size }}
+              {{ 'products.product.variant_swatches.options' | t }}
+            </span>
+          {%- endif -%}
+        </legend>
+
+        <div class="product-swatches__grid">
+          {%- for value in option.values -%}
+            {%- liquid
+              assign value_variant = product.variants | where: option_key, value | first
+              assign swatch_image = value_variant.featured_image | default: product.featured_image
+              assign input_id = 'VariantSwatch-' | append: section_id | append: '-' | append: option_index | append: '-' | append: forloop.index
+
+              assign is_sold_out = false
+              if product.options.size == 1 and value_variant.available == false
+                assign is_sold_out = true
+              endif
+
+              assign badge_label = blank
+              for line in badge_lines
+                assign parts = line | split: '|'
+                assign badge_value = parts[0] | strip
+                if parts.size > 1 and badge_value == value
+                  assign badge_label = parts[1] | strip
+                  break
+                endif
+              endfor
+              assign badge_style = badge_label | handleize
+            -%}
+            <input
+              type="radio"
+              class="variant-swatches__input single-option-selector-{{ section_id }} single-option-selector__radio"
+              id="{{ input_id }}"
+              name="variant-swatch-{{ section_id }}-{{ option_handle }}"
+              value="{{ value | escape }}"
+              data-index="{{ option_key }}"
+              data-varient-price="{{ value_variant.price | money_without_currency }}"
+              {% if current_variant[option_key] == value %}
+                checked
+              {% endif %}
+            >
+            <label
+              for="{{ input_id }}"
+              class="product-swatches__item{% if is_sold_out %} is-sold-out{% endif %}{% unless block.settings.show_images %} variant-swatches__item--text{% endunless %}"
+            >
+              {%- if block.settings.show_images -%}
+                <span class="product-swatches__media">
+                  <span class="product-swatches__image">
+                    {%- if swatch_image != blank -%}
+                      {{
+                        swatch_image
+                        | image_url: width: 240
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '60, 90, 120, 180, 240',
+                          alt: '',
+                          class: 'product-swatches__img'
+                      }}
+                    {%- else -%}
+                      <span class="product-swatches__placeholder" aria-hidden="true">
+                        {{- value | slice: 0, 1 | escape -}}
+                      </span>
+                    {%- endif -%}
+                  </span>
+                  {%- if badge_label != blank -%}
+                    <span class="product-swatches__badge product-swatches__badge--{{ badge_style }}">
+                      {% render 'swatch-badge-icon', style: badge_style %}
+                      <span class="product-swatches__badge-text">{{ badge_label | escape }}</span>
+                    </span>
+                  {%- endif -%}
+                </span>
+              {%- endif -%}
+              <span class="product-swatches__name">
+                {{- value | escape -}}
+                {%- if badge_label != blank and block.settings.show_images == false %}
+                  <span class="variant-swatches__text-badge">{{ badge_label | escape }}</span>
+                {%- endif -%}
+              </span>
+              {%- if block.settings.show_price -%}
+                <span class="variant-swatches__price">{{ value_variant.price | money }}</span>
+              {%- endif -%}
+              {%- if is_sold_out -%}
+                <span class="product-swatches__status">{{ 'products.product.sold_out' | t }}</span>
+              {%- endif -%}
+            </label>
+          {%- endfor -%}
+        </div>
+      </fieldset>
+    {%- endfor -%}
+  </div>
+{%- endunless -%}

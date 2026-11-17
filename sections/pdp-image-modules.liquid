@@ -1,23 +1,43 @@
 <!-- pdp-image-modules.liquid -->
 {%- comment -%}
-  Full-width image modules read from the product's "Page images" metafield
-  (pdp.page_images, list of files). Renders nothing when the list is empty.
+  Full-width image modules. Where the images come from is set in the theme editor:
+  - "product_field" (default): the product's "Page images" metafield (pdp.page_images).
+  - "blocks": the Image blocks added to this section in the theme editor.
+  Renders nothing when there are no images.
 {%- endcomment -%}
-{%- assign page_images = product.metafields.pdp.page_images.value -%}
+{%- liquid
+  assign use_blocks = false
+  if section.settings.image_source == 'blocks'
+    assign use_blocks = true
+    assign page_images = blank
+    for block in section.blocks
+      if block.settings.image != blank
+        assign page_images = section.blocks
+        break
+      endif
+    endfor
+  else
+    assign page_images = product.metafields.pdp.page_images.value
+  endif
+-%}
 
 {%- if page_images != blank -%}
 <div class="customstyle{{ section.id }} position-relative" data-aos="{{ section.settings.animation }}">
   {%- render 'style-section' -%}
   <div class="{{ section.settings.setwidth }}">
-    {%- for media in page_images -%}
+    {%- for item in page_images -%}
       {%- liquid
+        assign media = item
+        if use_blocks
+          assign media = item.settings.image
+        endif
         assign image = media
         if media.preview_image
           assign image = media.preview_image
         endif
       -%}
       {%- if image != blank and image.aspect_ratio -%}
-        <div class="section-block">
+        <div class="section-block"{% if use_blocks %} {{ item.shopify_attributes }}{% endif %}>
           <div class="row">
             <div class="flex__item flex flex--center-vertical">
               <div class="flex__item">
@@ -59,7 +79,17 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Shows the images from the product field \"Page images\" (pdp.page_images), in order. Hidden when the product has none."
+      "content": "Shows full-width images in order. Hidden when there are none."
+    },
+    {
+      "type": "select",
+      "id": "image_source",
+      "label": "Images from",
+      "options": [
+        { "value": "product_field", "label": "Product field \"Page images\"" },
+        { "value": "blocks", "label": "Image blocks in this section" }
+      ],
+      "default": "product_field"
     },
     {
       "type": "select",
@@ -118,6 +148,21 @@
       "info": "Margin: Top Right Bottom Left"
     }
   ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Shown when \"Images from\" is set to Image blocks. Set alt text on the image in Content > Files."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
   "presets": [
     {
       "name": "PDP image modules"
