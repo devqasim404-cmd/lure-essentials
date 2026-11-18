@@ -669,7 +669,7 @@
                     endif
                   -%}
                   {%- if starts_run -%}
-                    <ul class="product-block salepoints salepoints--columns{% if section.settings.salepoint_layout == 'list' %} salepoints--list{% endif %}" style="--salepoint-icon-color: {{ section.settings.salepoint_icon_color }};">
+                    <ul class="product-block salepoints salepoints--columns{% if section.settings.salepoint_layout == 'list' %} salepoints--list{% endif %}{% if section.settings.salepoint_layout_mobile == 'two_columns' %} salepoints--mobile-columns{% endif %}" style="--salepoint-icon-color: {{ section.settings.salepoint_icon_color }};">
                   {%- endif -%}
                   <li class="salepoints__item" {{ block.shopify_attributes }}>
                     {%- if block.settings.custom_icon != blank -%}
@@ -3408,13 +3408,24 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       "type": "select",
       "id": "salepoint_layout",
-      "label": "Sale points layout",
+      "label": "Sale points layout on desktop",
       "options": [
         { "value": "two_columns", "label": "Two columns" },
         { "value": "list", "label": "List" }
       ],
       "default": "two_columns",
-      "info": "Line icons style only. Two columns becomes one column on phones."
+      "info": "Line icons style only. Applies on screens 750px wide and up."
+    },
+    {
+      "type": "select",
+      "id": "salepoint_layout_mobile",
+      "label": "Sale points layout on mobile",
+      "options": [
+        { "value": "list", "label": "List" },
+        { "value": "two_columns", "label": "Two columns" }
+      ],
+      "default": "list",
+      "info": "Line icons style only. Applies on screens under 750px wide, including a narrow theme editor preview."
     },
     {
       "type": "color",
@@ -6457,6 +6468,16 @@ form.dynamic_button_wb_form {
     grid-template-columns: minmax(0, 1fr);
     row-gap: 10px;
     margin: 14px 0 18px;
+  }
+
+  .salepoints--columns.salepoints--mobile-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 16px;
+  }
+
+  .salepoints--mobile-columns .salepoints__item {
+    font-size: 14px;
+    line-height: 20px;
   }
 }
 
