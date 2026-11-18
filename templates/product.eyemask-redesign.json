@@ -40,14 +40,20 @@
         },
         "1affb493-1e14-4893-9876-be8d348ee475": {
           "type": "shortdesc",
-          "settings": {}
+          "settings": {
+            "content": ""
+          }
         },
         "subscription_price_TFNRPV": {
           "type": "subscription_price",
           "settings": {
             "price_label": "TODAY",
             "savings_heading": "",
-            "hide_subheading": false
+            "hide_subheading": false,
+            "subheading_text": "with today’s Subscribe & Save offer",
+            "current_price_label": "Today’s Price",
+            "original_price_label": "Original Price",
+            "savings_label": "Savings"
           }
         },
         "shipping_notice_PW8Rzc": {
@@ -279,6 +285,9 @@
         "custom_product_accordion_eq4gKV"
       ],
       "settings": {
+        "salepoint_style": "classic",
+        "salepoint_layout": "list",
+        "salepoint_icon_color": "#141a5c",
         "setwidth": "container",
         "media_style": "media-left",
         "media_size": "large",
@@ -332,6 +341,7 @@
     "pdp_image_modules": {
       "type": "pdp-image-modules",
       "settings": {
+        "image_source": "product_field",
         "animation": "",
         "setwidth": "container",
         "bgsection": "#ffffff",
