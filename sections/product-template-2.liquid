@@ -669,7 +669,7 @@
                     endif
                   -%}
                   {%- if starts_run -%}
-                    <ul class="product-block salepoints salepoints--columns" style="--salepoint-icon-color: {{ section.settings.salepoint_icon_color }};">
+                    <ul class="product-block salepoints salepoints--columns{% if section.settings.salepoint_layout == 'list' %} salepoints--list{% endif %}" style="--salepoint-icon-color: {{ section.settings.salepoint_icon_color }};">
                   {%- endif -%}
                   <li class="salepoints__item" {{ block.shopify_attributes }}>
                     {%- if block.settings.custom_icon != blank -%}
@@ -3400,10 +3400,21 @@ document.addEventListener('DOMContentLoaded', function () {
       "label": "Sale points style",
       "options": [
         { "value": "classic", "label": "Classic list" },
-        { "value": "icon_columns", "label": "Icon columns" }
+        { "value": "icon_columns", "label": "Line icons" }
       ],
       "default": "classic",
-      "info": "Icon columns: line icons in two columns on desktop, one on phones. Sale point blocks placed next to each other are grouped."
+      "info": "Line icons: sale point blocks placed next to each other are grouped."
+    },
+    {
+      "type": "select",
+      "id": "salepoint_layout",
+      "label": "Sale points layout",
+      "options": [
+        { "value": "two_columns", "label": "Two columns" },
+        { "value": "list", "label": "List" }
+      ],
+      "default": "two_columns",
+      "info": "Line icons style only. Two columns becomes one column on phones."
     },
     {
       "type": "color",
@@ -6392,14 +6403,20 @@ form.dynamic_button_wb_form {
    SALE POINTS – ICON COLUMNS (section setting salepoint_style)
 ======================================== */
 
-.salepoints--columns {
+.salepoints--columns,
+.product-single__meta .salepoints--columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 20px;
-  row-gap: 14px;
-  margin: 0;
+  column-gap: 24px;
+  row-gap: 12px;
+  margin: 16px 0 20px;
   padding: 0;
   list-style: none;
+}
+
+.salepoints--columns.salepoints--list {
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 10px;
 }
 
 .salepoints__item {
@@ -6435,9 +6452,11 @@ form.dynamic_button_wb_form {
 }
 
 @media screen and (max-width: 749px) {
-  .salepoints--columns {
+  .salepoints--columns,
+  .product-single__meta .salepoints--columns {
     grid-template-columns: minmax(0, 1fr);
     row-gap: 10px;
+    margin: 14px 0 18px;
   }
 }
 
