@@ -35,10 +35,15 @@
         },
         "subscription_price_TFNRPV": {
           "type": "subscription_price",
+          "disabled": true,
           "settings": {
             "price_label": "TODAY",
             "savings_heading": "",
-            "hide_subheading": false
+            "hide_subheading": false,
+            "subheading_text": "with today’s Subscribe & Save offer",
+            "current_price_label": "Today’s Price",
+            "original_price_label": "Original Price",
+            "savings_label": "Savings"
           }
         },
         "salepoint_ncCFhx": {
@@ -85,10 +90,10 @@
             "badges": "",
             "image_size": 75,
             "item_gap": 12,
-            "active_color": "#141A5C",
-            "border_color": "#DCE1EA",
-            "text_color": "#141A5C",
-            "muted_color": "#6B7190"
+            "active_color": "#141a5c",
+            "border_color": "#dce1ea",
+            "text_color": "#141a5c",
+            "muted_color": "#6b7190"
           }
         },
         "appstle_bundles_appstle_volume_discount_bundle_Adzmxa": {
@@ -147,6 +152,12 @@
             "content_type": "text",
             "metafield_source": "none",
             "open_by_default": false,
+            "step_1_title": "Tear open",
+            "step_1_description": "a sealed mask — no prep",
+            "step_2_title": "Loop it on",
+            "step_2_description": "— ear loops keep it in place",
+            "step_3_title": "Feel the cold",
+            "step_3_description": "for 60+ minutes",
             "description": "Crafted with our exclusive FlexiPure silicone, EDGE cups represent the gold standard in cupping therapy:\n• Medical-grade, body-safe silicone\n• Free from BPA, BPS, phthalates, PVC, and latex\n• No harmful fillers or additives\n• Iconic transparent design for easy placement and monitoring\n• Durable, easy-to-clean material\n• Professional-grade construction"
           }
         },
@@ -157,6 +168,12 @@
             "content_type": "text",
             "metafield_source": "none",
             "open_by_default": false,
+            "step_1_title": "Tear open",
+            "step_1_description": "a sealed mask — no prep",
+            "step_2_title": "Loop it on",
+            "step_2_description": "— ear loops keep it in place",
+            "step_3_title": "Feel the cold",
+            "step_3_description": "for 60+ minutes",
             "description": "Static (\"Parked\") Cupping: Apply cup to clean skin and leave in place for 3-5 minutes. Perfect for targeting specific areas and deep tissue work.\nDynamic (Massage) Cupping: Apply sufficient lubricant to clean skin for easy, frictionless gliding. Ideal for larger areas and promoting circulation.\nImportant Notes: Always apply cups to clean skin. Avoid direct placement over lymph nodes. For detailed instructions, professional tips, and contraindications, please refer to the cupping guide included with your set."
           }
         }
