@@ -653,7 +653,41 @@
                 {%- when 'variant_swatches' -%}
                   {% render 'variant-swatches', product: product, block: block, section_id: section.id %}
               {%- when 'salepoint' -%}
-                <div class="product-block salepoint d-flex align-items-center">
+                {%- if section.settings.salepoint_style == 'icon_columns' -%}
+                  {%- liquid
+                    # Consecutive sale point blocks share one list, so they can sit in columns.
+                    assign starts_run = true
+                    if forloop.index0 > 0
+                      assign prev_index = forloop.index0 | minus: 1
+                      if section.blocks[prev_index].type == 'salepoint'
+                        assign starts_run = false
+                      endif
+                    endif
+                    assign ends_run = true
+                    if forloop.last == false and section.blocks[forloop.index].type == 'salepoint'
+                      assign ends_run = false
+                    endif
+                  -%}
+                  {%- if starts_run -%}
+                    <ul class="product-block salepoints salepoints--columns" style="--salepoint-icon-color: {{ section.settings.salepoint_icon_color }};">
+                  {%- endif -%}
+                  <li class="salepoints__item" {{ block.shopify_attributes }}>
+                    {%- if block.settings.custom_icon != blank -%}
+                      {{
+                        block.settings.custom_icon
+                        | image_url: width: 48
+                        | image_tag: width: 22, height: 22, alt: '', loading: 'lazy', class: 'salepoints__custom-icon'
+                      }}
+                    {%- else -%}
+                      {% render 'salepoint-icon', icon: block.settings.icon %}
+                    {%- endif -%}
+                    <span class="salepoints__text">{{ block.settings.free_word }}</span>
+                  </li>
+                  {%- if ends_run -%}
+                    </ul>
+                  {%- endif -%}
+                {%- else -%}
+                <div class="product-block salepoint d-flex align-items-center" {{ block.shopify_attributes }}>
                   {% case block.settings.icon %}
                     {% when 'checkmark' %}
                       <svg
@@ -775,9 +809,12 @@
                       >
                         <defs><style>.a{fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:2px}</style></defs><path class="a" d="M16.5 43.22H6.88V16.5h33.14v26.72H23.94M45.42 43.22h-5.4V30.4h17.1v12.82h-4.23M57.12 30.4l-6.41-8.56H40.02"/><circle class="a" cx="20.24" cy="43.76" r="3.74"/><path class="a" d="M45.42 43.23a3.82 3.82 0 1 1 0 .37v-.37"/>
                       </svg>
+                    {% else %}
+                      {% render 'salepoint-icon', icon: block.settings.icon %}
                   {% endcase %}
                   {{ block.settings.free_word }}
                 </div>
+                {%- endif -%}
 
               {%- when 'buttons' -%}
                 <div class="product-button-variant product-block">
@@ -3355,6 +3392,28 @@ document.addEventListener('DOMContentLoaded', function () {
   "settings": [
     {
       "type": "header",
+      "content": "Sale points"
+    },
+    {
+      "type": "select",
+      "id": "salepoint_style",
+      "label": "Sale points style",
+      "options": [
+        { "value": "classic", "label": "Classic list" },
+        { "value": "icon_columns", "label": "Icon columns" }
+      ],
+      "default": "classic",
+      "info": "Icon columns: line icons in two columns on desktop, one on phones. Sale point blocks placed next to each other are grouped."
+    },
+    {
+      "type": "color",
+      "id": "salepoint_icon_color",
+      "label": "Sale point icon colour",
+      "default": "#141A5C",
+      "info": "Icon columns style only."
+    },
+    {
+      "type": "header",
       "content": "Layout"
     },
     {
@@ -4422,7 +4481,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             {
               "value": "leaf",
-              "label": "Feaf"
+              "label": "Leaf"
             },
             {
               "value": "lock",
@@ -4451,8 +4510,46 @@ document.addEventListener('DOMContentLoaded', function () {
             {
               "value": "truck",
               "label": "Truck"
+            },
+            {
+              "value": "users",
+              "label": "People"
+            },
+            {
+              "value": "pulse",
+              "label": "Pulse"
+            },
+            {
+              "value": "moon",
+              "label": "Moon"
+            },
+            {
+              "value": "sparkle",
+              "label": "Sparkle"
+            },
+            {
+              "value": "return",
+              "label": "Return arrow"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "drop",
+              "label": "Drop"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
             }
           ]
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom icon",
+          "info": "Optional. Replaces the icon above in the \"Icon columns\" style. Use a square SVG or PNG."
         },
         {
           "type": "textarea",
@@ -6290,6 +6387,53 @@ form.dynamic_button_wb_form {
 /* ========================================
    DESCRIPTION
 ======================================== */
+
+/* ========================================
+   SALE POINTS – ICON COLUMNS (section setting salepoint_style)
+======================================== */
+
+.salepoints--columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 20px;
+  row-gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.salepoints__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  color: #141a5c;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.salepoints__item .salepoint-icon,
+.salepoints__custom-icon {
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  color: var(--salepoint-icon-color, #141a5c);
+  object-fit: contain;
+}
+
+.salepoints__text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media screen and (max-width: 749px) {
+  .salepoints--columns {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 10px;
+  }
+}
 
 /* ========================================
    VARIANT SWATCHES (variant_swatches block)
