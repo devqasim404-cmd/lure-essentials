@@ -49,35 +49,35 @@
         "salepoint_ncCFhx": {
           "type": "salepoint",
           "settings": {
-            "icon": "checkmark",
+            "icon": "users",
             "free_word": "Trusted by 100,000+ Cuppers"
           }
         },
         "salepoint_Bwc8fN": {
           "type": "salepoint",
           "settings": {
-            "icon": "checkmark",
+            "icon": "pulse",
             "free_word": "Quick muscle recovery"
           }
         },
         "salepoint_qUdxkF": {
           "type": "salepoint",
           "settings": {
-            "icon": "checkmark",
+            "icon": "moon",
             "free_word": "Enhances Sleep Quality & Relaxation"
           }
         },
         "salepoint_ipGeRB": {
           "type": "salepoint",
           "settings": {
-            "icon": "checkmark",
+            "icon": "sparkle",
             "free_word": "Firms, Smooths & Tightens Skin"
           }
         },
         "salepoint_kbwrWw": {
           "type": "salepoint",
           "settings": {
-            "icon": "checkmark",
+            "icon": "return",
             "free_word": "Hassle-Free Returns Guaranteed"
           }
         },
@@ -197,6 +197,8 @@
         "accordion_0a71f30d"
       ],
       "settings": {
+        "salepoint_style": "icon_columns",
+        "salepoint_icon_color": "#141a5c",
         "setwidth": "container",
         "media_style": "media-left",
         "media_size": "large",
