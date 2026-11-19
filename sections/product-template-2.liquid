@@ -4185,6 +4185,23 @@ document.addEventListener('DOMContentLoaded', function () {
       "content": "Shows this product's variants as swatches. Turn on \"Hide variant selector\" in the Buy buttons block so options aren't shown twice."
     },
     {
+      "type": "select",
+      "id": "swatch_source",
+      "label": "Swatch source",
+      "options": [
+        {
+          "value": "variants",
+          "label": "Variants"
+        },
+        {
+          "value": "metafield_first",
+          "label": "Product swatches metafield, when set"
+        }
+      ],
+      "default": "variants",
+      "info": "With \"Product swatches metafield, when set\", these swatches are hidden on products that have the custom.product_swatches metafield. Add the Product swatches block to show those instead."
+    },
+    {
       "type": "checkbox",
       "id": "show_images",
       "label": "Show variant images",
