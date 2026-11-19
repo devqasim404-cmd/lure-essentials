@@ -145,6 +145,22 @@
             "text": "If you're not satisfied with your purchase, you may return any unopened products within 90 days of delivery for a refund."
           }
         },
+        "custom_product_accordion_iGN3AG": {
+          "type": "custom_product_accordion",
+          "settings": {
+            "heading": "Product information",
+            "content_type": "text",
+            "metafield_source": "none",
+            "open_by_default": false,
+            "step_1_title": "Tear open",
+            "step_1_description": "a sealed mask — no prep",
+            "step_2_title": "Loop it on",
+            "step_2_description": "— ear loops keep it in place",
+            "step_3_title": "Feel the cold",
+            "step_3_description": "for 60+ minutes",
+            "description": "Trusted by health practitioners, schools, athletes, and spas worldwide, with over one million cups sold.\n\nExperience professional-grade cupping therapy at its finest with the EDGE silicone cupping set. Featuring our exclusive FlexiPure silicone cups, this set delivers powerful suction with precise control, outperforming traditional glass, plastic, or bulky electric \"smart\" cups in both stationary and dynamic cupping techniques.\n\nYour Professional Set includes 1 Extra-large Cup (2.75\"), 1 Large Cup (2.10\"), 1 Medium Cup (1.60\"), 1 Small Cup (1.30\"), and a sleek travel/storage bag. The strategically sized cups ensure optimal coverage for all body areas and therapeutic needs.\n\nWidely used by physical therapists, massage therapists, and wellness practitioners, EDGE cups excel in myofascial release, joint mobility, and muscle recovery. The versatile set supports respiratory health through chest congestion relief, enhances immune function via lymphatic drainage, and even aids in body contouring and cellulite reduction. Perfect for professional practice or self-care at home, these cups deliver powerful results for pain relief, athletic recovery, and overall wellness maintenance."
+          }
+        },
         "accordion_tabcusto": {
           "type": "custom_product_accordion",
           "settings": {
@@ -193,11 +209,14 @@
         "8288910a-1ad6-47df-b127-118bc1d2ce24",
         "hsa_fsa_callout_kpCtPG",
         "guarantee_badge_main",
+        "custom_product_accordion_iGN3AG",
         "accordion_tabcusto",
         "accordion_0a71f30d"
       ],
       "settings": {
         "salepoint_style": "icon_columns",
+        "salepoint_layout": "list",
+        "salepoint_layout_mobile": "list",
         "salepoint_icon_color": "#141a5c",
         "setwidth": "container",
         "media_style": "media-left",
