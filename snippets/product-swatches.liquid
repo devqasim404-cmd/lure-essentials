@@ -1,4 +1,11 @@
+{% comment %}
+  Optional overrides, used when the Variant swatches block renders these metafield swatches
+  (its block has no heading/count label settings): show_heading, heading_label, count_label.
+{% endcomment %}
 {% liquid
+  assign ps_show_heading = show_heading | default: block.settings.show_heading
+  assign ps_heading_label = heading_label | default: block.settings.heading_label | default: 'Variant'
+  assign ps_count_label = count_label | default: block.settings.count_label | default: 'options'
   assign swatches = product.metafields.custom.product_swatches.value
   assign total_swatches = 0
   assign active_swatch_title = blank
@@ -47,14 +54,14 @@
     "
     {{ block.shopify_attributes }}
   >
-    {% if block.settings.show_heading or block.settings.show_count %}
+    {% if ps_show_heading or block.settings.show_count %}
       <div class="product-swatches__header">
-        {% if block.settings.show_heading %}
+        {% if ps_show_heading %}
           
             
 
 <span class="product-swatches__heading">
-  {{ block.settings.heading_label | default: 'Variant' | escape }}:
+  {{ ps_heading_label | escape }}:
   <strong>{{ active_swatch_title | escape }}</strong>
   {%- if active_badge_label != blank -%}
     <span class="product-swatches__heading-badge product-swatches__heading-badge--{{ active_badge_style | default: 'default' }}">
@@ -72,7 +79,7 @@
         {% if block.settings.show_count %}
   <span class="product-swatches__count">
     {{ total_swatches }}
-    {{ block.settings.count_label | default: 'options' | escape }}
+    {{ ps_count_label | escape }}
   </span>
 {% endif %}
       </div>
