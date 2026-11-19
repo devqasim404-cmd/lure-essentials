@@ -3,8 +3,9 @@
   product's own variants (no metafields). The inputs use the theme's option-radio
   classes, so theme.js updates the price, images, URL and the add-to-cart variant.
   Turn on "Hide variant selector" in the Buy buttons block so options aren't shown twice.
-  With swatch_source "metafield_first", nothing renders on products that have the
-  custom.product_swatches metafield (the Product swatches block shows those instead).
+  With swatch_source "metafield_first", products that have the custom.product_swatches
+  metafield show those swatches (links to the other products) instead, using this
+  block's size and colour settings.
 
   Accepts:
   - product {Object}
@@ -17,6 +18,13 @@
     assign use_metafield_swatches = true
   endif
 -%}
+{%- if use_metafield_swatches -%}
+  {%- liquid
+    assign metafield_heading = product.options.first | default: 'Variant'
+    assign metafield_count_label = 'products.product.variant_swatches.options' | t
+    render 'product-swatches', product: product, block: block, show_heading: true, heading_label: metafield_heading, count_label: metafield_count_label
+  -%}
+{%- endif -%}
 {%- unless product.has_only_default_variant or use_metafield_swatches -%}
   {%- liquid
     assign current_variant = product.selected_or_first_available_variant
