@@ -84,6 +84,7 @@
         "variant_swatches_edge": {
           "type": "variant_swatches",
           "settings": {
+            "swatch_source": "metafield_first",
             "show_images": true,
             "show_count": true,
             "show_price": false,
