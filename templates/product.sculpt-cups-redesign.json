@@ -1,0 +1,806 @@
+{
+  "sections": {
+    "zp-product-header-content": {
+      "type": "product-header-content-zipifypages",
+      "settings": {}
+    },
+    "main": {
+      "type": "product-template-2",
+      "blocks": {
+        "989bce2f-7961-4267-8e6c-40ff4bb0ed64": {
+          "type": "title",
+          "settings": {
+            "e_label": true
+          }
+        },
+        "judge_me_reviews_preview_badge_nTzAKc": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "hsa_fsa_badge_MPaYjU": {
+          "type": "hsa_fsa_badge",
+          "settings": {
+            "tag": "hsa-fsa-eligible",
+            "text": "HSA/FSA Eligible"
+          }
+        },
+        "subscription_price_TFNRPV": {
+          "type": "subscription_price",
+          "disabled": true,
+          "settings": {
+            "price_label": "TODAY",
+            "savings_heading": "",
+            "hide_subheading": false,
+            "subheading_text": "with today’s Subscribe & Save offer",
+            "current_price_label": "Today’s Price",
+            "original_price_label": "Original Price",
+            "savings_label": "Savings"
+          }
+        },
+        "salepoint_ncCFhx": {
+          "type": "salepoint",
+          "settings": {
+            "icon": "checkmark",
+            "free_word": "Tighten belly, legs, arms, booty & more"
+          }
+        },
+        "salepoint_Bwc8fN": {
+          "type": "salepoint",
+          "settings": {
+            "icon": "checkmark",
+            "free_word": "Professional-grade lymphatic drainage"
+          }
+        },
+        "salepoint_qUdxkF": {
+          "type": "salepoint",
+          "settings": {
+            "icon": "checkmark",
+            "free_word": "Effective and non-invasive"
+          }
+        },
+        "salepoint_ipGeRB": {
+          "type": "salepoint",
+          "settings": {
+            "icon": "users",
+            "free_word": "Trusted by 100,000+ Cuppers"
+          }
+        },
+        "salepoint_kbwrWw": {
+          "type": "salepoint",
+          "settings": {
+            "icon": "return",
+            "free_word": "Hassle-Free Returns Guaranteed"
+          }
+        },
+        "variant_swatches_edge": {
+          "type": "variant_swatches",
+          "settings": {
+            "swatch_source": "metafield_first",
+            "show_images": true,
+            "show_count": true,
+            "show_price": false,
+            "badges": "",
+            "image_size": 75,
+            "item_gap": 12,
+            "active_color": "#141a5c",
+            "border_color": "#dce1ea",
+            "text_color": "#141a5c",
+            "muted_color": "#6b7190"
+          }
+        },
+        "appstle_bundles_appstle_volume_discount_bundle_Adzmxa": {
+          "type": "shopify://apps/appstle-bundles/blocks/appstle-volume-discount-bundle/8909921b-2d24-4d68-9b12-9d045d3dcb0a",
+          "settings": {}
+        },
+        "8288910a-1ad6-47df-b127-118bc1d2ce24": {
+          "type": "buttons",
+          "settings": {
+            "enable_local_pickup": true,
+            "freegift": false,
+            "enable_hurrify": false,
+            "enable_payment_button": true,
+            "waitlist": true,
+            "hide_variant_selector": true,
+            "hide_quantity_selector": true,
+            "color": "#141a5c",
+            "product_selector": "radio",
+            "sw_color_product": false,
+            "color_circle": false,
+            "size_color": "small-38",
+            "strenth-bg": "#BE0EE3",
+            "tag1-bg": "#000",
+            "tag2-bg": "#BE0EE3",
+            "text-color": "#be0ee3",
+            "active-tab-bg": "#1C1663",
+            "active-varient-tab-bg": "#1C1663"
+          }
+        },
+        "hsa_fsa_callout_kpCtPG": {
+          "type": "hsa_fsa_callout",
+          "settings": {
+            "tag": "hsa-fsa-eligible",
+            "show_icon": false,
+            "icon_image": "shopify://shop_images/Minimalist_White_L_Logo.png",
+            "heading": "Pay with your HSA or FSA card",
+            "text": "Use pre-tax dollars from your work health account.",
+            "link_label": "How it works",
+            "link_url": "",
+            "popup_heading": "Paying with your HSA or FSA card",
+            "popup_content": "<p>1. Add this product to your cart and go to checkout.</p><p>2. Enter your HSA or FSA card like any other debit or credit card.</p><p>3. Keep your order confirmation as your receipt. Check with your plan administrator if you're not sure what your plan covers.</p>"
+          }
+        },
+        "guarantee_badge_main": {
+          "type": "guarantee_badge",
+          "settings": {
+            "label": "Your order is protected by",
+            "heading": "90-Day Money Back Guarantee",
+            "text": "If you're not satisfied with your purchase, you may return any unopened products within 90 days of delivery for a refund."
+          }
+        },
+        "custom_liquid_wbmcMm": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "<a href=\"https://cdn.shopify.com/s/files/1/1652/5029/files/Success_Guide_to_Cellulite_Reduction_Body_Slimming_50e3b814-6ff5-4ff7-89a7-4844284ae94c.pdf\" download style=\"text-decoration: underline; color: #4CAF50; font-size: 16px;\">\n    Get your FREE Cupping Guide\n</a>"
+          }
+        },
+        "tolstoy_shoppable_video_ugc_carousel_block_H7FUiX": {
+          "type": "shopify://apps/tolstoy-ads-image-video/blocks/carousel-block/06fa8282-42ff-403e-b67c-1936776aed11",
+          "settings": {
+            "publishId": "rouwe69k576ge"
+          }
+        },
+        "custom_product_accordion_iGN3AG": {
+          "type": "custom_product_accordion",
+          "settings": {
+            "heading": "Product information",
+            "content_type": "text",
+            "metafield_source": "none",
+            "open_by_default": false,
+            "step_1_title": "Tear open",
+            "step_1_description": "a sealed mask — no prep",
+            "step_2_title": "Loop it on",
+            "step_2_description": "— ear loops keep it in place",
+            "step_3_title": "Feel the cold",
+            "step_3_description": "for 60+ minutes",
+            "description": "Trusted by health practitioners, schools, athletes, and spas worldwide, with over one million cups sold.\n\nExperience professional-grade cupping therapy at its finest with the EDGE silicone cupping set. Featuring our exclusive FlexiPure silicone cups, this set delivers powerful suction with precise control, outperforming traditional glass, plastic, or bulky electric \"smart\" cups in both stationary and dynamic cupping techniques.\n\nYour Professional Set includes 1x Medium EDGE cup (2.5\"), (1) Large ZEN cup (2\"), and (1) Small ZEN cup (1.5\"), and a sleek travel/storage bag. The strategically sized cups ensure optimal coverage for all body areas and therapeutic needs.\n\nWidely used by physical therapists, massage therapists, and wellness practitioners, EDGE cups excel in myofascial release, joint mobility, and muscle recovery. The versatile set supports respiratory health through chest congestion relief, enhances immune function via lymphatic drainage, and even aids in body contouring and cellulite reduction. Perfect for professional practice or self-care at home, these cups deliver powerful results for pain relief, athletic recovery, and overall wellness maintenance."
+          }
+        },
+        "accordion_tabcusto": {
+          "type": "custom_product_accordion",
+          "settings": {
+            "heading": "Materials",
+            "content_type": "text",
+            "metafield_source": "none",
+            "open_by_default": false,
+            "step_1_title": "Tear open",
+            "step_1_description": "a sealed mask — no prep",
+            "step_2_title": "Loop it on",
+            "step_2_description": "— ear loops keep it in place",
+            "step_3_title": "Feel the cold",
+            "step_3_description": "for 60+ minutes",
+            "description": "Crafted with our exclusive FlexiPure silicone, EDGE cups represent the gold standard in cupping therapy:\n\n• Medical-grade, body-safe silicone\n• Free from BPA, BPS, phthalates, PVC, and latex\n• No harmful fillers or additives\n• Iconic transparent design for easy placement and monitoring\n• Durable, easy-to-clean material\n• Professional-grade construction"
+          }
+        },
+        "accordion_0a71f30d": {
+          "type": "custom_product_accordion",
+          "settings": {
+            "heading": "How To Use",
+            "content_type": "text",
+            "metafield_source": "none",
+            "open_by_default": false,
+            "step_1_title": "Tear open",
+            "step_1_description": "a sealed mask — no prep",
+            "step_2_title": "Loop it on",
+            "step_2_description": "— ear loops keep it in place",
+            "step_3_title": "Feel the cold",
+            "step_3_description": "for 60+ minutes",
+            "description": "Static (\"Parked\") Cupping: Apply cup to clean skin and leave in place for 3-5 minutes. Perfect for targeting specific areas and deep tissue work.\n\nDynamic (Massage) Cupping: Apply sufficient lubricant to clean skin for easy, frictionless gliding. Ideal for larger areas and promoting circulation.\n\nImportant Notes: Always apply cups to clean skin. Avoid direct placement over lymph nodes. For detailed instructions, professional tips, and contraindications, please refer to the cupping guide included with your set."
+          }
+        }
+      },
+      "block_order": [
+        "989bce2f-7961-4267-8e6c-40ff4bb0ed64",
+        "judge_me_reviews_preview_badge_nTzAKc",
+        "hsa_fsa_badge_MPaYjU",
+        "subscription_price_TFNRPV",
+        "salepoint_ncCFhx",
+        "salepoint_Bwc8fN",
+        "salepoint_qUdxkF",
+        "salepoint_ipGeRB",
+        "salepoint_kbwrWw",
+        "variant_swatches_edge",
+        "appstle_bundles_appstle_volume_discount_bundle_Adzmxa",
+        "8288910a-1ad6-47df-b127-118bc1d2ce24",
+        "hsa_fsa_callout_kpCtPG",
+        "guarantee_badge_main",
+        "custom_liquid_wbmcMm",
+        "tolstoy_shoppable_video_ugc_carousel_block_H7FUiX",
+        "custom_product_accordion_iGN3AG",
+        "accordion_tabcusto",
+        "accordion_0a71f30d"
+      ],
+      "settings": {
+        "salepoint_style": "icon_columns",
+        "salepoint_layout": "list",
+        "salepoint_layout_mobile": "list",
+        "salepoint_icon_color": "#141a5c",
+        "setwidth": "container",
+        "media_style": "media-left",
+        "media_size": "large",
+        "image_size": "portrait",
+        "enable_video_looping": true,
+        "stock_enable": true,
+        "sizeguide_enable": false,
+        "sizeguide_title": "",
+        "sizeguide_page": "",
+        "crosssell_title": "Cross selling",
+        "upsell_accept": "Add to cart",
+        "upsell_decline": "No, thanks",
+        "upsell_time": 3,
+        "enable": true,
+        "mix_1": "#262626",
+        "mix_2": "#ffffff",
+        "text_cl": "#ffffff",
+        "cart_bg": "#ffffff",
+        "cart_cl": "#000000",
+        "cart_cl_hover": "#ffffff"
+      }
+    },
+    "176376650014593e3f": {
+      "type": "apps",
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "60px 0px 60px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px",
+        "bgsection": "#ffffff"
+      }
+    },
+    "product-requently": {
+      "type": "product-bundle",
+      "settings": {
+        "animation": "fade-up",
+        "bgsection": "#ffffff",
+        "bundle_title": "Frequently Bought Together",
+        "size_text": "h4",
+        "limit_bundle": 3,
+        "enable_border": true,
+        "btn_add": "Add selected items",
+        "paddingsection": "40px 0px 40px 0px",
+        "paddingmobile": "40px 0px 40px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "pdp_image_modules": {
+      "type": "pdp-image-modules",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "image_source": "product_field",
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "image_content_Wj7z7q": {
+      "type": "image-content",
+      "blocks": {
+        "image_block_TiYXGg": {
+          "type": "image_block",
+          "disabled": true,
+          "settings": {}
+        },
+        "text_block_gjTzET": {
+          "type": "text_block",
+          "disabled": true,
+          "settings": {
+            "width": "100%",
+            "bgtext": "#ffffff",
+            "title_color": "rgba(0,0,0,0)",
+            "subtitle": "Sub Title",
+            "title": "Image with text",
+            "size_text": "h2",
+            "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "answer_content": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "style_btn": "btn-underline btn-underline-white",
+            "button": "discover now",
+            "link": "",
+            "enable_padding": true,
+            "align": "left"
+          }
+        },
+        "image_block_jYa3hX": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/Module_1_1.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_block_TiYXGg",
+        "text_block_gjTzET",
+        "image_block_jYa3hX"
+      ],
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "rangebg": 0,
+        "bgbefore": "rgba(0,0,0,0)",
+        "bg_pos": "left",
+        "enable_padding": true,
+        "align_center": true,
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "image_content_Bw6rab": {
+      "type": "image-content",
+      "blocks": {
+        "image_block_FMHbKt": {
+          "type": "image_block",
+          "disabled": true,
+          "settings": {}
+        },
+        "text_block_gPPmkp": {
+          "type": "text_block",
+          "disabled": true,
+          "settings": {
+            "width": "100%",
+            "bgtext": "#ffffff",
+            "title_color": "rgba(0,0,0,0)",
+            "subtitle": "Sub Title",
+            "title": "Image with text",
+            "size_text": "h2",
+            "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "answer_content": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "style_btn": "btn-underline btn-underline-white",
+            "button": "discover now",
+            "link": "",
+            "enable_padding": true,
+            "align": "left"
+          }
+        },
+        "image_block_k9gjWT": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/Module_2_1.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_block_FMHbKt",
+        "text_block_gPPmkp",
+        "image_block_k9gjWT"
+      ],
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "rangebg": 0,
+        "bgbefore": "rgba(0,0,0,0)",
+        "bg_pos": "left",
+        "enable_padding": true,
+        "align_center": true,
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "image_content_qiJCBx": {
+      "type": "image-content",
+      "blocks": {
+        "image_block_wgr73a": {
+          "type": "image_block",
+          "disabled": true,
+          "settings": {}
+        },
+        "text_block_dqPFqF": {
+          "type": "text_block",
+          "disabled": true,
+          "settings": {
+            "width": "100%",
+            "bgtext": "#ffffff",
+            "title_color": "rgba(0,0,0,0)",
+            "subtitle": "Sub Title",
+            "title": "Image with text",
+            "size_text": "h2",
+            "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "answer_content": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "style_btn": "btn-underline btn-underline-white",
+            "button": "discover now",
+            "link": "",
+            "enable_padding": true,
+            "align": "left"
+          }
+        },
+        "image_block_3tz9ed": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/a_2.png"
+          }
+        }
+      },
+      "block_order": [
+        "image_block_wgr73a",
+        "text_block_dqPFqF",
+        "image_block_3tz9ed"
+      ],
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "rangebg": 0,
+        "bgbefore": "rgba(0,0,0,0)",
+        "bg_pos": "left",
+        "enable_padding": true,
+        "align_center": true,
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "image_content_QyxDWh": {
+      "type": "image-content",
+      "blocks": {
+        "image_block_YQNeGn": {
+          "type": "image_block",
+          "disabled": true,
+          "settings": {}
+        },
+        "text_block_jFRKBm": {
+          "type": "text_block",
+          "disabled": true,
+          "settings": {
+            "width": "100%",
+            "bgtext": "#ffffff",
+            "title_color": "rgba(0,0,0,0)",
+            "subtitle": "Sub Title",
+            "title": "Image with text",
+            "size_text": "h2",
+            "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "answer_content": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "style_btn": "btn-underline btn-underline-white",
+            "button": "discover now",
+            "link": "",
+            "enable_padding": true,
+            "align": "left"
+          }
+        },
+        "image_block_9cgaAW": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/Module_4_1.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_block_YQNeGn",
+        "text_block_jFRKBm",
+        "image_block_9cgaAW"
+      ],
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "rangebg": 0,
+        "bgbefore": "rgba(0,0,0,0)",
+        "bg_pos": "left",
+        "enable_padding": true,
+        "align_center": true,
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "image_content_PyBEJU": {
+      "type": "image-content",
+      "blocks": {
+        "image_block_PPDGzB": {
+          "type": "image_block",
+          "disabled": true,
+          "settings": {}
+        },
+        "text_block_nP9Tak": {
+          "type": "text_block",
+          "disabled": true,
+          "settings": {
+            "width": "100%",
+            "bgtext": "#ffffff",
+            "title_color": "rgba(0,0,0,0)",
+            "subtitle": "Sub Title",
+            "title": "Image with text",
+            "size_text": "h2",
+            "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "answer_content": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "style_btn": "btn-underline btn-underline-white",
+            "button": "discover now",
+            "link": "",
+            "enable_padding": true,
+            "align": "left"
+          }
+        },
+        "image_block_mw8PM3": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/Module_5_1.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_block_PPDGzB",
+        "text_block_nP9Tak",
+        "image_block_mw8PM3"
+      ],
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "rangebg": 0,
+        "bgbefore": "rgba(0,0,0,0)",
+        "bg_pos": "left",
+        "enable_padding": true,
+        "align_center": true,
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "image_content_jnb4jN": {
+      "type": "image-content",
+      "blocks": {
+        "image_block_M7Ny43": {
+          "type": "image_block",
+          "disabled": true,
+          "settings": {}
+        },
+        "text_block_684We6": {
+          "type": "text_block",
+          "disabled": true,
+          "settings": {
+            "width": "100%",
+            "bgtext": "#ffffff",
+            "title_color": "rgba(0,0,0,0)",
+            "subtitle": "Sub Title",
+            "title": "Image with text",
+            "size_text": "h2",
+            "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "answer_content": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "style_btn": "btn-underline btn-underline-white",
+            "button": "discover now",
+            "link": "",
+            "enable_padding": true,
+            "align": "left"
+          }
+        },
+        "image_block_Kx44BU": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/image_2024_11_05T14_24_42_136Z.png"
+          }
+        }
+      },
+      "block_order": [
+        "image_block_M7Ny43",
+        "text_block_684We6",
+        "image_block_Kx44BU"
+      ],
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "rangebg": 0,
+        "bgbefore": "rgba(0,0,0,0)",
+        "bg_pos": "left",
+        "enable_padding": true,
+        "align_center": true,
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "product-content": {
+      "type": "product-content",
+      "blocks": {
+        "6889c9ba-caef-4edd-9757-6711505cb095": {
+          "type": "description",
+          "settings": {
+            "title_tab": "Description"
+          }
+        }
+      },
+      "block_order": [
+        "6889c9ba-caef-4edd-9757-6711505cb095"
+      ],
+      "disabled": true,
+      "settings": {
+        "animation": "fade-up",
+        "setwidth": "container",
+        "tab_size": "large",
+        "enable_left": false,
+        "paddingsection": "48px 0px 40px 0px",
+        "paddingmobile": "32px 0px 32px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "bcb1cba3-80fc-49a2-a033-40cf0618e9c8": {
+      "type": "faq-accordion",
+      "blocks": {
+        "template--14684877652053__bcb1cba3-80fc-49a2-a033-40cf0618e9c8-16659371170e440ef7-0": {
+          "type": "faq",
+          "settings": {
+            "faq_title": "Is the shipping free?",
+            "faq_des": "<p>Yes. Worldwide shipping is already included in the price. We use DHL express with 3 days delivery time.</p>"
+          }
+        },
+        "template--14684877652053__bcb1cba3-80fc-49a2-a033-40cf0618e9c8-16659371170e440ef7-1": {
+          "type": "faq",
+          "settings": {
+            "faq_title": "When will I receive my item?",
+            "faq_des": "<p>When we have received your order, you will automatically receive an e-mail confirming your order. Orders made before 2 PM (CET) will be picked, packed and shipped the same day. Delivery time is usually 2-4 working days with DHL Express.</p>"
+          }
+        },
+        "template--14684877652053__bcb1cba3-80fc-49a2-a033-40cf0618e9c8-16659371170e440ef7-2": {
+          "type": "faq",
+          "settings": {
+            "faq_title": "Can I change or return my item?",
+            "faq_des": "<p>If you want to change a product into another model, strap color etc., please contact us so we are able to reserve the new item in our stock immediately. You are always entitled to an exchange or refund within 30 days after you have received your package, as long as the item has not been used.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--14684877652053__bcb1cba3-80fc-49a2-a033-40cf0618e9c8-16659371170e440ef7-0",
+        "template--14684877652053__bcb1cba3-80fc-49a2-a033-40cf0618e9c8-16659371170e440ef7-1",
+        "template--14684877652053__bcb1cba3-80fc-49a2-a033-40cf0618e9c8-16659371170e440ef7-2"
+      ],
+      "disabled": true,
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "bgsection": "#ffffff",
+        "e_size": "auto",
+        "e_repeat": "no-repeat",
+        "e_pos": "center center",
+        "title_top": "",
+        "title": "FAQs",
+        "des": "Have a question ? We are here to help.",
+        "align-heading": "center",
+        "title_size": "h6",
+        "e_first_open": false,
+        "e_reverse": true,
+        "e_small": true,
+        "left_html": "",
+        "e_right": false,
+        "paddingsection": "80px 0px 0px 0px",
+        "paddingmobile": "60px 0px 60px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "1730932273d7076d46": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_qnEwi4": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_qnEwi4"
+      ],
+      "settings": {
+        "animation": "",
+        "setwidth": "container",
+        "paddingsection": "0px 0px 0px 0px",
+        "paddingmobile": "60px 0px 60px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px",
+        "bgsection": "#ffffff"
+      }
+    },
+    "be561305-5bee-4018-a668-c8770086ba5b": {
+      "type": "line",
+      "settings": {
+        "animation": "",
+        "paddingsection": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "bgsection": "#ffffff",
+        "setwidth": "container",
+        "bgborder": "#dddddd",
+        "wborder": "1px"
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "animation": "fade-up",
+        "setwidth": "container-fluid",
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "heading_align": "center",
+        "products_to_show": 5,
+        "spaceBetween": 30,
+        "perviewDesktop": 4,
+        "nowrap": true,
+        "arrows": true,
+        "scrollbar": true,
+        "padding_top": 80,
+        "padding_bottom": 32
+      }
+    },
+    "line_kcGy6J": {
+      "type": "line",
+      "settings": {
+        "animation": "",
+        "paddingsection": "0px 0px 0px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "bgsection": "#ffffff",
+        "setwidth": "container",
+        "bgborder": "#dddddd",
+        "wborder": "1px"
+      }
+    },
+    "product-recent": {
+      "type": "recently-viewed",
+      "settings": {
+        "enable": true,
+        "animation": "fade-up",
+        "setwidth": "container",
+        "title_top": "",
+        "title": "Recently viewed",
+        "des": "",
+        "align-heading": "center",
+        "limit": 6,
+        "paddingsection": "0px 0px 60px 0px",
+        "paddingmobile": "40px 0px 40px 0px",
+        "marginsection": "0px 0px 0px 0px",
+        "marginmobile": "0px 0px 0px 0px"
+      }
+    },
+    "zp-product-footer-content": {
+      "type": "product-footer-content-zipifypages",
+      "settings": {}
+    }
+  },
+  "order": [
+    "zp-product-header-content",
+    "main",
+    "176376650014593e3f",
+    "product-requently",
+    "pdp_image_modules",
+    "image_content_Wj7z7q",
+    "image_content_Bw6rab",
+    "image_content_qiJCBx",
+    "image_content_QyxDWh",
+    "image_content_PyBEJU",
+    "image_content_jnb4jN",
+    "product-content",
+    "bcb1cba3-80fc-49a2-a033-40cf0618e9c8",
+    "1730932273d7076d46",
+    "be561305-5bee-4018-a668-c8770086ba5b",
+    "product-recommendations",
+    "line_kcGy6J",
+    "product-recent",
+    "zp-product-footer-content"
+  ]
+}
