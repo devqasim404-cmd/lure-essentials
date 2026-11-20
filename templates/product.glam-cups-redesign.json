@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "zp-product-header-content": {
@@ -151,7 +160,7 @@
           }
         },
         "tolstoy_shoppable_video_ugc_carousel_block_PeY9eg": {
-          "type": "shopify://apps/tolstoy-shoppable-video-quiz/blocks/carousel-block/06fa8282-42ff-403e-b67c-1936776aed11",
+          "type": "shopify://apps/tolstoy/blocks/carousel-block/06fa8282-42ff-403e-b67c-1936776aed11",
           "settings": {
             "publishId": "publishId"
           }
@@ -284,8 +293,6 @@
     },
     "pdp_image_modules": {
       "type": "pdp-image-modules",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "image_source": "product_field",
         "animation": "",
