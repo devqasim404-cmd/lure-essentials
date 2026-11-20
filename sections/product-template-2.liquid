@@ -581,7 +581,8 @@
                   assign deadline_day = deadline_timestamp | date: '%-d' | plus: 0
                 -%}
 
-                <div class="custom-product-price" id="CustomProductPrice-{{ section.id }}">
+                <div class="custom-product-price" id="CustomProductPrice-{{ section.id }}"
+                     {%- if block.settings.bundle_use_compare_at %} data-compare-unit="{{ current_variant.compare_at_price | default: 0 | divided_by: 100.0 }}"{% endif %}>
 
                   <div class="custom-product-price__heading">
                     <div class="custom-product-price__heading-row">
@@ -3922,6 +3923,13 @@ document.addEventListener('DOMContentLoaded', function () {
           "id": "savings_label",
           "label": "Savings label",
           "default": "Savings"
+        },
+        {
+          "type": "checkbox",
+          "id": "bundle_use_compare_at",
+          "label": "Count the compare-at price in bundle savings",
+          "info": "When the variant has a compare-at price, the original price of every bundle tile (Buy 1 included) is worked out from it, so the saving shows even on tiles with no Appstle discount.",
+          "default": true
         }
 
       ]
@@ -6019,16 +6027,20 @@ Changes:
               : bundle.unitPrice * bundle.quantity;
           }
 
-          if (bundle.unitOriginal !== null) {
-            originalPrice = bundle.unitOriginal * bundle.quantity;
-          } else if (bundle.unitPrice !== null) {
-            // Non-discounted bundle: its own price is the original price,
-            // not the variant's compare-at price.
-            originalPrice = bundle.unitPrice * bundle.quantity;
-          }
+          // Original price of one item: Appstle's crossed-out price, or the
+          // tile's own price when Appstle gives no discount. With the
+          // "compare-at" setting on, a higher variant compare-at price wins,
+          // so a Buy 1 tile at $19.99 (compare-at $24.99) still shows a saving.
+          let unitFull = bundle.unitOriginal !== null ? bundle.unitOriginal : bundle.unitPrice;
+          const compareUnit = parseFloat(card.dataset.compareUnit) || 0;
+          if (unitFull !== null && compareUnit > unitFull) unitFull = compareUnit;
+          if (unitFull !== null) originalPrice = unitFull * bundle.quantity;
         }
 
-        const isNonDiscountedBundle = Boolean(bundle && bundle.unitOriginal === null);
+        const isNonDiscountedBundle = Boolean(
+          bundle && bundle.unitOriginal === null &&
+          !(bundle.unitPrice !== null && (parseFloat(card.dataset.compareUnit) || 0) > bundle.unitPrice)
+        );
 
         // Use Shopify's current displayed price as a fallback.
         if (currentPrice === null) {
@@ -6085,6 +6097,15 @@ Changes:
         // changing a field's value doesn't trigger the observer below, so check again.
         window.clearTimeout(lateUpdateTimer);
         lateUpdateTimer = window.setTimeout(updatePrice, 700);
+      }
+
+      // Keep the compare-at price in step with the selected variant.
+      if (card.hasAttribute('data-compare-unit') && window.jQuery) {
+        jQuery(card.closest('[data-section-type="product"]') || document).on('variantChange', function (event) {
+          if (!event.variant) return;
+          card.dataset.compareUnit = String((event.variant.compare_at_price || 0) / 100);
+          scheduleUpdate();
+        });
       }
 
       // Listen for bundle selection, subscription selection and delivery frequency.
