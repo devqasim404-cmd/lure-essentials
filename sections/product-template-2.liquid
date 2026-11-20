@@ -152,33 +152,6 @@
     assign featured_img = current_variant.featured_image | default: product.featured_image
 
     assign media_style = section.settings.media_style
-
-    # A "Video position" block moves the app block placed directly below it.
-    # Lists hold block ids as ",id," so contains checks are exact.
-    assign vp_moved = ''
-    assign vp_under_images = ''
-    assign vp_after_details = ''
-    assign vp_full_width = ''
-    assign vp_pending = 'off'
-    for block in section.blocks
-      if block.type == 'video_position'
-        assign vp_pending = block.settings.position
-        continue
-      endif
-      if block.type == '@app' and vp_pending != 'off'
-        assign vp_key = ',' | append: block.id | append: ','
-        assign vp_moved = vp_moved | append: vp_key
-        case vp_pending
-          when 'under_images'
-            assign vp_under_images = vp_under_images | append: vp_key
-          when 'after_details'
-            assign vp_after_details = vp_after_details | append: vp_key
-          when 'full_width'
-            assign vp_full_width = vp_full_width | append: vp_key
-        endcase
-      endif
-      assign vp_pending = 'off'
-    endfor
   -%}
   <meta itemprop="name" content="{{ product.title }}">
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
@@ -202,9 +175,6 @@
         loop: section.settings.enable_video_looping,
         media_style: section.settings.media_style
       %}
-      {%- if vp_under_images != '' -%}
-        <div id="VideoPositionDesktop-{{ section.id }}" class="video-position-slot"></div>
-      {%- endif -%}
     </div>
     <div
       class="
@@ -227,12 +197,7 @@
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when '@app' -%}
-                {%- assign vp_key = ',' | append: block.id | append: ',' -%}
-                {%- unless vp_moved contains vp_key -%}
-                  {% render block %}
-                {%- endunless -%}
-              {%- when 'video_position' -%}
-                <div class="video-position-marker" {{ block.shopify_attributes }}></div>
+                {% render block %}
               {%- when 'text' -%}
                 <p
                   class="product-block product__text{% if block.settings.text_style == 'uppercase' %} text-uppercase {% elsif block.settings.text_style == 'subtitle' %} subtop{% endif %}"
@@ -1996,46 +1961,6 @@
           {%- endfor -%}
         </div>
 
-        {%- if vp_after_details != '' -%}
-          <div class="video-position">
-            {%- for block in section.blocks -%}
-              {%- assign vp_key = ',' | append: block.id | append: ',' -%}
-              {%- if vp_after_details contains vp_key -%}{% render block %}{%- endif -%}
-            {%- endfor -%}
-          </div>
-        {%- endif -%}
-
-        {%- if vp_under_images != '' -%}
-          {%- comment -%}
-            Rendered once after the details (mobile spot); on desktop the script moves it
-            into the slot under the images, so the app widget never loads twice.
-          {%- endcomment -%}
-          <div id="VideoPositionMobile-{{ section.id }}" class="video-position-slot">
-            <div id="VideoPosition-{{ section.id }}" class="video-position">
-              {%- for block in section.blocks -%}
-                {%- assign vp_key = ',' | append: block.id | append: ',' -%}
-                {%- if vp_under_images contains vp_key -%}{% render block %}{%- endif -%}
-              {%- endfor -%}
-            </div>
-          </div>
-          <script>
-            (function () {
-              var item = document.getElementById('VideoPosition-{{ section.id }}');
-              var desktop = document.getElementById('VideoPositionDesktop-{{ section.id }}');
-              var mobile = document.getElementById('VideoPositionMobile-{{ section.id }}');
-              if (!item || !desktop || !mobile) return;
-              var query = window.matchMedia('(min-width: 750px)');
-              function place() {
-                var target = query.matches ? desktop : mobile;
-                if (item.parentNode !== target) target.appendChild(item);
-              }
-              place();
-              if (query.addEventListener) query.addEventListener('change', place);
-              else if (query.addListener) query.addListener(place);
-            })();
-          </script>
-        {%- endif -%}
-
         <div class="only-mobile">
           {% render 'product-video-carousel-2', product: product %}
         </div>
@@ -2081,14 +2006,6 @@
       </div>
     </div>
   </div>
-  {%- if vp_full_width != '' -%}
-    <div class="video-position video-position--full-width">
-      {%- for block in section.blocks -%}
-        {%- assign vp_key = ',' | append: block.id | append: ',' -%}
-        {%- if vp_full_width contains vp_key -%}{% render block %}{%- endif -%}
-      {%- endfor -%}
-    </div>
-  {%- endif -%}
   {%- liquid
     render 'cross-sell'
     render 'upsell'
@@ -3892,28 +3809,6 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     {
       "type": "@app"
-    },
-    {
-      "type": "video_position",
-      "name": "Video position",
-      "settings": [
-        {
-          "type": "paragraph",
-          "content": "Moves the app block placed directly below this block, such as a video carousel."
-        },
-        {
-          "type": "select",
-          "id": "position",
-          "label": "Position",
-          "options": [
-            { "value": "off", "label": "Off (keep it where it is)" },
-            { "value": "under_images", "label": "Under images on desktop, after details on mobile" },
-            { "value": "after_details", "label": "After product details (below the accordions)" },
-            { "value": "full_width", "label": "Full width below product" }
-          ],
-          "default": "under_images"
-        }
-      ]
     },
     {
       "type": "text",
@@ -7400,19 +7295,6 @@ form.dynamic_button_wb_form {
 }
 
 
-
-/* Video position block: app blocks moved under the images, after the details or full width */
-.video-position {
-  margin-top: 24px;
-}
-.video-position-slot:empty,
-.video-position-marker:empty {
-  display: none;
-}
-.video-position--full-width {
-  width: 100%;
-  margin-top: 40px;
-}
 
 /* Desktop: show carousel below gallery */
 .only-desktop {

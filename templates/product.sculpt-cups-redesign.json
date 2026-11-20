@@ -225,12 +225,6 @@
             "icon_4": "none",
             "icon_text_4": ""
           }
-        },
-        "video_position_tolstoy": {
-          "type": "video_position",
-          "settings": {
-            "position": "under_images"
-          }
         }
       },
       "block_order": [
@@ -251,7 +245,6 @@
         "hsa_fsa_callout_kpCtPG",
         "guarantee_badge_main",
         "custom_liquid_wbmcMm",
-        "video_position_tolstoy",
         "tolstoy_shoppable_video_ugc_carousel_block_H7FUiX",
         "custom_product_accordion_iGN3AG",
         "accordion_tabcusto",
