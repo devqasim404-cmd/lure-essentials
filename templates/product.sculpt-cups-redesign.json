@@ -49,6 +49,7 @@
         "1affb493-1e14-4893-9876-be8d348ee475": {
           "type": "shortdesc",
           "settings": {
+            "content": "",
             "description_fallback": false
           }
         },
@@ -130,6 +131,20 @@
             "active-varient-tab-bg": "#1C1663"
           }
         },
+        "icon_with_text_trust": {
+          "type": "icon_with_text",
+          "settings": {
+            "block_style": "ver",
+            "icon_1": "lock",
+            "icon_text_1": "Safe & Secure Checkout",
+            "icon_2": "truck",
+            "icon_text_2": "Fast shipping",
+            "icon_3": "shield",
+            "icon_text_3": "90-Day Money Back Guarantee",
+            "icon_4": "none",
+            "icon_text_4": ""
+          }
+        },
         "hsa_fsa_callout_kpCtPG": {
           "type": "hsa_fsa_callout",
           "settings": {
@@ -156,12 +171,6 @@
           "type": "custom_liquid",
           "settings": {
             "custom_liquid": "<a href=\"https://cdn.shopify.com/s/files/1/1652/5029/files/Success_Guide_to_Cellulite_Reduction_Body_Slimming_50e3b814-6ff5-4ff7-89a7-4844284ae94c.pdf\" download style=\"text-decoration: underline; color: #4CAF50; font-size: 16px;\">\n    Get your FREE Cupping Guide\n</a>"
-          }
-        },
-        "tolstoy_shoppable_video_ugc_carousel_block_H7FUiX": {
-          "type": "shopify://apps/tolstoy/blocks/carousel-block/06fa8282-42ff-403e-b67c-1936776aed11",
-          "settings": {
-            "publishId": "rouwe69k576ge"
           }
         },
         "custom_product_accordion_iGN3AG": {
@@ -212,18 +221,10 @@
             "description": "Static (\"Parked\") Cupping: Apply cup to clean skin and leave in place for 3-5 minutes. Perfect for targeting specific areas and deep tissue work.\n\nDynamic (Massage) Cupping: Apply sufficient lubricant to clean skin for easy, frictionless gliding. Ideal for larger areas and promoting circulation.\n\nImportant Notes: Always apply cups to clean skin. Avoid direct placement over lymph nodes. For detailed instructions, professional tips, and contraindications, please refer to the cupping guide included with your set."
           }
         },
-        "icon_with_text_trust": {
-          "type": "icon_with_text",
+        "tolstoy_carousel_block_EftqD8": {
+          "type": "shopify://apps/tolstoy/blocks/carousel-block/06fa8282-42ff-403e-b67c-1936776aed11",
           "settings": {
-            "block_style": "ver",
-            "icon_1": "lock",
-            "icon_text_1": "Safe & Secure Checkout",
-            "icon_2": "truck",
-            "icon_text_2": "Fast shipping",
-            "icon_3": "shield",
-            "icon_text_3": "90-Day Money Back Guarantee",
-            "icon_4": "none",
-            "icon_text_4": ""
+            "publishId": "rouwe69k576ge"
           }
         }
       },
@@ -245,10 +246,10 @@
         "hsa_fsa_callout_kpCtPG",
         "guarantee_badge_main",
         "custom_liquid_wbmcMm",
-        "tolstoy_shoppable_video_ugc_carousel_block_H7FUiX",
         "custom_product_accordion_iGN3AG",
         "accordion_tabcusto",
-        "accordion_0a71f30d"
+        "accordion_0a71f30d",
+        "tolstoy_carousel_block_EftqD8"
       ],
       "settings": {
         "salepoint_style": "icon_columns",
