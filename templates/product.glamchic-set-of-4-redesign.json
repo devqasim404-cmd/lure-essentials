@@ -37,6 +37,12 @@
             "savings_label": "Savings"
           }
         },
+        "1affb493-1e14-4893-9876-be8d348ee475": {
+          "type": "shortdesc",
+          "settings": {
+            "description_fallback": false
+          }
+        },
         "salepoint_ncCFhx": {
           "type": "salepoint",
           "settings": {
@@ -191,6 +197,7 @@
         "judge_me_reviews_preview_badge_nTzAKc",
         "hsa_fsa_badge_MPaYjU",
         "subscription_price_TFNRPV",
+        "1affb493-1e14-4893-9876-be8d348ee475",
         "salepoint_ncCFhx",
         "salepoint_Bwc8fN",
         "salepoint_qUdxkF",
