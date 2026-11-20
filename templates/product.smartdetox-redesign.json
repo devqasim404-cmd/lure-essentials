@@ -200,6 +200,20 @@
             "step_3_description": "for 60+ minutes",
             "description": "Recommended Dosage\n\nTake 1-2 capsules before bed with 8-12 oz\nof water.\n\nWhy Before Bed?\n\nYour digestive system is most active during\nrest. Taking Gut Serenity at night allows the formula to work with your body's\nnatural overnight processes, so you wake up ready for comfortable morning\nelimination—without daytime disruption."
           }
+        },
+        "icon_with_text_trust": {
+          "type": "icon_with_text",
+          "settings": {
+            "block_style": "ver",
+            "icon_1": "lock",
+            "icon_text_1": "Safe & Secure Checkout",
+            "icon_2": "truck",
+            "icon_text_2": "Fast shipping",
+            "icon_3": "shield",
+            "icon_text_3": "90-Day Money Back Guarantee",
+            "icon_4": "none",
+            "icon_text_4": ""
+          }
         }
       },
       "block_order": [
@@ -216,6 +230,7 @@
         "variant_swatches_edge",
         "appstle_bundles_appstle_volume_discount_bundle_Adzmxa",
         "8288910a-1ad6-47df-b127-118bc1d2ce24",
+        "icon_with_text_trust",
         "hsa_fsa_callout_kpCtPG",
         "guarantee_badge_main",
         "custom_product_accordion_iGN3AG",
